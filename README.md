@@ -1,2 +1,1 @@
-# vizsgaremek
-STR2 fullst. app.
+#here comes magic
