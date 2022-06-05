@@ -288,6 +288,27 @@ A felület adatai bejelentkezés nélkül is megtekinthetőek.
 
 **Elfogadási kritérium:**  Az egyes kliensek egy webscoket szerverhez kapcsolódnak, amelyen kereszül értesítés kerül kiküldésre minden egyes alkalommal, amikor a táblázat bárhol, bármely munkahelyen módosul. A beérkező üzenet hatására a táblázat frissítésre kerül, így elkerülhető a felesleges hálózati terhelés, a polling.
 
+ ## _**7. adminisztrátorok karbantartása felület**_
+
+**1. agilis felhasználói történet:**
+> _A felületen új felhasználó hozható létre._
+
+**Elfogadási kritérium:**  
+Az alkalmazás nem rendelkezik önálló regisztrációs felülettel, így csak itt hozható létre adminisztrátor, a név, e-mail cím, jelszó adatok megadásával.
+
+**2. agilis felhasználói történet:**
+> _Az adminisztrátor adatai módosíthatóak._
+> 
+**Elfogadási kritérium:**  
+Az egyes adminisztrátorok adatai szerkeszthetőek.
+
+**3. agilis felhasználói történet:**
+> _Az adminisztrátor adatai törölhetőek._
+> 
+**Elfogadási kritérium:**  
+Törlés során az adminisztrátor inaktívvá válik, de ténylegesen törlése nem kerül. Így a bejegyzései továbbra is láthatóak, de új bejelentkezésre nincs módja.
+
+
 ## _A projekt egyéb adatai:_
 
 **Prioritás:**  
@@ -305,7 +326,3 @@ magas
 
 ---
 ---
-
-
-
-
