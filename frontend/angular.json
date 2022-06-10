@@ -31,9 +31,14 @@
               "src/assets"
             ],
             "styles": [
+              "src/assets/css/nucleo-icons.css",
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/perfect-scrollbar/dist/perfect-scrollbar.min.js",
+              "node_modules/smooth-scrollbar/dist/smooth-scrollbar.js",
+              "node_modules/chartjs/chart.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -99,9 +104,14 @@
               "src/assets"
             ],
             "styles": [
+              "src/assets/css/nucleo-icons.css",
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/perfect-scrollbar/dist/perfect-scrollbar.min.js",
+              "node_modules/smooth-scrollbar/dist/smooth-scrollbar.js",
+              "node_modules/chartjs/chart.js"
+            ]
           }
         }
       }
