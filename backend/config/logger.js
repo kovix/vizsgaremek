@@ -9,7 +9,7 @@ const options = {
   },
   console: {
     level: process.env.LOG_LEVEL_CONSOLE,
-  }
+  },
 };
 
 const logger = winston.createLogger({
