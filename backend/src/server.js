@@ -3,8 +3,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
-const logger = require('../config/logger');
 const cors = require('cors');
+const logger = require('../config/logger');
+
 // const yaml = require('yamljs')
 // const swaggerUI = require('swagger-ui-express');
 
@@ -42,8 +43,9 @@ app.use(bodyParser.json());
 // app.use('/person', require('./controllers/person/person.routes'))
 // app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument))
 
+/* eslint no-unused-vars: "off" */
 app.use((err, req, res, next) => {
-  logger.info(`Error with code ${err.statusCode}, message ${err.message}`)
+  logger.info(`Error with code ${err.statusCode}, message ${err.message}`);
   res.status(err.statusCode || 500);
   res.json({
     hasError: true,
