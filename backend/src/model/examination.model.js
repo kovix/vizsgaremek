@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const softDelete = require('mongoose-softdelete')
 
 const examinationSchema = mongoose.Schema({
   name: {
@@ -16,5 +17,7 @@ const examinationSchema = mongoose.Schema({
 }, {
   timestamps: true,
 });
+
+examinationSchema.plugin(softDelete);
 
 module.exports = mongoose.model('Examination', examinationSchema);
