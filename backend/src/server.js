@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
 const logger = require('../config/logger');
+const cors = require('cors');
 // const yaml = require('yamljs')
 // const swaggerUI = require('swagger-ui-express');
 
@@ -31,6 +32,9 @@ mongoose.connect(`mongodb+srv://${username}:${password}@${host}/${database}?retr
 
 // logger
 app.use(morgan('full', { stream: logger.stream }));
+
+// cors
+app.use(cors());
 
 // Body parser
 app.use(bodyParser.json());
