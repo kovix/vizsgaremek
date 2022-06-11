@@ -1,0 +1,14 @@
+
+/* some less restrictive definition, because when using sidebar and nav as component
+* Adjacent sibling operators does not apply. */
+app-sidebar + .main-content {
+  margin-left: $navbar-vertical-open-width + 1.5;
+}
+
+@include media-breakpoint-down(xl) {
+
+      .main-content {
+        margin-left: 0 !important;
+      }
+
+}
