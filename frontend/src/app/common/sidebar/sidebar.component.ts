@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewEncapsulation, Renderer2, ViewChild, ElementRef } from '@angular/core';
+import { AppConfigService, IMenuItem } from 'src/app/service/app-config.service';
 import { SidebarTogglerService } from 'src/app/service/sidebar-toggler.service';
 
 @Component({
@@ -14,9 +15,12 @@ export class SidebarComponent implements OnInit {
   private className: string = "g-sidenav-pinned";
   private bodyRef = document.querySelector('body');
 
+  public sidebarMenu: IMenuItem[] = this.appConfig.sidebarMenu;
+
   constructor(
     private renderer: Renderer2,
-    private togglerService: SidebarTogglerService
+    private togglerService: SidebarTogglerService,
+    private appConfig: AppConfigService
   ) { }
 
   ngOnInit(): void {
