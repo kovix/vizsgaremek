@@ -1,4 +1,5 @@
-import { Component, OnInit, Renderer2, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { SidebarTogglerService } from 'src/app/service/sidebar-toggler.service';
 
 @Component({
   selector: 'app-icon-navbar-sidenav',
@@ -7,50 +8,13 @@ import { Component, OnInit, Renderer2, ViewChild, ElementRef } from '@angular/co
 })
 export class IconNavbarSidenavComponent implements OnInit {
 
-  @ViewChild('sideNavMain') sideNavMain!:ElementRef;
-
-  private className: string = "g-sidenav-pinned";
-  private bodyRef = document.querySelector('body');
-
-  constructor(private renderer: Renderer2) { }
+  constructor(private togglerService: SidebarTogglerService) { }
 
   ngOnInit(): void {
   }
 
   public onTogglerClick() {
-    debugger;
-    // if (this.bodyRef?.classList.contains(this.className)) {
-    //   this.renderer.removeClass(document.body, this.className)
-    //   setTimeout(function() {
-    //     sidenav.classList.remove('bg-white');
-    //   }, 100);
-    //   sidenav.classList.remove('bg-transparent');
-
-    // } else {
-    //   body.classList.add(className);
-    //   sidenav.classList.add('bg-white');
-    //   sidenav.classList.remove('bg-transparent');
-    //   iconSidenav.classList.remove('d-none');
-    // }
-
+    this.togglerService.fireTogger();
   }
-
-  /* function toggleSidenav() {
-
-    if (body.classList.contains(className)) {
-      body.classList.remove(className);
-      setTimeout(function() {
-        sidenav.classList.remove('bg-white');
-      }, 100);
-      sidenav.classList.remove('bg-transparent');
-
-    } else {
-      body.classList.add(className);
-      sidenav.classList.add('bg-white');
-      sidenav.classList.remove('bg-transparent');
-      iconSidenav.classList.remove('d-none');
-    }
-  } */
-
 
 }
