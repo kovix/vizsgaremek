@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const morgan = require('morgan');
 const cors = require('cors');
 const logger = require('../config/logger');
+const jwtMiddleware = require('./middleware/jwt.middleware');
 
 // const yaml = require('yamljs')
 // const swaggerUI = require('swagger-ui-express');
@@ -40,7 +41,7 @@ app.use(cors());
 // Body parser
 app.use(bodyParser.json());
 
-app.use('/examination', require('./controller/examination/examination.router'));
+app.use('/examination', jwtMiddleware, require('./controller/examination/examination.router'));
 
 app.use('/user', require('./controller/user/user.router'));
 

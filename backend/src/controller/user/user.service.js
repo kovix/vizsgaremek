@@ -15,7 +15,7 @@ exports.validateLogin = async (userName, password) => {
     // eslint-disable-next-line no-underscore-dangle
     _id: user._id,
     email: user.email,
-    role: 1,
+    role: 1, // TODO!
   }, process.env.JWT_SIGN_KEY, {
     expiresIn: '1h',
   });
