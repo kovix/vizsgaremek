@@ -1,5 +1,15 @@
-import { Component, OnInit, ViewEncapsulation, Renderer2, ViewChild, ElementRef } from '@angular/core';
-import { AppConfigService, IMenuItem } from 'src/app/service/app-config.service';
+import {
+  Component,
+  ElementRef,
+  OnInit,
+  Renderer2,
+  ViewChild,
+  ViewEncapsulation
+} from '@angular/core';
+import {
+  AppConfigService,
+  IMenuItem
+} from 'src/app/service/app-config.service';
 import { SidebarTogglerService } from 'src/app/service/sidebar-toggler.service';
 
 @Component({
@@ -9,10 +19,10 @@ import { SidebarTogglerService } from 'src/app/service/sidebar-toggler.service';
   encapsulation: ViewEncapsulation.None
 })
 export class SidebarComponent implements OnInit {
-  @ViewChild('sideNavMain') sideNavMain!:ElementRef;
-  @ViewChild('iconSideNav') iconSideNav!:ElementRef;
+  @ViewChild('sideNavMain') sideNavMain!: ElementRef;
+  @ViewChild('iconSideNav') iconSideNav!: ElementRef;
 
-  private className: string = "g-sidenav-pinned";
+  private className: string = 'g-sidenav-pinned';
   private bodyRef = document.querySelector('body');
 
   public sidebarMenu: IMenuItem[] = this.appConfig.sidebarMenu;
@@ -21,12 +31,14 @@ export class SidebarComponent implements OnInit {
     private renderer: Renderer2,
     private togglerService: SidebarTogglerService,
     private appConfig: AppConfigService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.togglerService.togglerFired$.subscribe({
       next: this.toggleSidebar.bind(this),
-      error: (err) => {console.log(err)}
+      error: (err) => {
+        console.log(err);
+      }
     });
   }
 
@@ -36,15 +48,17 @@ export class SidebarComponent implements OnInit {
 
   private toggleSidebar() {
     if (this.bodyRef?.classList.contains(this.className)) {
-      this.renderer.removeClass(document.body, this.className)
+      this.renderer.removeClass(document.body, this.className);
       this.renderer.removeClass(this.sideNavMain.nativeElement, 'bg-white');
-      this.renderer.removeClass(this.sideNavMain.nativeElement, 'bg-transparent');
+      this.renderer.removeClass(
+        this.sideNavMain.nativeElement,
+        'bg-transparent'
+      );
     } else {
-      this.renderer.addClass(document.body, this.className)
+      this.renderer.addClass(document.body, this.className);
       this.renderer.addClass(this.sideNavMain.nativeElement, 'bg-white');
       this.renderer.addClass(this.sideNavMain.nativeElement, 'bg-transparent');
       this.renderer.removeClass(this.iconSideNav.nativeElement, 'd-none');
     }
   }
-
 }

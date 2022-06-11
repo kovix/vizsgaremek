@@ -5,13 +5,12 @@ import { Subject } from 'rxjs';
   providedIn: 'root'
 })
 export class SidebarTogglerService {
-
   private togglerFunc = new Subject();
   public togglerFired$ = this.togglerFunc.asObservable();
 
-  constructor() { }
+  constructor() {}
 
-  fireTogger(){
+  fireTogger() {
     this.togglerFunc.next(true);
   }
 }

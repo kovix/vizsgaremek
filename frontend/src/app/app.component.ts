@@ -1,5 +1,4 @@
-import { Component, AfterViewInit } from '@angular/core';
-
+import { AfterViewInit, Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -10,5 +9,4 @@ export class AppComponent implements AfterViewInit {
   title = 'setalolap-ui';
 
   ngAfterViewInit() {}
-
 }

@@ -8,9 +8,8 @@ describe('IconNavbarSidenavComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ IconNavbarSidenavComponent ]
-    })
-    .compileComponents();
+      declarations: [IconNavbarSidenavComponent]
+    }).compileComponents();
   });
 
   beforeEach(() => {

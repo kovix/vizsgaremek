@@ -1,9 +1,9 @@
 export class Examination {
-  _id: string = "";
-  name: string = "";
+  _id: string = '';
+  name: string = '';
   defaultTime: number = 0;
-  createdBy: string = "";
+  createdBy: string = '';
   deletedBy?: string;
-  createdAt: string = "";
-  updatedAt: string = "";
+  createdAt: string = '';
+  updatedAt: string = '';
 }
