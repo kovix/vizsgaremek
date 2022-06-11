@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const softDelete = require('mongoose-softdelete');
+const softDelete = require('mongoose-delete');
 const idvalidator = require('mongoose-id-validator');
 
 const examinationSchema = mongoose.Schema({
@@ -19,7 +19,7 @@ const examinationSchema = mongoose.Schema({
   timestamps: true,
 });
 
-examinationSchema.plugin(softDelete);
+examinationSchema.plugin(softDelete, { deletedAt: true, deletedBy: true });
 examinationSchema.plugin(idvalidator);
 
 module.exports = mongoose.model('Examination', examinationSchema);
