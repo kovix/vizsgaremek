@@ -32,7 +32,7 @@ mongoose.connect(`mongodb+srv://${username}:${password}@${host}/${database}?retr
 // const swaggerDocument = yaml.load('./docs/swagger.yaml')
 
 // logger
-app.use(morgan('full', { stream: logger.stream }));
+app.use(morgan('combined', { stream: logger.stream }));
 
 // cors
 app.use(cors());
@@ -40,7 +40,8 @@ app.use(cors());
 // Body parser
 app.use(bodyParser.json());
 
-// app.use('/person', require('./controllers/person/person.routes'))
+app.use('/examination', require('./controller/examination/examination.router'));
+
 // app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument))
 
 /* eslint no-unused-vars: "off" */
