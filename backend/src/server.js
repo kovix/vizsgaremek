@@ -42,6 +42,8 @@ app.use(bodyParser.json());
 
 app.use('/examination', require('./controller/examination/examination.router'));
 
+app.use('/user', require('./controller/user/user.router'));
+
 // app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument))
 
 /* eslint no-unused-vars: "off" */
@@ -50,7 +52,7 @@ app.use((err, req, res, next) => {
   res.status(err.statusCode || 500);
   res.json({
     hasError: true,
-    message: 'Hiba történt a kérés feldolgozása közben.',
+    message: err.message,
   });
 });
 
