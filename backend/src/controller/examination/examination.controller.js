@@ -19,9 +19,9 @@ const isBodyHasErrors = (body) => {
 exports.findAll = (req, res) => service.findAll()
   .then((examinions) => res.json(examinions));
 
-exports.findById = (req, res, next) => service.findById(req.param.id)
+exports.findById = (req, res, next) => service.findById(req.params.id)
   .then((examination) => res.json(examination))
-  .catch((error) => next(new createError.NotFound(`Nem található bejegyzés az alábbi azonosítóval: ${req.param.id}. (${error.message})`)));
+  .catch((error) => next(new createError.NotFound(`Nem található bejegyzés az alábbi azonosítóval: ${req.params.id}. (${error.message})`)));
 
 exports.create = (req, res, next) => {
   const bodyHasErros = isBodyHasErrors(req.body);
@@ -38,18 +38,18 @@ exports.update = (req, res, next) => {
 
   return service.update(req.params.id, req.body)
     .then((updatedExamination) => {
-      if (!updatedExamination) return next(new createError.NotFound(`Hiba történt a rekord frissítése közben: ${req.param.id} A rekord nem található.`));
+      if (!updatedExamination) return next(new createError.NotFound(`Hiba történt a rekord frissítése közben: ${req.params.id} A rekord nem található.`));
       return res.json(updatedExamination);
     })
-    .catch((error) => next(new createError.NotFound(`Hiba történt a rekord frissítése közben: ${req.param.id}. (${error.message})`)));
+    .catch((error) => next(new createError.NotFound(`Hiba történt a rekord frissítése közben: ${req.params.id}. (${error.message})`)));
 };
 
 // eslint-disable-next-line no-underscore-dangle
 exports.delete = (req, res, next) => service.remove(req.params.id, req.user._id)
-  .then((response) => res.json(response))
-  .catch((error) => {
-    console.log(error);
-    return next(new createError.NotFound(`Hiba történt a rekord frissítése közben: ${req.param.id}. (${error.message})`));
-  });
+  .then((response) => {
+    if (!response) return next(new createError.NotFound(`Hiba történt a rekord frissítése közben: ${req.params.id}. `));
+    return res.json(response);
+  })
+  .catch((error) => next(new createError.NotFound(`Hiba történt a rekord frissítése közben: ${req.params.id}. (${error.message})`)));
 
 module.exports = exports;

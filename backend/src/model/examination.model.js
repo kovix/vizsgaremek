@@ -19,7 +19,7 @@ const examinationSchema = mongoose.Schema({
   timestamps: true,
 });
 
-examinationSchema.plugin(softDelete, { deletedAt: true, deletedBy: true });
+examinationSchema.plugin(softDelete, { deletedAt: true, deletedBy: true, overrideMethods: true });
 examinationSchema.plugin(idvalidator);
 
 module.exports = mongoose.model('Examination', examinationSchema);

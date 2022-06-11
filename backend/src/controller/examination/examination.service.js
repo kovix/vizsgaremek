@@ -18,13 +18,9 @@ exports.update = (id, properties) => {
 
 exports.remove = async (id, userId) => {
   const record = await Examination.findById(id);
-  console.log(record);
   if (!record) return false;
 
-  const delResult = await record.delete(userId);
-  console.log(delResult);
-
-  return delResult;
+  return record.delete(userId);
 };
 
 module.exports = exports;
