@@ -40,9 +40,7 @@ exports.registerUser = async (req, res, next) => {
   if (usernameCount) errorMessage = addToError(errorMessage, 'Ez a felhasználónév már foglalt!');
   if (emailCount) errorMessage = addToError(errorMessage, 'Ez az e-mail cím már szerepel az adatbázisban!');
 
-  if (errorMessage) {
-    return next(new createError.BadRequest(errorMessage));
-  }
+  if (errorMessage) return next(new createError.BadRequest(errorMessage));
 
   delete req.body.confirmPassword;
 
