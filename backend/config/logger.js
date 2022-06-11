@@ -2,29 +2,29 @@ const path = require('path');
 const winston = require('winston');
 
 const options = {
-    file: {
-        level: process.env.LOG_LEVEL_FILE,
-        filename: path.join(__dirname, '../log/app.log'),
-        format: winston.format.json()
-    },
-    console: {
-        level: process.env.LOG_LEVEL_CONSOLE
-    }
+  file: {
+    level: process.env.LOG_LEVEL_FILE,
+    filename: path.join(__dirname, '../logs/app.log'),
+    format: winston.format.json(),
+  },
+  console: {
+    level: process.env.LOG_LEVEL_CONSOLE,
+  }
 };
 
 const logger = winston.createLogger({
-    format: winston.format.simple(),
-    transports: [
-        new winston.transports.File(options.file),
-        new winston.transports.Console(options.console),
-    ],
-    exitOnError: false,
+  format: winston.format.simple(),
+  transports: [
+    new winston.transports.File(options.file),
+    new winston.transports.Console(options.console),
+  ],
+  exitOnError: false,
 });
 
 logger.stream = {
-    write: (message, encoding) => {
-        logger.info(message);
-    }
-}
+  write: (message, encoding) => {
+    logger.info(message);
+  },
+};
 
 module.exports = logger;
