@@ -2,13 +2,16 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms'
+import { ReactiveFormsModule, FormsModule } from '@angular/forms'
 
 import { ToastrModule } from 'ngx-toastr';
 
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatDialogModule } from "@angular/material/dialog";
+import { MatListModule } from '@angular/material/list';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 import { authInterceptorProviders } from './interceptors/auth.interceptor';
 import { AppRoutingModule } from './app-routing.module';
@@ -25,6 +28,11 @@ import { PatientsComponent } from './page/patients/patients.component';
 import { LoginComponent } from './page/login/login.component';
 import { AppLayoutComponent } from './layout/app-layout/app-layout.component';
 import { LoginLayoutComponent } from './layout/login-layout/login-layout.component';
+import { BaseListComponent} from './common/base-list/base-list.component';
+import { ListColumnSelectorComponent } from './common/list-column-selector/list-column-selector.component';
+import { FilterPipe } from './pipe/filter.pipe';
+import { SortPipe } from './pipe/sort.pipe';
+import { PaginateBaseListPipe } from './pipe/paginate-base-list.pipe';
 
 @NgModule({
   declarations: [
@@ -40,18 +48,27 @@ import { LoginLayoutComponent } from './layout/login-layout/login-layout.compone
     ConsultationsComponent,
     LoginComponent,
     AppLayoutComponent,
-    LoginLayoutComponent
+    LoginLayoutComponent,
+    BaseListComponent,
+    ListColumnSelectorComponent,
+    FilterPipe,
+    SortPipe,
+    PaginateBaseListPipe
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
+    FormsModule,
     HttpClientModule,
 
     MatIconModule,
     MatFormFieldModule,
     MatInputModule,
+    MatDialogModule,
+    MatListModule,
+    MatPaginatorModule,
 
     ToastrModule.forRoot({
       timeOut: 3000,

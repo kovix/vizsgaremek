@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { environment } from '../../environments/environment';
-import { Entity } from '../model/entity';
+import { environment } from '../../../environments/environment';
+import { Entity } from '../../model/entity';
 
 interface GenericFlattenObj {
   [key: string]: any;
@@ -13,7 +13,7 @@ interface GenericFlattenObj {
   providedIn: 'root'
 })
 export class BaseNetworkService<GenericEntity extends Entity> {
-  private backendURL:string = environment.backendURL;
+  private backendURL:string = environment.backend;
   public endpoint:string = '';
 
   constructor(public http: HttpClient) { }
