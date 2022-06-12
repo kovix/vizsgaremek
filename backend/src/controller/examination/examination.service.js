@@ -4,7 +4,7 @@ const Examination = require('../../model/examination.model');
 exports = {};
 
 exports.findAll = () => Examination.find({}).populate('createdBy');
-exports.findOne = (id) => Examination.findById(id).populate('createdBy');
+exports.findById = (id) => Examination.findById(id).populate('createdBy');
 
 exports.create = (properties) => {
   const newExamination = new Examination(properties);

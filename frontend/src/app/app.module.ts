@@ -39,6 +39,7 @@ import { PaginateBaseListPipe } from './pipe/paginate-base-list.pipe';
 import { BaseListTheadComponent } from './common/base-list/base-list-thead/base-list-thead.component';
 import { BaseListIconComponent } from './common/base-list/base-list-icon/base-list-icon.component';
 import { BaseListRowComponent } from './common/base-list/base-list-row/base-list-row.component';
+import { ExaminationDialogComponent } from './page/examinations/examination-dialog/examination-dialog.component';
 
 @NgModule({
   declarations: [
@@ -62,7 +63,8 @@ import { BaseListRowComponent } from './common/base-list/base-list-row/base-list
     PaginateBaseListPipe,
     BaseListTheadComponent,
     BaseListIconComponent,
-    BaseListRowComponent
+    BaseListRowComponent,
+    ExaminationDialogComponent
   ],
   imports: [
     BrowserModule,

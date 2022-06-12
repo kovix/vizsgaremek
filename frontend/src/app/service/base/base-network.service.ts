@@ -22,7 +22,7 @@ export class BaseNetworkService<GenericEntity extends Entity> {
     return this.http.get<GenericEntity[]>(`${this.backendURL}${this.endpoint}`);
   }
 
-  get(id: number): Observable<GenericEntity> {
+  get(id: string): Observable<GenericEntity> {
     return this.http.get<GenericEntity>(`${this.backendURL}${this.endpoint}/${id}`);
   }
 
@@ -31,10 +31,10 @@ export class BaseNetworkService<GenericEntity extends Entity> {
   }
 
   update(entity: GenericEntity): Observable<GenericEntity> {
-    return this.http.patch<GenericEntity>(`${this.backendURL}${this.endpoint}/${entity['_id']}`, this.normalizeDataBeforeSave(entity));
+    return this.http.put<GenericEntity>(`${this.backendURL}${this.endpoint}/${entity['_id']}`, this.normalizeDataBeforeSave(entity));
   }
 
-  delete(id: number): Observable<any> {
+  delete(id: string): Observable<any> {
     return this.http.delete<any>(`${this.backendURL}${this.endpoint}/${id}`);
   }
 

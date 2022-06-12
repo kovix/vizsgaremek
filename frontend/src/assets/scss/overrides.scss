@@ -20,3 +20,14 @@ app-sidebar + .main-content {
 .mt-n4 {
   margin-top: -25px;
 }
+
+
+.dialog-responsive {
+  width: 30%;
+}
+
+@media only screen and (max-width: 760px) {
+  .dialog-responsive {
+      width: 100%;
+  }
+}
