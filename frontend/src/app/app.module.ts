@@ -23,6 +23,8 @@ import { TopbarComponent } from './common/topbar/topbar.component';
 import { UsersComponent } from './page/users/users.component';
 import { PatientsComponent } from './page/patients/patients.component';
 import { LoginComponent } from './page/login/login.component';
+import { AppLayoutComponent } from './layout/app-layout/app-layout.component';
+import { LoginLayoutComponent } from './layout/login-layout/login-layout.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,9 @@ import { LoginComponent } from './page/login/login.component';
     ExaminationsComponent,
     ExaminationGroupsComponent,
     ConsultationsComponent,
-    LoginComponent
+    LoginComponent,
+    AppLayoutComponent,
+    LoginLayoutComponent
   ],
   imports: [
     BrowserModule,
