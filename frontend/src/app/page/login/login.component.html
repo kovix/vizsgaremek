@@ -10,21 +10,28 @@
             </div>
           </div>
           <div class="card-body">
-            <form role="form" class="text-start">
-              <div class="input-group input-group-outline my-3">
-                <label class="form-label">Felhasználónév</label>
-                <input type="text" class="form-control">
-              </div>
-              <div class="input-group input-group-outline mb-3">
-                <label class="form-label">Jelszó</label>
-                <input type="password" class="form-control">
-              </div>
+            <form role="form" class="text-start" [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate>
+                <div class="input-group w-100">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Felhasználónév</mat-label>
+                    <input matInput placeholder="Felhasználónév" type="text" formControlName="userName">
+                    <mat-icon *ngIf="!(loginForm.get('userName')?.errors && loginForm.get('userName')?.hasError('required'))" class="greenCheck" matSuffix>check</mat-icon>
+                  </mat-form-field>
+                </div>
+
+                <div class="input-group w-100">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Jelszó</mat-label>
+                    <input matInput placeholder="Jelszó" type="text" formControlName="password">
+                    <mat-icon *ngIf="!(loginForm.get('password')?.errors && loginForm.get('password')?.hasError('required'))" class="greenCheck" matSuffix>check</mat-icon>
+                  </mat-form-field>
+                </div>
               <div class="form-check form-switch d-flex align-items-center mb-3">
-                <input class="form-check-input" type="checkbox" id="rememberMe">
-                <label class="form-check-label mb-0 ms-2" for="rememberMe">Jegyezzen meg</label>
+                <input class="form-check-input" type="checkbox" id="rememberMe" formControlName="rememberMe">
+                <label class="form-check-label mb-0 ms-2" for="rememberMe">Felhasználónév mentése</label>
               </div>
               <div class="text-center">
-                <button type="button" class="btn bg-gradient-primary w-100 my-4 mb-2">Bejelentkezés</button>
+                <button type="submit" class="btn bg-gradient-primary w-100 my-4 mb-2" >Bejelentkezés</button>
               </div>
             </form>
           </div>

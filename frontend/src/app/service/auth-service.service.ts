@@ -5,6 +5,7 @@ import { TokenTypes } from '../model/token-types';
 
 const AUTHTOKENKEY = 'AUTHTOKEN';
 const REFRESHTOKENKEY = 'REFRESHTOKEN';
+const STOREDUNAME = 'REMEMBERNAME';
 
 @Injectable({
   providedIn: 'root'
@@ -47,6 +48,15 @@ export class AuthServiceService {
     } else {
       return null;
     }
+  }
+
+  public getStoredUserName(): string {
+    const item = window.localStorage.getItem(STOREDUNAME);
+    return item || "";
+  }
+
+  public setStoredUserName(userName: string): void {
+    window.localStorage.setItem(STOREDUNAME, userName);
   }
 
 }

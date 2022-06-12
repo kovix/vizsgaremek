@@ -6,6 +6,10 @@ import { ReactiveFormsModule } from '@angular/forms'
 
 import { ToastrModule } from 'ngx-toastr';
 
+import { MatIconModule } from '@angular/material/icon';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ConsultationsComponent } from './page/consultations/consultations.component';
@@ -39,6 +43,11 @@ import { LoginComponent } from './page/login/login.component';
     BrowserAnimationsModule,
     ReactiveFormsModule,
     HttpClientModule,
+
+    MatIconModule,
+    MatFormFieldModule,
+    MatInputModule,
+
     ToastrModule.forRoot({
       timeOut: 3000,
       positionClass: 'toast-bottom-right',
