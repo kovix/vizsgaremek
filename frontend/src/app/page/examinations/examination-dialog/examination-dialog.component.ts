@@ -25,7 +25,6 @@ export class ExaminationDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.title = this.data._id ? `${this.data.name} módosítása` : 'Új vizsgálat';
-    console.log(this.data);
     this.fb = this.formBuilder.group({
       name: [this.data.name, Validators.required],
       defaultTime: [this.data.defaultTime, Validators.required]
@@ -39,19 +38,13 @@ export class ExaminationDialogComponent implements OnInit {
     const method = origData._id === '' ? 'create' : 'update';
     origData.name = result.name;
     origData.defaultTime = result.defaultTime;
-    this.examintaionService[method](origData).subscribe({
-      next: (result) => {
+    this.examintaionService[method](origData).subscribe(
+      (result) => {
         this.toastr.success('Sikeres mentés!');
         this.fb.reset();
         this.dialogRef.close(true);
-      },
-      error: (error) => {
-        const errorMessage = error?.error?.message || error.statusText;
-        this.toastr.error(`${errorMessage} (${error.status})`);
-      }
+
     });
-
-
   }
 
 }
