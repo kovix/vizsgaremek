@@ -16,6 +16,15 @@ const isBodyHasErrors = (body) => {
   return false;
 };
 
+const clearBody = (body) => {
+  const processedBody = body;
+  const requiredFields = ['name', 'defaultTime'];
+  Object.keys(processedBody).forEach((key) => {
+    if (!requiredFields.includes(key)) delete processedBody[key];
+  });
+  return processedBody;
+};
+
 exports.findAll = (req, res) => service.findAll()
   .then((examinions) => res.json(examinions));
 
@@ -24,19 +33,21 @@ exports.findById = (req, res, next) => service.findById(req.params.id)
   .catch((error) => next(new createError.NotFound(`Nem található bejegyzés az alábbi azonosítóval: ${req.params.id}. (${error.message})`)));
 
 exports.create = (req, res, next) => {
-  const bodyHasErros = isBodyHasErrors(req.body);
+  const cleanedBody = clearBody(req.body);
+  const bodyHasErros = isBodyHasErrors(cleanedBody);
   if (bodyHasErros) return next(bodyHasErros);
 
-  return service.create(req.body)
+  return service.create(cleanedBody)
     .then((newExamination) => res.json(newExamination))
     .catch((error) => next(new createError.NotFound(`Nem sikerült menteni a vizsgálatot: ${req.body.name}. (${error.message})`)));
 };
 
 exports.update = (req, res, next) => {
-  const bodyHasErros = isBodyHasErrors(req.body);
+  const cleanedBody = clearBody(req.body);
+  const bodyHasErros = isBodyHasErrors(cleanedBody);
   if (bodyHasErros) return next(bodyHasErros);
 
-  return service.update(req.params.id, req.body)
+  return service.update(req.params.id, cleanedBody)
     .then((updatedExamination) => {
       if (!updatedExamination) return next(new createError.NotFound(`Hiba történt a rekord frissítése közben: ${req.params.id} A rekord nem található.`));
       return res.json(updatedExamination);
