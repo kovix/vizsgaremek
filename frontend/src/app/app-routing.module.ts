@@ -6,7 +6,7 @@ import { LoginLayoutComponent } from './layout/login-layout/login-layout.compone
 import { ConsultationsComponent } from './page/consultations/consultations.component';
 import { DashboardComponent } from './page/dashboard/dashboard.component';
 import { ExaminationGroupsComponent } from './page/examination-groups/examination-groups.component';
-import { ExaminationsComponent } from './page/examinations/examinations.component';
+import { ExaminationsComponent } from './page/examinations/list/examinations.component';
 import { LoginComponent } from './page/login/login.component';
 import { PatientsComponent } from './page/patients/patients.component';
 import { UsersComponent } from './page/users/users.component';

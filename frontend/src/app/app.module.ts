@@ -15,7 +15,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ConsultationsComponent } from './page/consultations/consultations.component';
 import { DashboardComponent } from './page/dashboard/dashboard.component';
-import { ExaminationsComponent } from './page/examinations/examinations.component';
+import { ExaminationsComponent } from './page/examinations/list/examinations.component';
 import { ExaminationGroupsComponent } from './page/examination-groups/examination-groups.component';
 import { IconNavbarSidenavComponent } from './common/icon-navbar-sidenav/icon-navbar-sidenav.component';
 import { SidebarComponent } from './common/sidebar/sidebar.component';
