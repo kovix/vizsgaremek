@@ -18,7 +18,10 @@ export class AuthServiceService {
     return this.loggedIn.asObservable();
   }
 
-  constructor() { }
+  constructor() {
+    const token = this.getToken(AUTHTOKENKEY);
+    this.loggedIn.next(!!token);
+  }
 
   public logOut(): void {
     window.localStorage.clear();
