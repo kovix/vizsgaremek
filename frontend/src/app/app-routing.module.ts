@@ -11,10 +11,6 @@ import { UsersComponent } from './page/users/users.component';
 
 const routes: Routes = [
   {
-    path: '',
-    redirectTo: 'dashboard'
-  },
-  {
     path: 'dashboard',
     component: DashboardComponent,
     canActivate: [AuthGuard]
@@ -46,8 +42,7 @@ const routes: Routes = [
   },
   {
     path: 'login',
-    component: LoginComponent,
-    canActivate: [AuthGuard]
+    component: LoginComponent
   },
   { path: '**', redirectTo: 'dashboard', pathMatch: 'full' }
 ];
