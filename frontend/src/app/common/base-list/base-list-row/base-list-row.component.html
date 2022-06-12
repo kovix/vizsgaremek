@@ -1,0 +1,31 @@
+<ng-container *ngFor="let column of columnDefinition">
+  <td  *ngIf="column.visible"
+      [ngClass]="{
+        'text-right': column.alignment === 'right',
+        'text-center': column.alignment === 'center'
+  }">
+    <ng-container *ngIf="isBooleanColumn(entity[column.column])">
+      <i class="fa" [ngClass]="{'fa-check-circle': entity[column.column],
+                                'text-success': entity[column.column],
+                                'fa-ban': !entity[column.column],
+                                'text-danger': !entity[column.column]}"></i>
+    </ng-container>
+    <ng-container *ngIf="!isBooleanColumn(entity[column.column])">
+      <span class="text-secondary text-xs font-weight-bold">{{entity[column.column]}}</span>
+    </ng-container>
+</td>
+</ng-container>
+
+<td class="text-right">
+  <span class="dropup" *ngIf="actionButtons && actionButtons.length > 0">
+    <button href="#" class="dropdown-toggle btn btn-sm btn-secondary btn-round" data-toggle="dropdown">Actions<b class="caret"></b></button>
+    <ul class="dropdown-menu dropdown-primary dropdown-menu-right">
+      <li class="dropdown-header">Select an action</li>
+      <li *ngFor="let button of actionButtons"><a [routerLink]=""
+          (click)="onCustomButtonClicked(button.eventId, entity)">
+          <ng-container *ngIf="button.icon"><i class="fa {{button.icon}}" aria-hidden="true"></i>&nbsp;
+          </ng-container>{{button.title}}
+        </a></li>
+    </ul>
+  </span>
+</td>

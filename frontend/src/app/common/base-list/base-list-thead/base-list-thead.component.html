@@ -1,0 +1,13 @@
+<tr>
+  <ng-container *ngFor="let column of columns">
+    <th *ngIf="column.visible"
+      class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
+      (click)="onClicked(column.column)"
+      [ngClass]="{
+        'text-right': column.alignment === 'right',
+        'text-center': column.alignment === 'center'}"
+      >{{ column.title }}<app-base-list-icon *ngIf="sortKey===column.column" [direction]="direction"></app-base-list-icon> </th>
+
+  </ng-container>
+  <th>&nbsp;</th>
+</tr>

@@ -10,9 +10,10 @@ import { CountReporterService } from 'src/app/service/genericTable/count-reporte
 
 
 import { Entity } from '../../model/entity';
+import { ListColumnSelectorComponent } from '../list-column-selector/list-column-selector.component';
 
 @Component({
-  selector: 'app-base-list-component',
+  selector: 'app-base-list',
   templateUrl: './base-list.component.html',
   styleUrls: ['./base-list.component.scss']
 })
@@ -70,7 +71,6 @@ export class BaseListComponent<GenericEntity extends Entity> implements OnInit {
 
 
   onClickSort(data: string): void {
-    console.log(`onClickSort, data = ${data}`);
     if (this.dataTemp !== data) {
       this.dataTemp = data;
       this.sortKey = data
@@ -89,17 +89,13 @@ export class BaseListComponent<GenericEntity extends Entity> implements OnInit {
   onCreate() {
     const eventData: CustomButtonEvent = {
       eventID: 'CREATE',
-      entityID: 0
+      entityID: '_',
     };
     this.customButtonClicked.emit(eventData);
   }
 
-  onCustomButtonClicked(icomingEventID: string, entity: GenericEntity): void {
-    const eventData: CustomButtonEvent = {
-      eventID: icomingEventID,
-      entityID: entity.id
-    };
-    this.customButtonClicked.emit(eventData);
+  onCustomButtonClicked($event: CustomButtonEvent): void {
+    this.customButtonClicked.emit($event);
   }
 
   handlePaginate(event?: PageEvent) {

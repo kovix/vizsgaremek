@@ -1,4 +1,4 @@
 export interface CustomButtonEvent {
   eventID: string;
-  entityID: number;
+  entityID: string;
 }

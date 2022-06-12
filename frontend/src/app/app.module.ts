@@ -12,6 +12,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatListModule } from '@angular/material/list';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import {MatButtonModule} from '@angular/material/button';
 
 import { authInterceptorProviders } from './interceptors/auth.interceptor';
 import { AppRoutingModule } from './app-routing.module';
@@ -33,6 +34,9 @@ import { ListColumnSelectorComponent } from './common/list-column-selector/list-
 import { FilterPipe } from './pipe/filter.pipe';
 import { SortPipe } from './pipe/sort.pipe';
 import { PaginateBaseListPipe } from './pipe/paginate-base-list.pipe';
+import { BaseListTheadComponent } from './common/base-list/base-list-thead/base-list-thead.component';
+import { BaseListIconComponent } from './common/base-list/base-list-icon/base-list-icon.component';
+import { BaseListRowComponent } from './common/base-list/base-list-row/base-list-row.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +57,10 @@ import { PaginateBaseListPipe } from './pipe/paginate-base-list.pipe';
     ListColumnSelectorComponent,
     FilterPipe,
     SortPipe,
-    PaginateBaseListPipe
+    PaginateBaseListPipe,
+    BaseListTheadComponent,
+    BaseListIconComponent,
+    BaseListRowComponent
   ],
   imports: [
     BrowserModule,
@@ -69,6 +76,7 @@ import { PaginateBaseListPipe } from './pipe/paginate-base-list.pipe';
     MatDialogModule,
     MatListModule,
     MatPaginatorModule,
+    MatButtonModule,
 
     ToastrModule.forRoot({
       timeOut: 3000,
