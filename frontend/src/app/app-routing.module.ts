@@ -4,6 +4,7 @@ import { ConsultationsComponent } from './page/consultations/consultations.compo
 import { DashboardComponent } from './page/dashboard/dashboard.component';
 import { ExaminationGroupsComponent } from './page/examination-groups/examination-groups.component';
 import { ExaminationsComponent } from './page/examinations/examinations.component';
+import { LoginComponent } from './page/login/login.component';
 import { PatientsComponent } from './page/patients/patients.component';
 import { UsersComponent } from './page/users/users.component';
 
@@ -31,6 +32,10 @@ const routes: Routes = [
   {
     path: 'users',
     component: UsersComponent
+  },
+  {
+    path: 'login',
+    component: LoginComponent
   }
 ];
 

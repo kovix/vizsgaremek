@@ -13,6 +13,7 @@ import { SidebarComponent } from './common/sidebar/sidebar.component';
 import { TopbarComponent } from './common/topbar/topbar.component';
 import { UsersComponent } from './page/users/users.component';
 import { PatientsComponent } from './page/patients/patients.component';
+import { LoginComponent } from './page/login/login.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { PatientsComponent } from './page/patients/patients.component';
     UsersComponent,
     ExaminationsComponent,
     ExaminationGroupsComponent,
-    ConsultationsComponent
+    ConsultationsComponent,
+    LoginComponent
   ],
   imports: [BrowserModule, AppRoutingModule, BrowserAnimationsModule],
   providers: [],
