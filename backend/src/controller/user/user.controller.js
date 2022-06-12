@@ -8,7 +8,7 @@ exports.validateLogin = async (req, res, next) => {
   const { userName, password } = req.body;
   userService.validateLogin(userName, password)
     .then((result) => {
-      if (!result) return next(new createError.Unauthorized('error occred'));
+      if (!result) return next(new createError.Unauthorized('Érvénytelen felhasználónév vagy jelszó.'));
       return res.json(result);
     });
 };
