@@ -6,6 +6,8 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms'
 
 import { ToastrModule } from 'ngx-toastr';
 
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
+
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -83,7 +85,8 @@ import { BaseListRowComponent } from './common/base-list/base-list-row/base-list
       positionClass: 'toast-bottom-right',
       preventDuplicates: true,
       progressBar: true,
-    })
+    }),
+    TooltipModule.forRoot(),
   ],
   providers: [authInterceptorProviders],
   bootstrap: [AppComponent]

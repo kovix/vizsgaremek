@@ -16,16 +16,9 @@
 </td>
 </ng-container>
 
-<td class="text-right">
-  <span class="dropup" *ngIf="actionButtons && actionButtons.length > 0">
-    <button href="#" class="dropdown-toggle btn btn-sm btn-secondary btn-round" data-toggle="dropdown">Actions<b class="caret"></b></button>
-    <ul class="dropdown-menu dropdown-primary dropdown-menu-right">
-      <li class="dropdown-header">Select an action</li>
-      <li *ngFor="let button of actionButtons"><a [routerLink]=""
-          (click)="onCustomButtonClicked(button.eventId, entity)">
-          <ng-container *ngIf="button.icon"><i class="fa {{button.icon}}" aria-hidden="true"></i>&nbsp;
-          </ng-container>{{button.title}}
-        </a></li>
-    </ul>
-  </span>
+<td class="text-center">
+  <a *ngFor="let button of actionButtons" tooltip="{{button.title}}"
+    class="px-1 cursor-pointer" [routerLink]="" (click)="onCustomButtonClicked(button.eventId, entity)">
+    <i class="fa {{button.icon}}" aria-hidden="true"></i>
+  </a>
 </td>
