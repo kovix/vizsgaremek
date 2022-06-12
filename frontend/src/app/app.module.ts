@@ -32,7 +32,7 @@ import { LoginComponent } from './page/login/login.component';
 import { AppLayoutComponent } from './layout/app-layout/app-layout.component';
 import { LoginLayoutComponent } from './layout/login-layout/login-layout.component';
 import { BaseListComponent} from './common/base-list/base-list.component';
-import { ListColumnSelectorComponent } from './common/list-column-selector/list-column-selector.component';
+import { ListColumnSelectorComponent } from './common/base-list/list-column-selector/list-column-selector.component';
 import { FilterPipe } from './pipe/filter.pipe';
 import { SortPipe } from './pipe/sort.pipe';
 import { PaginateBaseListPipe } from './pipe/paginate-base-list.pipe';

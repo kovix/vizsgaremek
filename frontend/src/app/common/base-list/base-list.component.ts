@@ -10,7 +10,7 @@ import { CountReporterService } from 'src/app/service/genericTable/count-reporte
 
 
 import { Entity } from '../../model/entity';
-import { ListColumnSelectorComponent } from '../list-column-selector/list-column-selector.component';
+import { ListColumnSelectorComponent } from './list-column-selector/list-column-selector.component';
 
 @Component({
   selector: 'app-base-list',

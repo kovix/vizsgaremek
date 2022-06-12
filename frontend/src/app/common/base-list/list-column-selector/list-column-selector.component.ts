@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import { ColumnDefinition } from '../../model/genericTable/column-definition';
+import { ColumnDefinition } from '../../../model/genericTable/column-definition';
 @Component({
   selector: 'app-list-column-selector',
   templateUrl: './list-column-selector.component.html',
