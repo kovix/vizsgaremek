@@ -1,4 +1,5 @@
-<app-sidebar></app-sidebar>
+<ng-container *ngIf="isLoggedin">
+  <app-sidebar></app-sidebar>
   <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
     <!-- Navbar -->
     <app-topbar></app-topbar>
@@ -7,3 +8,11 @@
       <router-outlet></router-outlet>
     </div>
   </main>
+</ng-container>
+<ng-container *ngIf="!isLoggedin">
+  <div class="loginHolder container-fluid position-sticky z-index-sticky top-0">
+    <main class="main-content  mt-0">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</ng-container>

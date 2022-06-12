@@ -1,0 +1,4 @@
+export enum TokenTypes {
+  AUTHTOKEN = "AUTHTOKEN",
+  REMEMBERTOKEN = "REMEMBERTOKEN"
+}

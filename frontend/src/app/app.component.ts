@@ -1,12 +1,22 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { AuthServiceService } from './service/auth-service.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements AfterViewInit {
-  title = 'setalolap-ui';
+export class AppComponent implements OnInit {
+  public title = 'setalolap-ui';
+  public isLoggedin: boolean = false;
 
-  ngAfterViewInit() {}
+
+  constructor(
+    private authService: AuthServiceService
+  ) { }
+
+  ngOnInit(): void {
+    this.authService.isLoggedIn.subscribe(isLoggedin => this.isLoggedin = isLoggedin);
+  }
+
 }
