@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { BehaviorSubject, switchMap } from 'rxjs';
-import { Observable, take } from 'rxjs';
+import { BehaviorSubject, switchMap, Observable, take } from 'rxjs';
 import { MatDialog } from "@angular/material/dialog";
 import { Examination } from 'src/app/model/examination';
 import { ButtonDefinition } from 'src/app/model/genericTable/button-definition';
