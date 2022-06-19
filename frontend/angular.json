@@ -117,9 +117,21 @@
               "node_modules/chartjs/chart.js"
             ]
           }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
+          }
         }
       }
     }
   },
-  "defaultProject": "setalolap-ui"
+  "defaultProject": "setalolap-ui",
+  "cli": {
+    "defaultCollection": "@angular-eslint/schematics"
+  }
 }
