@@ -1,21 +1,21 @@
-import { Injectable } from '@angular/core';
 import {
   HttpRequest,
   HttpHandler,
   HttpEvent,
   HttpInterceptor,
   HTTP_INTERCEPTORS,
-  HttpErrorResponse
+  HttpErrorResponse,
 } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
-import { AuthServiceService } from '../service/auth-service.service';
+import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { TokenTypes } from '../model/token-types';
 import { ToastrService } from 'ngx-toastr';
+import { AuthServiceService } from 'src/app/service/auth-service.service';
+import { TokenTypes } from '../model/token-types';
+
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-
   constructor(
     private authService: AuthServiceService,
     private router: Router,
@@ -24,7 +24,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     let authReq = request;
-    let bearerToken = this.authService.getToken(TokenTypes.AUTHTOKEN);
+    const bearerToken = this.authService.getToken(TokenTypes.AUTHTOKEN);
     if (bearerToken != null) {
       authReq = authReq.clone({ headers: authReq.headers.set('Authorization', 'Bearer ' + bearerToken) });
     }
