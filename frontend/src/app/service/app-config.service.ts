@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MatDialogConfig } from '@angular/material/dialog';
+import { ButtonDefinition } from '../model/genericTable/button-definition';
+import { ColumnDefinition } from '../model/genericTable/column-definition';
 
 export interface IMenuItem {
   link: string;
@@ -23,6 +25,42 @@ export class AppConfigService {
     { link: '/patients', icon: 'contact_emergency', title: 'Páciensek' },
     { link: '/users', icon: 'assignment_ind', title: 'Felhasználók' }
   ];
+
+  public defaultActionButtons: ButtonDefinition[] = [
+    {
+      title: 'Szerkesztés',
+      icon: 'fa-pencil text-primary',
+      eventId: 'EDIT',
+    },
+    {
+      title: 'Törlés',
+      icon: ' fa-trash text-danger',
+      eventId: 'DELETE',
+    },
+  ];
+
+  //Table examination
+  public ExaminationcolumnDefinition: ColumnDefinition[] = [
+    new ColumnDefinition({
+      title: 'Név',
+      column: 'name',
+    }),
+    new ColumnDefinition({
+      title: 'Alapértelmezett idő',
+      column: 'defaultTime',
+    }),
+    new ColumnDefinition({
+      title: 'Létrehozva',
+      column: 'createdAt',
+    }),
+    new ColumnDefinition({
+      title: 'Módosítva',
+      column: 'updatedAt'
+    }),
+  ];
+  public ExaminationActionButtons: ButtonDefinition[] = this.defaultActionButtons;
+
+
 
   constructor() {}
 

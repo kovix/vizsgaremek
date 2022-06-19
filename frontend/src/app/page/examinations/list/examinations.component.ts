@@ -22,38 +22,8 @@ export class ExaminationsComponent implements OnInit {
   examinations$?: Observable<Examination[]>;
   refreshExaminations$ = new BehaviorSubject<boolean>(true);
 
-  public columnDefinition: ColumnDefinition[] = [
-    new ColumnDefinition({
-      title: 'Név',
-      column: 'name',
-    }),
-    new ColumnDefinition({
-      title: 'Alapértelmezett idő',
-      column: 'defaultTime',
-    }),
-    new ColumnDefinition({
-      title: 'Létrehozva',
-      column: 'createdAt',
-    }),
-    new ColumnDefinition({
-      title: 'Módosítva',
-      column: 'updatedAt'
-    }),
-  ];
-
-  public actionButtons: ButtonDefinition[] = [
-
-    {
-      title: 'Szerkesztés',
-      icon: 'fa-pencil text-primary',
-      eventId: 'EDIT',
-    },
-    {
-      title: 'Törlés',
-      icon: ' fa-trash text-danger',
-      eventId: 'DELETE',
-    },
-  ];
+  public columnDefinition: ColumnDefinition[] = this.configService.ExaminationcolumnDefinition;
+  public actionButtons: ButtonDefinition[] = this.configService.ExaminationActionButtons;
 
   constructor(
     private examinationService: ExaminationService,
