@@ -1,4 +1,3 @@
-const mongoose = require('mongoose');
 const Examination = require('../../model/examination.model');
 
 exports = {};
