@@ -9,7 +9,6 @@ import { ExaminationService } from 'src/app/service/backend/examination.service'
 import { CustomButtonEvent } from 'src/app/model/genericTable/custom-button-event';
 import { ExaminationDialogComponent } from '../examination-dialog/examination-dialog.component';
 import { AppConfigService } from 'src/app/service/app-config.service';
-import { DeleteConfirmComponent } from 'src/app/common/delete-confirm/delete-confirm.component';
 import { DeleteWrapperService } from 'src/app/service/delete-wrapper.service';
 
 @Component({
