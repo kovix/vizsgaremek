@@ -40,6 +40,7 @@ import { BaseListTheadComponent } from './common/base-list/base-list-thead/base-
 import { BaseListIconComponent } from './common/base-list/base-list-icon/base-list-icon.component';
 import { BaseListRowComponent } from './common/base-list/base-list-row/base-list-row.component';
 import { ExaminationDialogComponent } from './page/examinations/examination-dialog/examination-dialog.component';
+import { DeleteConfirmComponent } from './common/delete-confirm/delete-confirm.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import { ExaminationDialogComponent } from './page/examinations/examination-dial
     BaseListTheadComponent,
     BaseListIconComponent,
     BaseListRowComponent,
-    ExaminationDialogComponent
+    ExaminationDialogComponent,
+    DeleteConfirmComponent
   ],
   imports: [
     BrowserModule,

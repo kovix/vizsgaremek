@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { BehaviorSubject, switchMap } from 'rxjs';
 import { Observable, take } from 'rxjs';
-import { ToastrService } from 'ngx-toastr';
-import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
-import { Router } from '@angular/router';
+import { MatDialog } from "@angular/material/dialog";
 import { Examination } from 'src/app/model/examination';
 import { ButtonDefinition } from 'src/app/model/genericTable/button-definition';
 import { ColumnDefinition } from 'src/app/model/genericTable/column-definition';
 import { ExaminationService } from 'src/app/service/backend/examination.service';
 import { CustomButtonEvent } from 'src/app/model/genericTable/custom-button-event';
 import { ExaminationDialogComponent } from '../examination-dialog/examination-dialog.component';
+import { AppConfigService } from 'src/app/service/app-config.service';
+import { DeleteConfirmComponent } from 'src/app/common/delete-confirm/delete-confirm.component';
+import { DeleteWrapperService } from 'src/app/service/delete-wrapper.service';
 
 @Component({
   selector: 'app-examinations',
@@ -56,9 +57,9 @@ export class ExaminationsComponent implements OnInit {
 
   constructor(
     private examinationService: ExaminationService,
-    private toastr: ToastrService,
-    private router: Router,
     private dialog: MatDialog,
+    private configService: AppConfigService,
+    private deleteWrapper: DeleteWrapperService
   ) { }
 
   ngOnInit(): void {
@@ -74,13 +75,10 @@ export class ExaminationsComponent implements OnInit {
         this.openDialogWrapper(null);
         break;
       case 'DELETE':
-        //this.onDeleteProduct(evt);
+        this.onDelete(evt.entityID);
         break;
-
       default:
-        this.toastr.warning(`Got event ${evt.eventID} for entity ${evt.entityID}`, 'Unknown event received', {
-          positionClass: 'toast-bottom-right'
-        });
+
     }
   }
 
@@ -97,11 +95,7 @@ export class ExaminationsComponent implements OnInit {
   }
 
   private openDialog(examination: Examination) {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = true;
-    dialogConfig.panelClass = 'dialog-responsive'
-    dialogConfig.autoFocus = true;
-    dialogConfig.data = examination;
+    const dialogConfig = this.configService.prepareMatDialogConfig(true, examination);
     const dialogRef = this.dialog.open(ExaminationDialogComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(
@@ -109,7 +103,26 @@ export class ExaminationsComponent implements OnInit {
         if(data) this.refreshExaminations$.next(true);
       }
     );
+  }
 
+  private onDelete(examination: string): void {
+    this.examinationService.get(examination).pipe(take(1)).subscribe(
+      (result) => this.deleteWrapper.delConfirmation(result._id, result.name).subscribe(
+        (confirmationresultId) => this.deleteEntity(confirmationresultId)
+      )
+    );
+  }
+
+
+  private deleteEntity(id: string): void {
+    if (!id) return;
+
+    this.examinationService.delete(id).subscribe(
+      (response) => {
+        this.deleteWrapper.displayDeletedToastr(response.name);
+        this.refreshExaminations$.next(true);
+      }
+    )
   }
 
 }

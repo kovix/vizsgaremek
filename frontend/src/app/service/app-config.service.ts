@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { MatDialogConfig } from '@angular/material/dialog';
 
 export interface IMenuItem {
   link: string;
@@ -24,4 +25,14 @@ export class AppConfigService {
   ];
 
   constructor() {}
+
+  public prepareMatDialogConfig(disableClose: boolean, data: any): MatDialogConfig {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = disableClose;
+    dialogConfig.panelClass = 'dialog-responsive'
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = data;
+    return dialogConfig;
+  }
+
 }
