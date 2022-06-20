@@ -42,6 +42,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.use('/examination', jwtMiddleware, require('./controller/examination/examination.router'));
+app.use('/examinationgroup', jwtMiddleware, require('./controller/examinationGroup/examinationGroup.router'));
 
 app.use('/user', require('./controller/user/user.router'));
 

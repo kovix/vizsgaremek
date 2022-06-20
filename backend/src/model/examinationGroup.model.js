@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const softDelete = require('mongoose-delete');
 const idvalidator = require('mongoose-id-validator');
 
 const examinationGroupSchema = mongoose.Schema({
