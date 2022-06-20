@@ -42,6 +42,8 @@ import { BaseListRowComponent } from './common/base-list/base-list-row/base-list
 import { ExaminationDialogComponent } from './page/examinations/examination-dialog/examination-dialog.component';
 import { DeleteConfirmComponent } from './common/delete-confirm/delete-confirm.component';
 import { ExaminationGroupDialogComponent } from './page/examination-groups/examination-group-dialog/examination-group-dialog.component';
+import { ExaminationGroupMembersComponent } from './page/examination-groups/examination-group-members/examination-group-members.component';
+import { AddExaminationToGroupComponent } from './page/examination-groups/add-examination-to-group/add-examination-to-group.component';
 
 @NgModule({
   declarations: [
@@ -68,7 +70,9 @@ import { ExaminationGroupDialogComponent } from './page/examination-groups/exami
     BaseListRowComponent,
     ExaminationDialogComponent,
     DeleteConfirmComponent,
-    ExaminationGroupDialogComponent
+    ExaminationGroupDialogComponent,
+    ExaminationGroupMembersComponent,
+    AddExaminationToGroupComponent
   ],
   imports: [
     BrowserModule,

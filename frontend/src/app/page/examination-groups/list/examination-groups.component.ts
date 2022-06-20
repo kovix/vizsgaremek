@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, switchMap, take } from 'rxjs';
 import { ExaminationGroup } from 'src/app/model/examination-group';
 import { ButtonDefinition } from 'src/app/model/genericTable/button-definition';
@@ -19,6 +20,8 @@ export class ExaminationGroupsComponent implements OnInit {
   examinationGroups$?: Observable<ExaminationGroup[]>;
   refreshExaminationGroups$ = new BehaviorSubject<boolean>(true);
 
+  private routeBase = 'examination-groups';
+
   public columnDefinition: ColumnDefinition[] = this.configService.ExaminationGroupcolumnDefinition;
   public actionButtons: ButtonDefinition[] = this.configService.ExaminationGroupActionButtons;
 
@@ -29,7 +32,8 @@ export class ExaminationGroupsComponent implements OnInit {
     private examinationGroupService: ExaminationGroupService,
     private dialog: MatDialog,
     private configService: AppConfigService,
-    private deleteWrapper: DeleteWrapperService
+    private deleteWrapper: DeleteWrapperService,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -40,6 +44,10 @@ export class ExaminationGroupsComponent implements OnInit {
     switch (evt.eventID) {
       case 'EDIT':
         this.openDialogWrapper(evt.entityID);
+        break;
+      case 'DETAILS':
+        console.log(`/${this.routeBase}/details`, evt.entityID);
+        this.router.navigate([`/${this.routeBase}/details`, evt.entityID]);
         break;
       case 'CREATE':
         this.openDialogWrapper(null);

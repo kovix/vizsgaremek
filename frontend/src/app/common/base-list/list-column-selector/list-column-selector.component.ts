@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import { ColumnDefinition } from '../../../model/genericTable/column-definition';
 @Component({
@@ -6,7 +6,7 @@ import { ColumnDefinition } from '../../../model/genericTable/column-definition'
   templateUrl: './list-column-selector.component.html',
   styleUrls: ['./list-column-selector.component.scss']
 })
-export class ListColumnSelectorComponent implements OnInit {
+export class ListColumnSelectorComponent {
 
   public columns: ColumnDefinition[] = [];
   public selectedOptions?: any;
@@ -16,9 +16,6 @@ export class ListColumnSelectorComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) data: ColumnDefinition[],
   ) {
     this.columns = data;
-  }
-
-  ngOnInit(): void {
   }
 
   onSave(): void {

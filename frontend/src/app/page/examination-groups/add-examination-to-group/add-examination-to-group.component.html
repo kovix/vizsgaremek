@@ -1,0 +1,14 @@
+<h2 mat-dialog-title>Válasszon oszlopokat</h2>
+
+<mat-dialog-content *ngIf="examinations$ | async as possibleExaminations">
+  <mat-selection-list #list [(ngModel)]="selectedOptions">
+    <mat-list-option *ngFor="let examination of possibleExaminations" [value]="examination._id">
+      {{examination.name}}
+    </mat-list-option>
+  </mat-selection-list>
+</mat-dialog-content>
+
+<div mat-dialog-actions align="end">
+    <button mat-raised-button color="primary" [mat-dialog-close]="selectedOptions">Kijelöltek hozzáadása</button>
+    <button mat-raised-button mat-dialog-close>Bezárás</button>
+</div>

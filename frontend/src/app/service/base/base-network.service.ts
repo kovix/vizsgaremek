@@ -13,7 +13,7 @@ interface GenericFlattenObj {
   providedIn: 'root'
 })
 export class BaseNetworkService<GenericEntity extends Entity> {
-  private backendURL:string = environment.backend;
+  public backendURL:string = environment.backend;
   public endpoint:string = '';
 
   constructor(public http: HttpClient) { }

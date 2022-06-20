@@ -5,6 +5,7 @@ import { AppLayoutComponent } from './layout/app-layout/app-layout.component';
 import { LoginLayoutComponent } from './layout/login-layout/login-layout.component';
 import { ConsultationsComponent } from './page/consultations/consultations.component';
 import { DashboardComponent } from './page/dashboard/dashboard.component';
+import { ExaminationGroupMembersComponent } from './page/examination-groups/examination-group-members/examination-group-members.component';
 import { ExaminationGroupsComponent } from './page/examination-groups/list/examination-groups.component';
 import { ExaminationsComponent } from './page/examinations/list/examinations.component';
 import { LoginComponent } from './page/login/login.component';
@@ -40,6 +41,11 @@ const routes: Routes = [
       {
         path: 'examination-groups',
         component: ExaminationGroupsComponent,
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'examination-groups/details/:id',
+        component: ExaminationGroupMembersComponent,
         canActivate: [AuthGuard]
       },
       {
