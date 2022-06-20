@@ -14,7 +14,7 @@ const examinationGroupSchema = mongoose.Schema({
       },
       examination: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'examinations',
+        ref: 'Examination',
         required: true,
       },
     },
@@ -25,4 +25,4 @@ const examinationGroupSchema = mongoose.Schema({
 
 examinationGroupSchema.plugin(idvalidator);
 
-module.exports = mongoose.model('Examination', examinationGroupSchema);
+module.exports = mongoose.model('ExaminationGroup', examinationGroupSchema);

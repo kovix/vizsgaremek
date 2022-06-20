@@ -1,12 +1,12 @@
 const createError = require('http-errors');
 
-exports = {};
+const baseExports = {};
 
-exports.buildReqError = (fieldTitle) => `Kötelező mező ${fieldTitle} nincs kitöltve!`;
+baseExports.buildReqError = (fieldTitle) => `Kötelező mező ${fieldTitle} nincs kitöltve!`;
 
-exports.addToError = (origError, newError) => `${origError}${origError ? '<br /> ' : ''}${newError}`;
+baseExports.addToError = (origError, newError) => `${origError}${origError ? '<br /> ' : ''}${newError}`;
 
-exports.clearBody = (body, requiredFields) => {
+baseExports.clearBody = (body, requiredFields) => {
   const processedBody = body;
   Object.keys(processedBody).forEach((key) => {
     if (!requiredFields.includes(key)) delete processedBody[key];
@@ -14,7 +14,7 @@ exports.clearBody = (body, requiredFields) => {
   return processedBody;
 };
 
-exports.generateCRUD = (service, requiredFields, isBodyHasErrors) => {
+baseExports.generateCRUD = (service, requiredFields, isBodyHasErrors) => {
   const crud = {};
   crud.findAll = (req, res) => service.findAll()
     .then((records) => res.json(records));
@@ -24,7 +24,7 @@ exports.generateCRUD = (service, requiredFields, isBodyHasErrors) => {
     .catch((error) => next(new createError.NotFound(`Nem található bejegyzés az alábbi azonosítóval: ${req.params.id}. (${error.message})`)));
 
   crud.create = (req, res, next) => {
-    const cleanedBody = exports.clearBody(req.body, requiredFields);
+    const cleanedBody = baseExports.clearBody(req.body, requiredFields);
     const bodyHasErros = isBodyHasErrors(cleanedBody);
     if (bodyHasErros) return next(bodyHasErros);
 
@@ -34,7 +34,7 @@ exports.generateCRUD = (service, requiredFields, isBodyHasErrors) => {
   };
 
   crud.update = (req, res, next) => {
-    const cleanedBody = exports.clearBody(req.body, requiredFields);
+    const cleanedBody = baseExports.clearBody(req.body, requiredFields);
     const bodyHasErros = isBodyHasErrors(cleanedBody);
     if (bodyHasErros) return next(bodyHasErros);
 
@@ -57,4 +57,4 @@ exports.generateCRUD = (service, requiredFields, isBodyHasErrors) => {
   return crud;
 };
 
-module.exports = exports;
+module.exports = baseExports;
