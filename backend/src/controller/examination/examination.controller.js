@@ -26,7 +26,7 @@ exports.findById = (req, res, next) => service.findById(req.params.id)
   .catch((error) => next(new createError.NotFound(`Nem található bejegyzés az alábbi azonosítóval: ${req.params.id}. (${error.message})`)));
 
 exports.create = (req, res, next) => {
-  const cleanedBody = baseController.clearBody(req.body);
+  const cleanedBody = baseController.clearBody(req.body, requiredFields);
   const bodyHasErros = isBodyHasErrors(cleanedBody);
   if (bodyHasErros) return next(bodyHasErros);
 
@@ -36,7 +36,7 @@ exports.create = (req, res, next) => {
 };
 
 exports.update = (req, res, next) => {
-  const cleanedBody = baseController.clearBody(req.body);
+  const cleanedBody = baseController.clearBody(req.body, requiredFields);
   const bodyHasErros = isBodyHasErrors(cleanedBody);
   if (bodyHasErros) return next(bodyHasErros);
 
