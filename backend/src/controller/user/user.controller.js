@@ -2,7 +2,7 @@ const createError = require('http-errors');
 const userService = require('./user.service');
 const User = require('../../model/user.model');
 const logger = require('../../../config/logger');
-const msg = require('../base/messageGenerator');
+const baseController = require('../base/controller');
 
 exports.validateLogin = async (req, res, next) => {
   const { userName, password } = req.body;
@@ -25,18 +25,18 @@ exports.registerUser = async (req, res, next) => {
 
   let errorMessage = '';
 
-  if (!userName) errorMessage = msg.addToError(errorMessage, msg.buildReqError('felhasználó'));
-  if (!password) errorMessage = msg.addToError(errorMessage, msg.buildReqError('jelszó'));
-  if (password !== confirmPassword) errorMessage = msg.addToError(errorMessage, 'A megadott jelszavak eltérőek!');
-  if (!email) errorMessage = msg.addToError(errorMessage, msg.buildReqError('email'));
-  if (!firstName) errorMessage = msg.addToError(errorMessage, msg.buildReqError('vezetéknév'));
-  if (!lastName) errorMessage = msg.addToError(errorMessage, msg.buildReqError('keresztnév'));
+  if (!userName) errorMessage = baseController.addToError(errorMessage, baseController.buildReqError('felhasználó'));
+  if (!password) errorMessage = baseController.addToError(errorMessage, baseController.buildReqError('jelszó'));
+  if (password !== confirmPassword) errorMessage = baseController.addToError(errorMessage, 'A megadott jelszavak eltérőek!');
+  if (!email) errorMessage = baseController.addToError(errorMessage, baseController.buildReqError('email'));
+  if (!firstName) errorMessage = baseController.addToError(errorMessage, baseController.buildReqError('vezetéknév'));
+  if (!lastName) errorMessage = baseController.addToError(errorMessage, baseController.buildReqError('keresztnév'));
 
   const usernameCount = await User.countDocuments({ userName: { $eq: userName } });
   const emailCount = await User.countDocuments({ email: { $eq: email } });
 
-  if (usernameCount) errorMessage = msg.addToError(errorMessage, 'Ez a felhasználónév már foglalt!');
-  if (emailCount) errorMessage = msg.addToError(errorMessage, 'Ez az e-mail cím már szerepel az adatbázisban!');
+  if (usernameCount) errorMessage = baseController.addToError(errorMessage, 'Ez a felhasználónév már foglalt!');
+  if (emailCount) errorMessage = baseController.addToError(errorMessage, 'Ez az e-mail cím már szerepel az adatbázisban!');
 
   if (errorMessage) return next(new createError.BadRequest(errorMessage));
 
