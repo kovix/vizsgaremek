@@ -1,6 +1,8 @@
 const createError = require('http-errors');
 const service = require('./examination.service');
-const msg = require('../base/messageGenerator');
+const baseController = require('../base/controller');
+
+const requiredFields = ['name', 'defaultTime'];
 
 const isBodyHasErrors = (body) => {
   const {
@@ -9,20 +11,11 @@ const isBodyHasErrors = (body) => {
   } = body;
 
   let errorMessage = '';
-  if (!name) errorMessage = msg.addToError(errorMessage, msg.buildReqError('vizsgálat neve'));
-  if (!Number.isInteger(defaultTime)) errorMessage = msg.addToError(errorMessage, msg.buildReqError('vizsgálat átlagos időtartama'));
+  if (!name) errorMessage = baseController.addToError(errorMessage, baseController.buildReqError('vizsgálat neve'));
+  if (!Number.isInteger(defaultTime)) errorMessage = baseController.addToError(errorMessage, baseController.buildReqError('vizsgálat átlagos időtartama'));
   if (errorMessage) return new createError.BadRequest(errorMessage);
 
   return false;
-};
-
-const clearBody = (body) => {
-  const processedBody = body;
-  const requiredFields = ['name', 'defaultTime'];
-  Object.keys(processedBody).forEach((key) => {
-    if (!requiredFields.includes(key)) delete processedBody[key];
-  });
-  return processedBody;
 };
 
 exports.findAll = (req, res) => service.findAll()
@@ -33,7 +26,7 @@ exports.findById = (req, res, next) => service.findById(req.params.id)
   .catch((error) => next(new createError.NotFound(`Nem található bejegyzés az alábbi azonosítóval: ${req.params.id}. (${error.message})`)));
 
 exports.create = (req, res, next) => {
-  const cleanedBody = clearBody(req.body);
+  const cleanedBody = baseController.clearBody(req.body);
   const bodyHasErros = isBodyHasErrors(cleanedBody);
   if (bodyHasErros) return next(bodyHasErros);
 
@@ -43,7 +36,7 @@ exports.create = (req, res, next) => {
 };
 
 exports.update = (req, res, next) => {
-  const cleanedBody = clearBody(req.body);
+  const cleanedBody = baseController.clearBody(req.body);
   const bodyHasErros = isBodyHasErrors(cleanedBody);
   if (bodyHasErros) return next(bodyHasErros);
 
