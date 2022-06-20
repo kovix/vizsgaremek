@@ -61,8 +61,31 @@ export class AppConfigService {
   public ExaminationActionButtons: ButtonDefinition[] = this.defaultActionButtons;
 
 
+  //Table examinationGroups
+  public ExaminationGroupcolumnDefinition: ColumnDefinition[] = [
+    new ColumnDefinition({
+      title: 'Név',
+      column: 'name',
+    }),
+    new ColumnDefinition({
+      title: 'Létrehozva',
+      column: 'createdAt',
+    }),
+    new ColumnDefinition({
+      title: 'Módosítva',
+      column: 'updatedAt'
+    }),
+  ];
+  public ExaminationGroupActionButtons: ButtonDefinition[] = [
+    {
+      title: 'Vizsgálatok',
+      icon: ' fa-info text-primary',
+      eventId: 'DETAILS',
+    },
+    ...this.defaultActionButtons
+  ];
 
-  constructor() {}
+  constructor() { }
 
   public prepareMatDialogConfig(disableClose: boolean, data: any): MatDialogConfig {
     const dialogConfig = new MatDialogConfig();

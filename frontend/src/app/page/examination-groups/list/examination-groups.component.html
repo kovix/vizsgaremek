@@ -1,0 +1,3 @@
+<app-base-list [entities]="examinationGroups$ | async" [columnDefinition]="columnDefinition" [actionButtons]="actionButtons"
+  [title]="title" [subTitle]="subTitle" [enableNewButton]=true
+  (customButtonClicked)="onCustomButtonClicked($event)"></app-base-list>

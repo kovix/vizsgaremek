@@ -11,7 +11,7 @@ export class FilterPipe implements PipeTransform {
 
   transform<T extends {[key: string]: any}>(value: T[]|null, phrase: string, activeValue: boolean, featuredValue: boolean, listTitle: string|null): T[]|null {
     const reportTitle = listTitle || '';
-    if (!value) {
+    if (!Array.isArray(value) || value.length === 0 ) {
       this.countCommunicator.reportCount(reportTitle, 0);
       return value;
     }

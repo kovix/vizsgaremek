@@ -22,7 +22,7 @@ import { AppComponent } from './app.component';
 import { ConsultationsComponent } from './page/consultations/consultations.component';
 import { DashboardComponent } from './page/dashboard/dashboard.component';
 import { ExaminationsComponent } from './page/examinations/list/examinations.component';
-import { ExaminationGroupsComponent } from './page/examination-groups/examination-groups.component';
+import { ExaminationGroupsComponent } from './page/examination-groups/list/examination-groups.component';
 import { IconNavbarSidenavComponent } from './common/icon-navbar-sidenav/icon-navbar-sidenav.component';
 import { SidebarComponent } from './common/sidebar/sidebar.component';
 import { TopbarComponent } from './common/topbar/topbar.component';
@@ -41,6 +41,7 @@ import { BaseListIconComponent } from './common/base-list/base-list-icon/base-li
 import { BaseListRowComponent } from './common/base-list/base-list-row/base-list-row.component';
 import { ExaminationDialogComponent } from './page/examinations/examination-dialog/examination-dialog.component';
 import { DeleteConfirmComponent } from './common/delete-confirm/delete-confirm.component';
+import { ExaminationGroupDialogComponent } from './page/examination-groups/examination-group-dialog/examination-group-dialog.component';
 
 @NgModule({
   declarations: [
@@ -66,7 +67,8 @@ import { DeleteConfirmComponent } from './common/delete-confirm/delete-confirm.c
     BaseListIconComponent,
     BaseListRowComponent,
     ExaminationDialogComponent,
-    DeleteConfirmComponent
+    DeleteConfirmComponent,
+    ExaminationGroupDialogComponent
   ],
   imports: [
     BrowserModule,
