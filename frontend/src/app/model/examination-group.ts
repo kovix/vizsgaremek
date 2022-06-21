@@ -1,6 +1,6 @@
 import { Examination } from "./examination";
 
-interface ExaminationsInGroup {
+export interface ExaminationsInGroup {
   order: number;
   _id: string;
   examination?: Examination;
