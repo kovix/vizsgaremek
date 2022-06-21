@@ -42,9 +42,10 @@ module.exports = {
     if (!allValid) return createErrorObj(new createError.BadRequest('A lista tartalmaz olyan vizsgálatot, amely már létezik a vizsgálatban.'));
 
     const nextOrder = record.examinations
+      .map((obj) => obj.order)
       .reduce((prev, current) => {
-        if (current.order > prev?.order) return current.order;
-        return prev?.order;
+        if (current > prev) return current;
+        return prev;
       }, 0) + 1;
     record.examinations = [...record.examinations, ...prepareExaminations(examinations, nextOrder)];
     const result = await ExaminationGroup.findByIdAndUpdate(id, record, { new: true });
