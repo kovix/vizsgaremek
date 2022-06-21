@@ -56,7 +56,10 @@ export class ExaminationGroupMembersComponent implements OnInit {
       (data) => {
         if(!Array.isArray(data)) return;
         this.examinationGroupService.addExaminations(this.examinationGroup._id, data).pipe(take(1)).subscribe(
-          (result) => this.examinationGroup = result
+          (result) => {
+            this.examinationGroup = result;
+            console.log(result);
+          }
         )
       }
     );

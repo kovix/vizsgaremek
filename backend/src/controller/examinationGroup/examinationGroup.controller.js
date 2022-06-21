@@ -14,4 +14,16 @@ const isBodyHasErrors = (body) => {
   return false;
 };
 
-module.exports = baseController.generateCRUD(service, requiredFields, isBodyHasErrors);
+const exGroupExports = baseController.generateCRUD(service, requiredFields, isBodyHasErrors);
+
+exGroupExports.addExaminations = async (req, res, next) => {
+  const examinations = req.body;
+  if (!Array.isArray(examinations)) return next(new createError.BadRequest('Érvénytelen hívás!'));
+  const response = await service.addExaminations(req.params.id, examinations);
+  if (response?.error) {
+    return next(new createError.InternalServerError(response?.message));
+  }
+  return res.json(response);
+};
+
+module.exports = exGroupExports;
