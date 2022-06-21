@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
+const createError = require('http-errors');
 const ExaminationGroup = require('../../model/examinationGroup.model');
+const { createErrorObj } = require('../base/service');
 
 const prepareExaminations = (examinations, shiftOrder) => {
   if (!Array.isArray(examinations)) return [];
@@ -30,14 +32,14 @@ module.exports = {
 
   addExaminations: async (id, examinations) => {
     const record = await ExaminationGroup.findById(id);
-    if (!record) return { error: true, message: 'Nincs ilyen csoport!' };
+    if (!record) return createErrorObj(new createError.NotFound('Nincs ilyen csoport!'));
     let allValid = true;
     examinations.forEach((newId) => {
       const newObjId = new mongoose.mongo.ObjectId(newId);
       const existingRecord = record.examinations.find((obj) => obj.examination.equals(newObjId));
       if (existingRecord) allValid = false;
     });
-    if (!allValid) return { error: true, message: 'A lista tartalmaz olyan vizsgálatot, amely már létezik a vizsgálatban.' };
+    if (!allValid) return createErrorObj(new createError.BadRequest('A lista tartalmaz olyan vizsgálatot, amely már létezik a vizsgálatban.'));
 
     const nextOrder = record.examinations
       .reduce((prev, current) => {
@@ -52,7 +54,27 @@ module.exports = {
       return fullRecord;
     }
 
-    return { error: true, message: 'Ismeretlen hiba történt a művelet során!' };
+    return createErrorObj(new createError.InternalServerError('Ismeretlen hiba történt a művelet során'));
+  },
+
+  removeExamination: async (id, examinationId) => {
+    try {
+      const result = await ExaminationGroup.updateOne(
+        { _id: id },
+        {
+          $pull: {
+            examinations: { examination: examinationId },
+          },
+        },
+        { safe: true },
+      );
+      if (!result?.matchedCount) return createErrorObj(new createError.NotFound('A csoport nem található!'));
+      if (!result?.modifiedCount) return createErrorObj(new createError.BadRequest('A vizsgálat nem található a csoportban!'));
+      const fullRecord = await ExaminationGroup.findById(id).populate('examinations.examination');
+      return fullRecord;
+    } catch (error) {
+      return createErrorObj(new createError.InternalServerError('Hiba történt a vizsgálat eltávolítása közben!'));
+    }
   },
 
 };

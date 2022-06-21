@@ -68,15 +68,15 @@ export class ExaminationGroupMembersComponent implements OnInit {
   }
 
   public onDeleteExamination(examination: ExaminationsInGroup): void {
-    this.deleteWrapper.delConfirmation(examination._id, examination?.examination?.name || '').pipe(take(1)).subscribe(
+    this.deleteWrapper.delConfirmation(examination?.examination?._id || '', examination?.examination?.name || '').pipe(take(1)).subscribe(
       (confirmationresultId) => {
-        if (confirmationresultId) this.removeExamination(examination._id, confirmationresultId);
+        if (confirmationresultId) this.removeExamination(confirmationresultId);
       }
     )
   }
 
-  private removeExamination(examinationId: string, confirmationresultId: string): void {
-    this.examinationGroupService.removeExamination(examinationId, confirmationresultId).pipe(take(1)).subscribe(
+  private removeExamination(confirmationresultId: string): void {
+    this.examinationGroupService.removeExamination(this.examinationGroup._id, confirmationresultId).pipe(take(1)).subscribe(
       (result) => console.log(result)
     );
   }

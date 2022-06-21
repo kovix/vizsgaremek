@@ -20,9 +20,13 @@ exGroupExports.addExaminations = async (req, res, next) => {
   const examinations = req.body;
   if (!Array.isArray(examinations)) return next(new createError.BadRequest('Érvénytelen hívás!'));
   const response = await service.addExaminations(req.params.id, examinations);
-  if (response?.error) {
-    return next(new createError.InternalServerError(response?.message));
-  }
+  if (response?.error) return next(response.response);
+  return res.json(response);
+};
+
+exGroupExports.removeExamination = async (req, res, next) => {
+  const response = await service.removeExamination(req.params.id, req.params.examid);
+  if (response?.error) return next(response.response);
   return res.json(response);
 };
 
