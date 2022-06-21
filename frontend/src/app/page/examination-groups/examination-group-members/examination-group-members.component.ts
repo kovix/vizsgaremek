@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map, Observable, take } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 import { ExaminationGroup, ExaminationsInGroup } from 'src/app/model/examination-group';
 import { AppConfigService } from 'src/app/service/app-config.service';
 import { ExaminationGroupService } from 'src/app/service/backend/examination-group.service';
@@ -28,6 +29,7 @@ export class ExaminationGroupMembersComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private dialog: MatDialog,
+    private toastr: ToastrService,
     private configService: AppConfigService,
     private deleteWrapper: DeleteWrapperService
   ) { }
@@ -60,6 +62,7 @@ export class ExaminationGroupMembersComponent implements OnInit {
         this.examinationGroupService.addExaminations(this.examinationGroup._id, data).pipe(take(1)).subscribe(
           (result) => {
             this.examinationGroup = result;
+            this.toastr.success('A vizsgálatok hozzáadása megtörtént.');
           }
         )
       }
@@ -77,7 +80,10 @@ export class ExaminationGroupMembersComponent implements OnInit {
 
   private removeExamination(confirmationresultId: string): void {
     this.examinationGroupService.removeExamination(this.examinationGroup._id, confirmationresultId).pipe(take(1)).subscribe(
-      (result) => console.log(result)
+      (result) => {
+        this.toastr.success('A vizsgálatok törlése megtörtént.');
+        this.examinationGroup = result;
+      }
     );
   }
 
