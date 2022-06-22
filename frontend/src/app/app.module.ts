@@ -44,6 +44,7 @@ import { DeleteConfirmComponent } from './common/delete-confirm/delete-confirm.c
 import { ExaminationGroupDialogComponent } from './page/examination-groups/examination-group-dialog/examination-group-dialog.component';
 import { ExaminationGroupMembersComponent } from './page/examination-groups/examination-group-members/examination-group-members.component';
 import { AddExaminationToGroupComponent } from './page/examination-groups/add-examination-to-group/add-examination-to-group.component';
+import { FilterAddExaminationPipe } from './pipe/filter-add-examination.pipe';
 
 @NgModule({
   declarations: [
@@ -72,7 +73,8 @@ import { AddExaminationToGroupComponent } from './page/examination-groups/add-ex
     DeleteConfirmComponent,
     ExaminationGroupDialogComponent,
     ExaminationGroupMembersComponent,
-    AddExaminationToGroupComponent
+    AddExaminationToGroupComponent,
+    FilterAddExaminationPipe
   ],
   imports: [
     BrowserModule,

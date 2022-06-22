@@ -23,16 +23,18 @@
               <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">&nbsp;</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody *ngIf="examinationGroup.examinations">
             <tr *ngFor="let examination of examinationGroup.examinations; first as isFirst; last as isLast;">
               <td class="ps-3"> {{examination.examination?.name}}</td>
               <td class="pe-3 text-end">
                 <i class="fa fa-solid fa-chevron-up fa-fw me-2"
+                  (click)="onReorder(examination, -1)"
                   [ngClass]="{
                     'text-muted': isFirst,
                     'cursor-pointer': !isFirst
                   }"></i>
                   <i class="fa fa-solid fa-chevron-down fa-fw me-2"
+                  (click)="onReorder(examination, 1)"
                   [ngClass]="{
                     'text-muted': isLast,
                     'cursor-pointer': !isLast

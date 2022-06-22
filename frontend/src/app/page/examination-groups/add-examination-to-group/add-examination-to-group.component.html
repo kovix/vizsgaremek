@@ -1,6 +1,6 @@
 <h2 mat-dialog-title>Válasszon oszlopokat</h2>
 
-<mat-dialog-content *ngIf="examinations$ | async as possibleExaminations">
+<mat-dialog-content *ngIf="examinations$ | async | filterAddExamination:existingItems as possibleExaminations">
   <mat-selection-list #list [(ngModel)]="selectedOptions">
     <mat-list-option *ngFor="let examination of possibleExaminations" [value]="examination._id">
       {{examination.name}}

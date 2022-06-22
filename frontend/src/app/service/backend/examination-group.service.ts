@@ -17,6 +17,10 @@ export class ExaminationGroupService extends BaseNetworkService<ExaminationGroup
     return this.http.patch<ExaminationGroup>(`${this.backendURL}${this.endpoint}/addexaminations/${id}`, examinations);
   };
 
+  saveNewOrder(id: string, examinations: string[]): Observable<ExaminationGroup> {
+    return this.http.patch<ExaminationGroup>(`${this.backendURL}${this.endpoint}/savereorder/${id}`, examinations);
+  };
+
   removeExamination(id: string, examinationId: string): Observable<ExaminationGroup> {
     return this.http.patch<ExaminationGroup>(`${this.backendURL}${this.endpoint}/removeexaminations/${id}/${examinationId}`, '');
   }

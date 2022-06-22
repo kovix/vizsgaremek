@@ -36,7 +36,7 @@ module.exports = {
     let allValid = true;
     examinations.forEach((newId) => {
       const newObjId = new mongoose.mongo.ObjectId(newId);
-      const existingRecord = record.examinations.find((obj) => obj.examination.equals(newObjId));
+      const existingRecord = record.examinations.find((obj) => obj.examination?.equals(newObjId));
       if (existingRecord) allValid = false;
     });
     if (!allValid) return createErrorObj(new createError.BadRequest('A lista tartalmaz olyan vizsgálatot, amely már létezik a vizsgálatban.'));
@@ -56,6 +56,27 @@ module.exports = {
     }
 
     return createErrorObj(new createError.InternalServerError('Ismeretlen hiba történt a művelet során'));
+  },
+
+  reorderExaminations: async (id, examinations) => {
+    const dbExaminations = prepareExaminations(examinations, 0);
+    let result;
+    try {
+      result = await ExaminationGroup.updateOne(
+        { _id: id },
+        {
+          $set: {
+            examinations: dbExaminations,
+          },
+        },
+        { safe: true },
+      );
+      if (result?.modifiedCount !== 1) return createErrorObj(new createError.NotFound('A vizsgálat csoport nem található!'));
+      const fullRecord = await ExaminationGroup.findById(id).populate('examinations.examination');
+      return fullRecord;
+    } catch (error) {
+      return createErrorObj(new createError.InternalServerError(`Hiba történt a vizsgálatok átrendezése közben! (${error.message})`));
+    }
   },
 
   removeExamination: async (id, examinationId) => {

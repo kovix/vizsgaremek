@@ -53,12 +53,12 @@ export class ExaminationGroupMembersComponent implements OnInit {
   }
 
   public onAdd(): void {
-    const dialogConfig = this.configService.prepareMatDialogConfig(true, null);
+    const dialogConfig = this.configService.prepareMatDialogConfig(true, this.examinationGroup.examinations);
     const dialogRef = this.dialog.open(AddExaminationToGroupComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(
       (data) => {
-        if(!Array.isArray(data)) return;
+        if (!Array.isArray(data)) return;
         this.examinationGroupService.addExaminations(this.examinationGroup._id, data).pipe(take(1)).subscribe(
           (result) => {
             this.examinationGroup = result;
@@ -71,11 +71,47 @@ export class ExaminationGroupMembersComponent implements OnInit {
   }
 
   public onDeleteExamination(examination: ExaminationsInGroup): void {
+    console.log(examination);
     this.deleteWrapper.delConfirmation(examination?.examination?._id || '', examination?.examination?.name || '').pipe(take(1)).subscribe(
       (confirmationresultId) => {
         if (confirmationresultId) this.removeExamination(confirmationresultId);
       }
     )
+  }
+
+  public onReorder(examination: ExaminationsInGroup, direction: number): void {
+    if (!this.examinationGroup.examinations) return;
+    const me: number = this.examinationGroup.examinations.findIndex((item) => item.examination?._id === examination.examination?._id) || 0;
+    const maxItemNo: number = this.examinationGroup.examinations.length;
+    let newItems = [];
+    if (me === 0 && direction === -1) {
+      this.toastr.warning('Nem mozgathatja felfelé ezt a vizsgálatot!');
+      return;
+    }
+    if (me === maxItemNo - 1 && direction === 1) {
+      this.toastr.warning('Nem mozhathatja lefelé ezt a sort.');
+      return;
+    }
+
+    [
+      this.examinationGroup.examinations[me].order,
+      this.examinationGroup.examinations[me + direction].order
+    ] = [
+        this.examinationGroup.examinations[me + direction].order,
+        this.examinationGroup.examinations[me].order
+      ];
+
+
+    newItems = this.examinationGroup.examinations
+      .sort((a, b) => a.order - b.order)
+      .map((item) => item.examination!._id);
+
+      this.examinationGroupService.saveNewOrder(this.examinationGroup._id, newItems).pipe(take(1)).subscribe(
+        (result) => {
+          this.examinationGroup = result;
+          this.toastr.success('A vizsgálatok átrendezése megtörtént.');
+        }
+      )
   }
 
   private removeExamination(confirmationresultId: string): void {
