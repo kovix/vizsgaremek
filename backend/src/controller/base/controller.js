@@ -23,8 +23,12 @@ baseExports.generateCRUD = (service, requiredFields, isBodyHasErrors) => {
     .then((record) => res.json(record))
     .catch((error) => next(new createError.NotFound(`Nem található bejegyzés az alábbi azonosítóval: ${req.params.id}. (${error.message})`)));
 
-  crud.create = (req, res, next) => {
+  crud.create = (req, res, next, addCreatedBy = false) => {
     const cleanedBody = baseExports.clearBody(req.body, requiredFields);
+    if (addCreatedBy) {
+      // eslint-disable-next-line no-underscore-dangle
+      cleanedBody.createdBy = req.user._id;
+    }
     const bodyHasErros = isBodyHasErrors(cleanedBody);
     if (bodyHasErros) return next(bodyHasErros);
 
