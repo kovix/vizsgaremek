@@ -5,6 +5,7 @@ export class User {
   firstName: string = '';
   lastName: string = '';
   email: string = '';
+  role?: number;
   deleted: boolean = false;
   createdAt: string = '';
   updatedAt: string = '';

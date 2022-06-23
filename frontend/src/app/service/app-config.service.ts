@@ -9,6 +9,11 @@ export interface IMenuItem {
   title: string;
 }
 
+export interface iRole {
+  id: number,
+  name: string,
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -115,6 +120,46 @@ export class AppConfigService {
   ];
   public PatientActionButtons: ButtonDefinition[] = this.defaultActionButtons;
 
+    //Table patients
+    public userColumnDefinition: ColumnDefinition[] = [
+      new ColumnDefinition({
+        title: 'Felhasználónév',
+        column: 'userName',
+      }),
+      new ColumnDefinition({
+        title: 'Vezetéknév',
+        column: 'firstName',
+      }),
+      new ColumnDefinition({
+        title: 'Keresztnév',
+        column: 'lastName',
+      }),
+      new ColumnDefinition({
+        title: 'Email',
+        column: 'email',
+      }),
+      new ColumnDefinition({
+        title: 'Szerep',
+        column: 'role',
+      }),
+      new ColumnDefinition({
+        title: 'Létrehozva',
+        column: 'createdAt',
+      }),
+      new ColumnDefinition({
+        title: 'Módosítva',
+        column: 'updatedAt'
+      }),
+
+    ];
+    public UserActionButtons: ButtonDefinition[] = this.defaultActionButtons;
+
+    public Roles: iRole[] = [
+      {id: 1, name: 'Ügyintéző'},
+      {id: 2, name: 'Asszisztens'},
+      {id: 3, name: 'Orvos'},
+      {id: 4, name: 'Adminisztrátor'},
+    ];
 
   constructor() { }
 

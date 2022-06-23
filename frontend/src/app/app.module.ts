@@ -14,7 +14,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatListModule } from '@angular/material/list';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import {MatButtonModule} from '@angular/material/button';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSelectModule } from '@angular/material/select';
 
 import { authInterceptorProviders } from './interceptors/auth.interceptor';
 import { AppRoutingModule } from './app-routing.module';
@@ -26,7 +27,7 @@ import { ExaminationGroupsComponent } from './page/examination-groups/list/exami
 import { IconNavbarSidenavComponent } from './common/icon-navbar-sidenav/icon-navbar-sidenav.component';
 import { SidebarComponent } from './common/sidebar/sidebar.component';
 import { TopbarComponent } from './common/topbar/topbar.component';
-import { UsersComponent } from './page/users/users.component';
+import { UsersComponent } from './page/users/list/users.component';
 import { PatientsComponent } from './page/patients/list/patients.component';
 import { LoginComponent } from './page/login/login.component';
 import { AppLayoutComponent } from './layout/app-layout/app-layout.component';
@@ -46,6 +47,7 @@ import { ExaminationGroupMembersComponent } from './page/examination-groups/exam
 import { AddExaminationToGroupComponent } from './page/examination-groups/add-examination-to-group/add-examination-to-group.component';
 import { FilterAddExaminationPipe } from './pipe/filter-add-examination.pipe';
 import { PatientDialogComponent } from './page/patients/patient-dialog/patient-dialog.component';
+import { UserEditDialogComponent } from './page/users/user-edit-dialog/user-edit-dialog.component';
 
 @NgModule({
   declarations: [
@@ -76,7 +78,8 @@ import { PatientDialogComponent } from './page/patients/patient-dialog/patient-d
     ExaminationGroupMembersComponent,
     AddExaminationToGroupComponent,
     FilterAddExaminationPipe,
-    PatientDialogComponent
+    PatientDialogComponent,
+    UserEditDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -93,6 +96,7 @@ import { PatientDialogComponent } from './page/patients/patient-dialog/patient-d
     MatListModule,
     MatPaginatorModule,
     MatButtonModule,
+    MatSelectModule,
 
     ToastrModule.forRoot({
       timeOut: 3000,

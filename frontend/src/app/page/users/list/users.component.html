@@ -1,0 +1,3 @@
+<app-base-list [entities]="users$ | async" [columnDefinition]="columnDefinition" [actionButtons]="actionButtons"
+  [title]="'Felhasználók'" [subTitle]="'Felhasználók, orvosok, adminisztrátorok'" [enableNewButton]=true
+  (customButtonClicked)="onCustomButtonClicked($event)"></app-base-list>

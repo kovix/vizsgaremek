@@ -1,7 +1,13 @@
 const jwt = require('jsonwebtoken');
 const User = require('../../model/user.model');
 
-exports.validateLogin = async (userName, password) => {
+const userExports = {};
+
+userExports.findAll = () => User.find({});
+
+userExports.findById = (id) => User.findById(id);
+
+userExports.validateLogin = async (userName, password) => {
   const user = await User.findOne({ userName: { $eq: userName } });
   if (!user) return false;
 
@@ -27,11 +33,11 @@ exports.validateLogin = async (userName, password) => {
   };
 };
 
-exports.registerUser = async (userObj) => {
+userExports.registerUser = async (userObj) => {
   const newUser = new User(userObj);
   const savedUser = await newUser.save();
   // eslint-disable-next-line no-underscore-dangle
   return Promise.resolve({ ...savedUser._doc, password: '' });
 };
 
-module.exports = exports;
+module.exports = userExports;
