@@ -10,7 +10,7 @@ const logSchema = mongoose.Schema({
   eventText: {
     type: String,
     required: true,
-  }
+  },
 }, {
   timestamps: true,
 });
