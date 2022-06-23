@@ -7,7 +7,6 @@ import { Patient } from 'src/app/model/patient';
 import { PatientService } from 'src/app/service/backend/patient.service';
 import { AppConfigService } from 'src/app/service/app-config.service';
 import { DeleteWrapperService } from 'src/app/service/delete-wrapper.service';
-import { Router } from '@angular/router';
 import { CustomButtonEvent } from 'src/app/model/genericTable/custom-button-event';
 import { PatientDialogComponent } from '../patient-dialog/patient-dialog.component';
 
@@ -29,7 +28,6 @@ export class PatientsComponent implements OnInit {
     private dialog: MatDialog,
     private configService: AppConfigService,
     private deleteWrapper: DeleteWrapperService,
-    private router: Router,
   ) {}
 
   ngOnInit(): void {
