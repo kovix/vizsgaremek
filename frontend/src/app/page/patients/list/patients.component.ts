@@ -77,7 +77,7 @@ export class PatientsComponent implements OnInit {
 
   private onDelete(examination: string): void {
     this.patientService.get(examination).pipe(take(1)).subscribe(
-      (result) => this.deleteWrapper.delConfirmation(result._id, `${result.firstName} ${result.lastName} (${result.patientId})`).subscribe(
+      (result) => this.deleteWrapper.delConfirmation(result._id, `${result.firstName} ${result.lastName} (${result.patientID})`).subscribe(
         (confirmationresultId) => this.deleteEntity(confirmationresultId)
       )
     );

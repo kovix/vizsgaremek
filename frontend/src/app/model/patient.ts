@@ -2,7 +2,7 @@ export class Patient {
   _id: string = '';
   firstName: string = '';
   lastName: string = '';
-  patientId: string = '';
+  patientID: string = '';
   email?: string;
   comment?: string;
   createdBy: string = '';

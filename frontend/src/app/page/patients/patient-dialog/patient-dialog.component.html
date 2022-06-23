@@ -1,1 +1,37 @@
-<p>patient-dialog works!</p>
+<h2 mat-dialog-title>{{ title }}</h2>
+<div mat-dialog-content>
+  <form [formGroup]="fb">
+    <mat-form-field class="w-100" appearance="outline">
+      <mat-label>Vezetéknév</mat-label>
+      <input matInput formControlName="firstName" placeholder="Vezetéknév">
+    </mat-form-field>
+    <mat-form-field class="w-100" appearance="outline">
+      <mat-label>Keresztnév</mat-label>
+      <input matInput formControlName="lastName" placeholder="Keresztnév">
+    </mat-form-field>
+    <mat-form-field class="w-100" appearance="outline">
+      <mat-label>TAJ</mat-label>
+      <input matInput formControlName="patientID" placeholder="TAJ szám">
+    </mat-form-field>
+    <mat-form-field class="w-100" appearance="outline">
+      <mat-label>E-mail cím</mat-label>
+      <input matInput formControlName="email" placeholder="E-mail cím">
+    </mat-form-field>
+    <mat-form-field  class="w-100" appearance="outline">
+      <textarea matInput
+          placeholder="Megjegyzés"
+          formControlName="comment"
+          cdkTextareaAutosize
+          cdkAutosizeMinRows="2"
+          cdkAutosizeMaxRows="20"
+          #cfcAutosize="cdkTextareaAutosize">
+      </textarea>
+    </mat-form-field>
+
+  </form>
+
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-raised-button color="primary" (click)="savePatient()" [disabled]="fb.invalid">Mentés</button>
+  <button mat-raised-button color="warn" mat-dialog-close>Bezárás</button>
+</div>
