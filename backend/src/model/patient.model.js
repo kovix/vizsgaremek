@@ -22,6 +22,7 @@ const patientSchema = mongoose.Schema({
   email: {
     type: String,
     unique: true,
+    sparse: true,
     validate: {
       validator: (value) => /^$|^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,4})+$/.test(value),
       message: 'A megadott E-mail cím érvénytelen!',
