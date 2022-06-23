@@ -2,16 +2,6 @@ const mongoose = require('mongoose');
 const softDelete = require('mongoose-delete');
 const idvalidator = require('mongoose-id-validator');
 
-const validatePatientID = (patientID) => {
-  const re = /^$|^\d{3} \d{3} \d{3}$/;
-  return re.test(patientID);
-};
-
-const validateEmail = (email) => {
-  const re = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
-  return re.test(email);
-};
-
 const patientSchema = mongoose.Schema({
   firstName: {
     type: String,
@@ -23,11 +13,19 @@ const patientSchema = mongoose.Schema({
   },
   patientID: {
     type: String,
-    validate: [validatePatientID, 'A TAJ szám érvénytelen!'],
+    unique: true,
+    validate: {
+      validator: (value) => /^$|^\d{3} \d{3} \d{3}$/.test(value),
+      message: 'A TAJ szám érvénytelen!',
+    },
   },
   email: {
     type: String,
-    validate: [validateEmail, 'A megadott E-mail cím érvénytelen!'],
+    unique: true,
+    validate: {
+      validator: (value) => /^$|^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,4})+$/.test(value),
+      message: 'A megadott E-mail cím érvénytelen!',
+    },
   },
   comment: {
     type: String,

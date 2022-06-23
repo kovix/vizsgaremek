@@ -6,15 +6,23 @@ baseExports.buildReqError = (fieldTitle) => `Kötelező mező ${fieldTitle} ninc
 
 baseExports.addToError = (origError, newError) => `${origError}${origError ? '<br /> ' : ''}${newError}`;
 
-baseExports.clearBody = (body, requiredFields) => {
+baseExports.clearBody = (body, allowedFields) => {
   const processedBody = body;
   Object.keys(processedBody).forEach((key) => {
-    if (!requiredFields.includes(key)) delete processedBody[key];
+    if (!allowedFields.includes(key)) delete processedBody[key];
   });
   return processedBody;
 };
 
-baseExports.generateCRUD = (service, requiredFields, isBodyHasErrors) => {
+baseExports.validateBody = (Model, body) => {
+  const validationErrors = new Model(body).validateSync();
+  if (validationErrors) {
+    return new createError.BadRequest(validationErrors.message);
+  }
+  return false;
+};
+
+baseExports.generateCRUD = (service, model, allowedFields) => {
   const crud = {};
   crud.findAll = (req, res) => service.findAll()
     .then((records) => res.json(records));
@@ -24,22 +32,22 @@ baseExports.generateCRUD = (service, requiredFields, isBodyHasErrors) => {
     .catch((error) => next(new createError.NotFound(`Nem található bejegyzés az alábbi azonosítóval: ${req.params.id}. (${error.message})`)));
 
   crud.create = (req, res, next, addCreatedBy = false) => {
-    const cleanedBody = baseExports.clearBody(req.body, requiredFields);
+    const cleanedBody = baseExports.clearBody(req.body, allowedFields);
     if (addCreatedBy) {
       // eslint-disable-next-line no-underscore-dangle
       cleanedBody.createdBy = req.user._id;
     }
-    const bodyHasErros = isBodyHasErrors(cleanedBody);
+    const bodyHasErros = baseExports.validateBody(model, cleanedBody);
     if (bodyHasErros) return next(bodyHasErros);
 
     return service.create(cleanedBody)
       .then((newRecord) => res.json(newRecord))
-      .catch((error) => next(new createError.NotFound(`Nem sikerült menteni a bejegyzést: ${req.body.name}. (${error.message})`)));
+      .catch((error) => next(new createError.NotFound(`Nem sikerült menteni a bejegyzést. (${error.message})`)));
   };
 
   crud.update = (req, res, next) => {
-    const cleanedBody = baseExports.clearBody(req.body, requiredFields);
-    const bodyHasErros = isBodyHasErrors(cleanedBody);
+    const cleanedBody = baseExports.clearBody(req.body, allowedFields);
+    const bodyHasErros = baseExports.validateBody(model, cleanedBody);
     if (bodyHasErros) return next(bodyHasErros);
 
     return service.update(req.params.id, cleanedBody)

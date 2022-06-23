@@ -1,20 +1,11 @@
 const createError = require('http-errors');
 const service = require('./examinationGroup.service');
+const ExaminationGroup = require('../../model/examinationGroup.model');
 const baseController = require('../base/controller');
 
 const requiredFields = ['name'];
 
-const isBodyHasErrors = (body) => {
-  const { name } = body;
-
-  let errorMessage = '';
-  if (!name) errorMessage = baseController.addToError(errorMessage, baseController.buildReqError('vizsgálat csoport neve'));
-  if (errorMessage) return new createError.BadRequest(errorMessage);
-
-  return false;
-};
-
-const exGroupExports = baseController.generateCRUD(service, requiredFields, isBodyHasErrors);
+const exGroupExports = baseController.generateCRUD(service, ExaminationGroup, requiredFields);
 
 exGroupExports.addExaminations = async (req, res, next) => {
   const examinations = req.body;

@@ -1,21 +1,7 @@
-const createError = require('http-errors');
 const service = require('./patient.service');
+const Patient = require('../../model/patient.model');
 const baseController = require('../base/controller');
 
-const requiredFields = ['firstName', 'lastName', 'createdBy'];
+const allowedFields = ['firstName', 'lastName', 'email', 'patientID', 'comment', 'createdBy'];
 
-const isBodyHasErrors = (body) => {
-  const {
-    firstName,
-    lastName,
-  } = body;
-
-  let errorMessage = '';
-  if (!firstName) errorMessage = baseController.addToError(errorMessage, baseController.buildReqError('Vezetéknév'));
-  if (!lastName) errorMessage = baseController.addToError(errorMessage, baseController.buildReqError('Keresztnév'));
-  if (errorMessage) return new createError.BadRequest(errorMessage);
-
-  return false;
-};
-
-module.exports = baseController.generateCRUD(service, requiredFields, isBodyHasErrors, true);
+module.exports = baseController.generateCRUD(service, Patient, allowedFields);
