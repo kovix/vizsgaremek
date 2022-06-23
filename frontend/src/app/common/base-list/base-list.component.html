@@ -62,7 +62,7 @@
             </thead>
             <tbody>
               <tr app-base-list-row
-                *ngFor="let entity of entities  | filter: phrase:activeValue:featuredValue:title | sort:sortKey : direction | paginateBaseList:pageIndex:pageSize:sortKey:direction"
+                *ngFor="let entity of entities  | filter: phrase:title | sort:sortKey : direction | paginateBaseList:pageIndex:pageSize:sortKey:direction"
                 [columnDefinition]="columnDefinition"
                 [entity]="entity"
                 [actionButtons]="actionButtons"
