@@ -1,0 +1,3 @@
+<app-base-list [entities]="patients$ | async" [columnDefinition]="columnDefinition" [actionButtons]="actionButtons"
+  [title]="'Paciensek'" [subTitle]="'Betegtörzs karbantartás'" [enableNewButton]=true
+  (customButtonClicked)="onCustomButtonClicked($event)"></app-base-list>

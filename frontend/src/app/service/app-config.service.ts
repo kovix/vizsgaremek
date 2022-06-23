@@ -85,6 +85,37 @@ export class AppConfigService {
     ...this.defaultActionButtons
   ];
 
+  //Table patients
+  public PatientcolumnDefinition: ColumnDefinition[] = [
+    new ColumnDefinition({
+      title: 'Vezetéknév',
+      column: 'firstName',
+    }),
+    new ColumnDefinition({
+      title: 'Keresztnév',
+      column: 'lastName',
+    }),
+    new ColumnDefinition({
+      title: 'TAJ',
+      column: 'patientID',
+    }),
+    new ColumnDefinition({
+      title: 'Email',
+      column: 'email',
+    }),
+    new ColumnDefinition({
+      title: 'Létrehozva',
+      column: 'createdAt',
+    }),
+    new ColumnDefinition({
+      title: 'Módosítva',
+      column: 'updatedAt'
+    }),
+
+  ];
+  public PatientActionButtons: ButtonDefinition[] = this.defaultActionButtons;
+
+
   constructor() { }
 
   public prepareMatDialogConfig(disableClose: boolean, data: any): MatDialogConfig {

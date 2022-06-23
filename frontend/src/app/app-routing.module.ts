@@ -9,7 +9,7 @@ import { ExaminationGroupMembersComponent } from './page/examination-groups/exam
 import { ExaminationGroupsComponent } from './page/examination-groups/list/examination-groups.component';
 import { ExaminationsComponent } from './page/examinations/list/examinations.component';
 import { LoginComponent } from './page/login/login.component';
-import { PatientsComponent } from './page/patients/patients.component';
+import { PatientsComponent } from './page/patients/list/patients.component';
 import { UsersComponent } from './page/users/users.component';
 
 const routes: Routes = [

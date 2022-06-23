@@ -27,7 +27,7 @@ import { IconNavbarSidenavComponent } from './common/icon-navbar-sidenav/icon-na
 import { SidebarComponent } from './common/sidebar/sidebar.component';
 import { TopbarComponent } from './common/topbar/topbar.component';
 import { UsersComponent } from './page/users/users.component';
-import { PatientsComponent } from './page/patients/patients.component';
+import { PatientsComponent } from './page/patients/list/patients.component';
 import { LoginComponent } from './page/login/login.component';
 import { AppLayoutComponent } from './layout/app-layout/app-layout.component';
 import { LoginLayoutComponent } from './layout/login-layout/login-layout.component';
@@ -45,6 +45,7 @@ import { ExaminationGroupDialogComponent } from './page/examination-groups/exami
 import { ExaminationGroupMembersComponent } from './page/examination-groups/examination-group-members/examination-group-members.component';
 import { AddExaminationToGroupComponent } from './page/examination-groups/add-examination-to-group/add-examination-to-group.component';
 import { FilterAddExaminationPipe } from './pipe/filter-add-examination.pipe';
+import { PatientDialogComponent } from './page/patients/patient-dialog/patient-dialog.component';
 
 @NgModule({
   declarations: [
@@ -74,7 +75,8 @@ import { FilterAddExaminationPipe } from './pipe/filter-add-examination.pipe';
     ExaminationGroupDialogComponent,
     ExaminationGroupMembersComponent,
     AddExaminationToGroupComponent,
-    FilterAddExaminationPipe
+    FilterAddExaminationPipe,
+    PatientDialogComponent
   ],
   imports: [
     BrowserModule,
