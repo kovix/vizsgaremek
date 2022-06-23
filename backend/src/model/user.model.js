@@ -30,6 +30,10 @@ const userSchema = mongoose.Schema({
       unique: true,
     },
   },
+  role: {
+    type: Number,
+    required: true,
+  },
   deletedBy: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
