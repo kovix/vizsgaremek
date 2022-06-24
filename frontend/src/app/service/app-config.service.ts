@@ -14,6 +14,18 @@ export interface iRole {
   name: string,
 }
 
+export const MY_DATE_FORMATS = {
+  parse: {
+    dateInput: 'YYYY-MM-DD',
+  },
+  display: {
+    dateInput: 'YYYY-MM-DD',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY'
+  },
+};
+
 @Injectable({
   providedIn: 'root'
 })
@@ -120,46 +132,74 @@ export class AppConfigService {
   ];
   public PatientActionButtons: ButtonDefinition[] = this.defaultActionButtons;
 
-    //Table patients
-    public userColumnDefinition: ColumnDefinition[] = [
-      new ColumnDefinition({
-        title: 'Felhasználónév',
-        column: 'userName',
-      }),
-      new ColumnDefinition({
-        title: 'Vezetéknév',
-        column: 'firstName',
-      }),
-      new ColumnDefinition({
-        title: 'Keresztnév',
-        column: 'lastName',
-      }),
-      new ColumnDefinition({
-        title: 'Email',
-        column: 'email',
-      }),
-      new ColumnDefinition({
-        title: 'Szerep',
-        column: 'role',
-      }),
-      new ColumnDefinition({
-        title: 'Létrehozva',
-        column: 'createdAt',
-      }),
-      new ColumnDefinition({
-        title: 'Módosítva',
-        column: 'updatedAt'
-      }),
+  //Table patients
+  public userColumnDefinition: ColumnDefinition[] = [
+    new ColumnDefinition({
+      title: 'Felhasználónév',
+      column: 'userName',
+    }),
+    new ColumnDefinition({
+      title: 'Vezetéknév',
+      column: 'firstName',
+    }),
+    new ColumnDefinition({
+      title: 'Keresztnév',
+      column: 'lastName',
+    }),
+    new ColumnDefinition({
+      title: 'Email',
+      column: 'email',
+    }),
+    new ColumnDefinition({
+      title: 'Szerep',
+      column: 'role',
+    }),
+    new ColumnDefinition({
+      title: 'Létrehozva',
+      column: 'createdAt',
+    }),
+    new ColumnDefinition({
+      title: 'Módosítva',
+      column: 'updatedAt'
+    }),
 
-    ];
-    public UserActionButtons: ButtonDefinition[] = this.defaultActionButtons;
+  ];
+  public UserActionButtons: ButtonDefinition[] = this.defaultActionButtons;
 
-    public Roles: iRole[] = [
-      {id: 1, name: 'Ügyintéző'},
-      {id: 2, name: 'Asszisztens'},
-      {id: 3, name: 'Orvos'},
-      {id: 4, name: 'Adminisztrátor'},
-    ];
+  //Table patients
+  public consultationColumnDefinition: ColumnDefinition[] = [
+    new ColumnDefinition({
+      title: 'Rendelés',
+      column: 'name',
+    }),
+    new ColumnDefinition({
+      title: 'Dátum',
+      column: 'startDate',
+    }),
+    new ColumnDefinition({
+      title: 'Rendel',
+      column: 'doctor',
+    }),
+    new ColumnDefinition({
+      title: 'Vizsgálatok',
+      column: 'groupId',
+    }),
+  ];
+  public consultationActionButtons: ButtonDefinition[] = [
+    {
+      title: 'Lebonyolítás',
+      icon: ' fa-info text-primary',
+      eventId: 'DETAILS',
+    },
+    ...this.defaultActionButtons
+  ];;
+
+  public Roles: iRole[] = [
+    { id: 1, name: 'Ügyintéző' },
+    { id: 2, name: 'Asszisztens' },
+    { id: 3, name: 'Orvos' },
+    { id: 4, name: 'Adminisztrátor' },
+  ];
 
   constructor() { }
 

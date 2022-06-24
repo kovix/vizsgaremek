@@ -1,1 +1,3 @@
-<p>consultations works!</p>
+<app-base-list [entities]="consultations$ | async" [columnDefinition]="columnDefinition" [actionButtons]="actionButtons"
+  [title]="'Rendelések'" [subTitle]="'Rendelések listája'" [enableNewButton]=true
+  (customButtonClicked)="onCustomButtonClicked($event)"></app-base-list>

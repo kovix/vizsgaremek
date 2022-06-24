@@ -1,0 +1,28 @@
+<h2 mat-dialog-title>{{ title }}</h2>
+<div mat-dialog-content>
+  <form [formGroup]="fb">
+
+    <mat-form-field class="w-100" appearance="outline">
+      <mat-label>Rendelés neve</mat-label>
+      <input matInput formControlName="name" placeholder="Rendelés neve">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>Rendelés dátuma</mat-label>
+      <input
+        matInput
+        [matDatepicker]="picker"
+        datePickerFormat="YYYY-MM-DD"
+        formControlName="startDate">
+      <mat-hint>YYYY-mm-dd</mat-hint>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+  </form>
+
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-raised-button color="primary" (click)="saveConsultation()" [disabled]="fb.invalid">Mentés</button>
+  <button mat-raised-button color="warn" mat-dialog-close>Bezárás</button>
+</div>

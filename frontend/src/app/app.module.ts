@@ -4,6 +4,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms'
 
+import { registerLocaleData } from '@angular/common';
+import localeHu from '@angular/common/locales/hu';
+
 import { ToastrModule } from 'ngx-toastr';
 
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
@@ -16,6 +19,8 @@ import { MatListModule } from '@angular/material/list';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatNativeDateModule, MAT_DATE_FORMATS } from '@angular/material/core';
 
 import { authInterceptorProviders } from './interceptors/auth.interceptor';
 import { AppRoutingModule } from './app-routing.module';
@@ -48,7 +53,10 @@ import { AddExaminationToGroupComponent } from './page/examination-groups/add-ex
 import { FilterAddExaminationPipe } from './pipe/filter-add-examination.pipe';
 import { PatientDialogComponent } from './page/patients/patient-dialog/patient-dialog.component';
 import { UserEditDialogComponent } from './page/users/user-edit-dialog/user-edit-dialog.component';
+import { ConsultationCreateDialogComponent } from './page/consultations/consultation-create-dialog/consultation-create-dialog.component';
+import { MY_DATE_FORMATS } from './service/app-config.service';
 
+registerLocaleData(localeHu);
 @NgModule({
   declarations: [
     AppComponent,
@@ -79,7 +87,8 @@ import { UserEditDialogComponent } from './page/users/user-edit-dialog/user-edit
     AddExaminationToGroupComponent,
     FilterAddExaminationPipe,
     PatientDialogComponent,
-    UserEditDialogComponent
+    UserEditDialogComponent,
+    ConsultationCreateDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -97,6 +106,8 @@ import { UserEditDialogComponent } from './page/users/user-edit-dialog/user-edit
     MatPaginatorModule,
     MatButtonModule,
     MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
 
     ToastrModule.forRoot({
       timeOut: 3000,
@@ -106,7 +117,9 @@ import { UserEditDialogComponent } from './page/users/user-edit-dialog/user-edit
     }),
     TooltipModule.forRoot(),
   ],
-  providers: [authInterceptorProviders],
+  providers: [
+    authInterceptorProviders,
+    { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
