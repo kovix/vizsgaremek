@@ -40,4 +40,9 @@ userExports.registerUser = async (userObj) => {
   return Promise.resolve({ ...savedUser._doc, password: '' });
 };
 
+userExports.update = (id, properties) => {
+  const filter = { _id: id };
+  return User.findOneAndUpdate(filter, properties, { new: true });
+};
+
 module.exports = userExports;

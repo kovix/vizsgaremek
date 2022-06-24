@@ -31,7 +31,7 @@ export class BaseNetworkService<GenericEntity extends Entity> {
   }
 
   update(entity: GenericEntity): Observable<GenericEntity> {
-    return this.http.put<GenericEntity>(`${this.backendURL}${this.endpoint}/${entity['_id']}`, this.normalizeDataBeforeSave(entity));
+    return this.http.patch<GenericEntity>(`${this.backendURL}${this.endpoint}/${entity['_id']}`, this.normalizeDataBeforeSave(entity));
   }
 
   delete(id: string): Observable<any> {

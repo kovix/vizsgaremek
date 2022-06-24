@@ -32,8 +32,8 @@ export class UserEditDialogComponent implements OnInit {
       userName: [this.data.userName, Validators.required],
       firstName: [this.data.firstName, Validators.required],
       lastName: [this.data.lastName, Validators.required],
-      password: [this.data.password, Validators.required],
-      confirmPassword: [this.data.password, Validators.required],
+      password: [this.data.password],
+      confirmPassword: [this.data.confirmPassword],
       email: [this.data.email, Validators.pattern(/^$|^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,4})+$/)],
       role: [this.data.role, Validators.required],
     })
@@ -50,6 +50,11 @@ export class UserEditDialogComponent implements OnInit {
 
     const method = this.data._id === '' ? 'create' : 'update';
     if (method === "update") result._id = this.data._id;
+
+    if (method === 'create' && result.password === '') {
+      this.toastr.warning('Új felhasználó létrehozása esetén a jelszó megadása kötelező.');
+      return;
+    }
 
     this.userService[method](result).subscribe(
       _ => {

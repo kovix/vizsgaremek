@@ -63,6 +63,27 @@ userSchema.pre('save', function userSchemaPreSave(next) {
   });
 });
 
+// eslint-disable-next-line consistent-return
+userSchema.pre('update', function userSchemaPreUpdate(next) {
+  let rounds = parseInt(process.env.SALT_WORK_FACTOR || 10, 10);
+  if (Number.isNaN(rounds)) rounds = 10;
+
+  const user = this;
+  if (!user.isModified('password')) return next();
+
+  // eslint-disable-next-line consistent-return
+  bcrypt.genSalt(rounds, (err, salt) => {
+    if (err) return next(err);
+
+    bcrypt.hash(user.password, salt, (hashErr, hash) => {
+      if (hashErr) return next(err);
+
+      user.password = hash;
+      return next();
+    });
+  });
+});
+
 userSchema.methods.comparePassword = function userSchemaPreSaveComparePass(candidatePassword) {
   const validatorFunc = (resolve, reject) => {
     bcrypt.compare(candidatePassword, this.password, (err, isMatch) => {
