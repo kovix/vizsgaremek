@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, switchMap, take } from 'rxjs';
 import { Consultation } from 'src/app/model/consultation';
 import { ButtonDefinition } from 'src/app/model/genericTable/button-definition';
@@ -26,6 +27,7 @@ export class ConsultationsComponent implements OnInit {
   constructor(
     private consultationService: ConsultationService,
     private dialog: MatDialog,
+    private router: Router,
     private configService: AppConfigService,
     private deleteWrapper: DeleteWrapperService
   ) {}
@@ -44,6 +46,9 @@ export class ConsultationsComponent implements OnInit {
         break;
       case 'DELETE':
         this.onDelete(evt.entityID);
+        break;
+      case 'DETAILS':
+        this.router.navigate(['/', 'consultations', evt.entityID]);
         break;
       default:
 

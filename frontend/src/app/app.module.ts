@@ -55,6 +55,7 @@ import { PatientDialogComponent } from './page/patients/patient-dialog/patient-d
 import { UserEditDialogComponent } from './page/users/user-edit-dialog/user-edit-dialog.component';
 import { ConsultationCreateDialogComponent } from './page/consultations/consultation-create-dialog/consultation-create-dialog.component';
 import { UserRoleFilterPipe } from './pipe/user-role-filter.pipe';
+import { ConsultationDetailsComponent } from './page/consultations/consultation-details/consultation-details.component';
 
 registerLocaleData(localeHu);
 @NgModule({
@@ -89,7 +90,8 @@ registerLocaleData(localeHu);
     PatientDialogComponent,
     UserEditDialogComponent,
     ConsultationCreateDialogComponent,
-    UserRoleFilterPipe
+    UserRoleFilterPipe,
+    ConsultationDetailsComponent
   ],
   imports: [
     BrowserModule,

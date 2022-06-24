@@ -32,16 +32,12 @@ export class ConsultationCreateDialogComponent implements OnInit {
     private examinationGroupService: ExaminationGroupService,
   ) { }
 
-
-//,
-//Validators.pattern(/^\d{4}\. \d{2}\. \d{2}\.$/)
-
   ngOnInit(): void {
     this.title = this.data._id ? `${this.data.name} módosítása` : 'Új rendelés';
     console.log(this.data);
     this.fb = this.formBuilder.group({
       name: [this.data.name, Validators.required],
-      startDate: [this.data.startDate,  Validators.required],
+      startDate: [this.data.startDate ? new Date(this.data.startDate) : '',  Validators.required],
       doctor: [
         typeof this.data.doctor === "string" || !this.data.doctor ? this.data.doctor : (this.data.doctor as User)._id,
         Validators.required
@@ -54,11 +50,9 @@ export class ConsultationCreateDialogComponent implements OnInit {
   }
 
   saveConsultation(): void {
-    //const result = Object.assign({}, this.fb.value);
-    if(!this.fb.valid) return; //should not reach here, because btn is disabled.
+    if(!this.fb.valid) return;
     const result = Object.assign({}, this.fb.value);
-    result.startDate = result.startDate.toLocaleDateString();
-    //const origData = Object.assign({}, this.data);
+    result.startDate = this.convertDate(result.startDate);
     const method = this.data._id === '' ? 'create' : 'update';
 
     if (method === "update") result._id = this.data._id;
@@ -70,6 +64,10 @@ export class ConsultationCreateDialogComponent implements OnInit {
         this.dialogRef.close(true);
 
     });
+  }
+
+  private convertDate(date: Date): string {
+    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
   }
 
 }
