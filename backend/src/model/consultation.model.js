@@ -47,7 +47,10 @@ const consultationSchema = mongoose.Schema({
       required: true,
     },
   ],
-
+  closed: {
+    type: Boolean,
+    default: false,
+  },
 }, {
   timestamps: true,
 });
