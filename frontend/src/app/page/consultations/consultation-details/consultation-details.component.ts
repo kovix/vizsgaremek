@@ -14,12 +14,12 @@ export class ConsultationDetailsComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    debugger;
     this.renderer.addClass(this.document.body, 'setalo-body');
   }
 
   ngOnDestroy(): void {
     this.renderer.removeClass(this.document.body, 'setalo-body');
+    this.renderer.removeClass(this.document.body, 'g-sidenav-pinned');
   }
 
 }
