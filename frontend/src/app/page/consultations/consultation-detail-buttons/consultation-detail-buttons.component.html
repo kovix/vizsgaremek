@@ -1,0 +1,28 @@
+<div class="d-none d-md-table-cell">
+  <button class="me-1" mat-raised-button color="primary" tooltip="Új páciens" (click)="onBtnClicked('ADDNEW')"> <mat-icon>person_add</mat-icon></button>
+  <button class="me-1"
+          mat-raised-button
+          tooltip="{{ isFinishedHidden ? 'Távozottak megjelenítése' : 'Távozottak elrejtése' }}"
+          (click)="onBtnClicked('TOGGLEFINISHED')">
+    <mat-icon>{{ isFinishedHidden ? 'visibility_on' : 'visibility_off' }}</mat-icon>
+  </button>
+  <button class="me-1"
+          mat-raised-button
+          tooltip="{{ isFullScreen ? 'Kilépés a teljes képernyős nézetből' : 'Váltás teljes képernyőre' }}"
+          (click)="onBtnClicked('TOGGLEFULLSCREEN')">
+    <mat-icon>{{ isFullScreen ? 'fullscreen_exit' : 'fullscreen' }}</mat-icon>
+  </button>
+</div>
+<div class="d-block d-md-none me-2">
+  <button mat-mini-fab color="primary" aria-label="Menü megnyitása" (click)="openMobileSheet()">
+    <mat-icon>menu</mat-icon>
+  </button>
+</div>
+
+
+<ng-template let-bottomSheetRef="bottomSheetRef" #templateBottomSheet>
+  <mat-action-list>
+    <button mat-list-item> (click)="onBtnClicked('ADDNEW')"> <mat-icon>person_add</mat-icon> Új páciens </button>
+    <button mat-list-item (click)="onBtnClicked('TOGGLEFINISHED')"> <mat-icon>visibility_off</mat-icon> Távozottak rejtése</button>
+  </mat-action-list>
+</ng-template>

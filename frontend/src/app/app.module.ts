@@ -21,6 +21,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
+import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
 
 import { authInterceptorProviders } from './interceptors/auth.interceptor';
 import { AppRoutingModule } from './app-routing.module';
@@ -56,6 +57,7 @@ import { UserEditDialogComponent } from './page/users/user-edit-dialog/user-edit
 import { ConsultationCreateDialogComponent } from './page/consultations/consultation-create-dialog/consultation-create-dialog.component';
 import { UserRoleFilterPipe } from './pipe/user-role-filter.pipe';
 import { ConsultationDetailsComponent } from './page/consultations/consultation-details/consultation-details.component';
+import { ConsultationDetailButtonsComponent } from './page/consultations/consultation-detail-buttons/consultation-detail-buttons.component';
 
 registerLocaleData(localeHu);
 @NgModule({
@@ -91,7 +93,8 @@ registerLocaleData(localeHu);
     UserEditDialogComponent,
     ConsultationCreateDialogComponent,
     UserRoleFilterPipe,
-    ConsultationDetailsComponent
+    ConsultationDetailsComponent,
+    ConsultationDetailButtonsComponent
   ],
   imports: [
     BrowserModule,
@@ -111,6 +114,8 @@ registerLocaleData(localeHu);
     MatSelectModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatBottomSheetModule,
+
 
     ToastrModule.forRoot({
       timeOut: 3000,

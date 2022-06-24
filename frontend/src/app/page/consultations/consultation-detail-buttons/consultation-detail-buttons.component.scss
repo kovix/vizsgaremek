@@ -1,0 +1,11 @@
+.button-row {
+  display: table-cell;
+  width: 300px;
+
+  .flex-conteiner {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
+}

@@ -3,7 +3,18 @@
     <div class="card my-4">
       <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
         <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-          <h2 class="text-white text-capitalize ps-3">Rendelés 2022. 06. 12</h2>
+          <div class="row">
+            <div class="col-lg-6 col-7">
+              <h2 class="text-white ps-3">Rendelés</h2>
+            </div>
+            <div class="col-lg-6 col-5 my-auto text-end">
+              <app-consultation-detail-buttons
+              [isFinishedHidden]="isFinishedHidden"
+              [isFullScreen]="isFullscreen"
+              (eventOccures)="onHeaderButtonClicked($event)"
+              ></app-consultation-detail-buttons>
+            </div>
+          </div>
         </div>
       </div>
       <div class="card-body px-0 pb-2">
@@ -178,6 +189,54 @@
 
 
 
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<div class="row" *ngIf="consultation">
+  <div class="col-12">
+    <div class="card my-4">
+      <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+        <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+          <div class="row">
+            <div class="col-lg-6 col-7">
+              <h2 class="text-white ps-3">{{ consultation.name }}</h2>
+            </div>
+            <div class="col-lg-6 col-5 my-auto text-end">
+              <app-consultation-detail-buttons
+              [isFinishedHidden]="isFinishedHidden"
+              [isFullScreen]="isFullscreen"
+              (eventOccures)="onHeaderButtonClicked($event)"
+              ></app-consultation-detail-buttons>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-body px-0 pb-2">
+        <div class="table-responsive p-0">
+          <table class="table table-condensed table-bordered align-items-center mb-0">
+            <thead>
+              <tr>
+                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Név</th>
+                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Utolsó mod</th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Érkezés</th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
+                    *ngFor="let column of consultation.examinations">{{ column.examination?.name }}</th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Távozás</th>
+                <th class="text-secondary opacity-7"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+
+              </tr>
             </tbody>
           </table>
         </div>

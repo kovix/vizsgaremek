@@ -1,5 +1,5 @@
 import { ConsultationDetail } from "./consultation-detail";
-import { ExaminationGroup } from "./examination-group";
+import { ExaminationGroup, ExaminationsInGroup } from "./examination-group";
 import { Log } from "./log";
 import { User } from "./user";
 
@@ -9,7 +9,7 @@ export class Consultation {
   startDate: string = '';
   doctor?: string | User;
   groupId?: string | ExaminationGroup;
-  examinations: ExaminationGroup[] = [];
+  examinations: ExaminationsInGroup[] = [];
   consultationDetails: ConsultationDetail[] = [];
   log: Log[] = [];
 }
