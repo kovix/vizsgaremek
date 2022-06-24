@@ -13,6 +13,10 @@ app-sidebar + .main-content {
 
 }
 
+.sidenav {
+  z-index: 999; /* cause' original is greater than material dilog backdrop*/
+}
+
 .greenCheck {
   color: #4cbb17;
 }
@@ -30,4 +34,21 @@ app-sidebar + .main-content {
   .dialog-responsive {
       width: 100%;
   }
+}
+
+/* Override sidebar and menu icon settings for setalo-body (requires fullscreen) */
+
+.setalo-body {
+  &.g-sidenav-show:not(.rtl):not(.g-sidenav-pinned) .sidenav {
+    transform: translateX(-17.125rem);
+  }
+
+  app-sidebar + .main-content {
+    margin-left: 0;
+  }
+
+  .nav-item {
+    display: flex !important;
+  }
+
 }
