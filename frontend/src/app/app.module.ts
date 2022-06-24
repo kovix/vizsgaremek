@@ -20,7 +20,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import {MatDatepickerModule} from '@angular/material/datepicker';
-import { MatNativeDateModule, MAT_DATE_FORMATS } from '@angular/material/core';
+import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
 
 import { authInterceptorProviders } from './interceptors/auth.interceptor';
 import { AppRoutingModule } from './app-routing.module';
@@ -54,7 +54,7 @@ import { FilterAddExaminationPipe } from './pipe/filter-add-examination.pipe';
 import { PatientDialogComponent } from './page/patients/patient-dialog/patient-dialog.component';
 import { UserEditDialogComponent } from './page/users/user-edit-dialog/user-edit-dialog.component';
 import { ConsultationCreateDialogComponent } from './page/consultations/consultation-create-dialog/consultation-create-dialog.component';
-import { MY_DATE_FORMATS } from './service/app-config.service';
+import { UserRoleFilterPipe } from './pipe/user-role-filter.pipe';
 
 registerLocaleData(localeHu);
 @NgModule({
@@ -88,7 +88,8 @@ registerLocaleData(localeHu);
     FilterAddExaminationPipe,
     PatientDialogComponent,
     UserEditDialogComponent,
-    ConsultationCreateDialogComponent
+    ConsultationCreateDialogComponent,
+    UserRoleFilterPipe
   ],
   imports: [
     BrowserModule,
@@ -119,7 +120,8 @@ registerLocaleData(localeHu);
   ],
   providers: [
     authInterceptorProviders,
-    { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS }],
+    { provide: MAT_DATE_LOCALE, useValue: 'hu-HU' }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

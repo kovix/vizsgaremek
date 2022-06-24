@@ -14,18 +14,6 @@ export interface iRole {
   name: string,
 }
 
-export const MY_DATE_FORMATS = {
-  parse: {
-    dateInput: 'YYYY-MM-DD',
-  },
-  display: {
-    dateInput: 'YYYY-MM-DD',
-    monthYearLabel: 'MMM YYYY',
-    dateA11yLabel: 'LL',
-    monthYearA11yLabel: 'MMMM YYYY'
-  },
-};
-
 @Injectable({
   providedIn: 'root'
 })
@@ -177,12 +165,16 @@ export class AppConfigService {
       column: 'startDate',
     }),
     new ColumnDefinition({
-      title: 'Rendel',
-      column: 'doctor',
+      title: 'Rendel vezetéknév',
+      column: 'doctor.firstName',
+    }),
+    new ColumnDefinition({
+      title: 'Rendel keresztnév',
+      column: 'doctor.lastName',
     }),
     new ColumnDefinition({
       title: 'Vizsgálatok',
-      column: 'groupId',
+      column: 'groupId.name',
     }),
   ];
   public consultationActionButtons: ButtonDefinition[] = [

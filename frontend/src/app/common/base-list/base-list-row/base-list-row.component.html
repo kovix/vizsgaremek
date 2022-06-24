@@ -11,7 +11,7 @@
                                 'text-danger': !entity[column.column]}"></i>
     </ng-container>
     <ng-container *ngIf="!isBooleanColumn(entity[column.column])">
-      <span class="text-secondary text-xs font-weight-bold">{{entity[column.column]}}</span>
+      <span class="text-secondary text-xs font-weight-bold">{{ resolveObjProp(entity, column.column)}}</span>
     </ng-container>
 </td>
 </ng-container>

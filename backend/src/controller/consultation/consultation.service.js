@@ -1,9 +1,11 @@
 const Consultation = require('../../model/consultation.model');
 
-module.exports = {
-  findAll: () => Consultation.find({}).populate('createdBy'),
+const consultationPopulate = ['doctor', 'groupId', 'examinations.examination', 'logEntries'];
 
-  findById: (id) => Consultation.findById(id).populate('createdBy'),
+module.exports = {
+  findAll: () => Consultation.find({}).populate(consultationPopulate),
+
+  findById: (id) => Consultation.findById(id).populate(consultationPopulate),
 
   create: (properties) => {
     const newConsultation = new Consultation(properties);

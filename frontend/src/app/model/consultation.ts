@@ -7,8 +7,8 @@ export class Consultation {
   _id: string = '';
   name: string = '';
   startDate: string = '';
-  doctor: null | string | User = null;
-  groupId: string = '';
+  doctor?: string | User;
+  groupId?: string | ExaminationGroup;
   examinations: ExaminationGroup[] = [];
   consultationDetails: ConsultationDetail[] = [];
   log: Log[] = [];

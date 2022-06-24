@@ -30,4 +30,19 @@ export class BaseListRowComponent<GenericEntity extends Entity> {
     this.customButtonClicked.emit(event);
   }
 
+  public resolveObjProp(obj: { [key: string]: any }, prop: string): { [key: string]: any } | undefined {
+    let objCopy = {...obj};
+    prop = prop.replace(/\[(\w+)\]/g, '.$1');
+    prop = prop.replace(/^\./, '');
+    const parts = prop.split('.');
+
+    parts.forEach((part) => {
+      if(part in objCopy) {
+        objCopy = objCopy[part];
+      } else {
+        return;
+      }
+    });
+    return objCopy;
+  }
 }
