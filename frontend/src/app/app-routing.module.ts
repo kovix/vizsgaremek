@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './guard/auth.guard';
 import { AppLayoutComponent } from './layout/app-layout/app-layout.component';
 import { LoginLayoutComponent } from './layout/login-layout/login-layout.component';
-import { ConsultationsComponent } from './page/consultations/consultations.component';
+import { ConsultationsComponent } from './page/consultations/list/consultations.component';
 import { DashboardComponent } from './page/dashboard/dashboard.component';
 import { ExaminationGroupMembersComponent } from './page/examination-groups/examination-group-members/examination-group-members.component';
 import { ExaminationGroupsComponent } from './page/examination-groups/list/examination-groups.component';

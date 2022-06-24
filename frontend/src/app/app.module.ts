@@ -20,7 +20,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { authInterceptorProviders } from './interceptors/auth.interceptor';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ConsultationsComponent } from './page/consultations/consultations.component';
+import { ConsultationsComponent } from './page/consultations/list/consultations.component';
 import { DashboardComponent } from './page/dashboard/dashboard.component';
 import { ExaminationsComponent } from './page/examinations/list/examinations.component';
 import { ExaminationGroupsComponent } from './page/examination-groups/list/examination-groups.component';
