@@ -1,0 +1,7 @@
+<span
+  [ngClass]="{
+    'bg-gradient-success': secs < 600,
+    'bg-gradient-warning' : secs >= 600 && secs < 900,
+    'bg-gradient-danger': secs >= 900
+  }"
+  class="badge badge-sm ">{{ output }}</span>
