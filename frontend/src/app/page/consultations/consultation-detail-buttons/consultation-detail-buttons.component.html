@@ -2,9 +2,9 @@
   <button class="me-1" mat-raised-button color="primary" tooltip="Új páciens" (click)="onBtnClicked('ADDNEW')"> <mat-icon>person_add</mat-icon></button>
   <button class="me-1"
           mat-raised-button
-          tooltip="{{ isFinishedHidden ? 'Távozottak megjelenítése' : 'Távozottak elrejtése' }}"
+          tooltip="{{ isFinishedVisible ? 'Távozottak elrejtése' : 'Távozottak megjelenítése' }}"
           (click)="onBtnClicked('TOGGLEFINISHED')">
-    <mat-icon>{{ isFinishedHidden ? 'visibility_on' : 'visibility_off' }}</mat-icon>
+    <mat-icon>{{ isFinishedVisible ? 'visibility_off' : 'visibility_on' }}</mat-icon>
   </button>
   <button class="me-1"
           mat-raised-button

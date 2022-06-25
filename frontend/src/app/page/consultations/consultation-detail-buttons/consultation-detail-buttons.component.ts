@@ -11,7 +11,7 @@ export class ConsultationDetailButtonsComponent {
   @ViewChild('templateBottomSheet') TemplateBottomSheet!: TemplateRef<any>;
 
   @Input() isFullScreen: boolean = false;
-  @Input() isFinishedHidden: boolean = false;
+  @Input() isFinishedVisible: boolean = false;
 
   @Output() eventOccures: EventEmitter<string> = new EventEmitter();
 

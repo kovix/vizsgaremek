@@ -20,7 +20,7 @@ export class ConsultationDetailsComponent implements OnInit, OnDestroy {
   private routeBase = 'consultations';
 
   public isFullscreen: boolean = false;
-  public isFinishedHidden: boolean = false;
+  public isFinishedVisible: boolean = true;
   public consultation?: Consultation;
   public now: Date = new Date();
   private elapsedTimer: any;
@@ -87,7 +87,7 @@ export class ConsultationDetailsComponent implements OnInit, OnDestroy {
         this.onToggleFullScreen();
         break;
       case 'TOGGLEFINISHED':
-        this.isFinishedHidden = !this.isFinishedHidden;
+        this.isFinishedVisible = !this.isFinishedVisible;
         break;
       default:
     }

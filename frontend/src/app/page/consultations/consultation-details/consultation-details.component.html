@@ -9,7 +9,7 @@
             </div>
             <div class="col-lg-6 col-5 my-auto text-end">
               <app-consultation-detail-buttons
-              [isFinishedHidden]="isFinishedHidden"
+              [isFinishedVisible]="isFinishedVisible"
               [isFullScreen]="isFullscreen"
               (eventOccures)="onHeaderButtonClicked($event)"
               ></app-consultation-detail-buttons>
@@ -32,7 +32,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let detail of consultation.details"
+              <tr *ngFor="let detail of consultation.details | showLeavedPatients:isFinishedVisible"
                 [ngClass]="{
                   'table-success': detail.leaved,
                   'table-warning': !detail.leaved && detail.alert === 1,

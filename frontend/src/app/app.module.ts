@@ -64,6 +64,7 @@ import { ConsultationEditDetailsComponent } from './page/consultations/consultat
 import { DateToHHMMPipe } from './pipe/date-to-hhmm.pipe';
 import { ElapsedPipePipe } from './pipe/elapsed-pipe.pipe';
 import { ElapsedTimeComponent } from './page/consultations/elapsed-time/elapsed-time.component';
+import { ShowLeavedPatientsPipe } from './pipe/show-leaved-patients.pipe';
 
 registerLocaleData(localeHu);
 @NgModule({
@@ -105,7 +106,8 @@ registerLocaleData(localeHu);
     ConsultationEditDetailsComponent,
     DateToHHMMPipe,
     ElapsedPipePipe,
-    ElapsedTimeComponent
+    ElapsedTimeComponent,
+    ShowLeavedPatientsPipe
   ],
   imports: [
     BrowserModule,
