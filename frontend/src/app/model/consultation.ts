@@ -1,8 +1,24 @@
-import { ConsultationDetail } from "./consultation-detail";
 import { ExaminationGroup, ExaminationsInGroup } from "./examination-group";
 import { Log } from "./log";
+import { Patient } from "./patient";
 import { User } from "./user";
 
+export interface IPatientConsultation {
+  examination: string; //will never be pupulated!
+  required: boolean;
+  startedAt?: string;
+  finishedAt?: string;
+  callRequired: boolean;
+}
+
+export interface IConsultationDetail {
+  patient?: Patient | string;
+  comment: string;
+  arrived?: string;
+  leaved?: string;
+  lastUpdated?: string;
+  patientConsultations: IPatientConsultation[];
+}
 export class Consultation {
   _id: string = '';
   name: string = '';
@@ -10,6 +26,7 @@ export class Consultation {
   doctor?: string | User;
   groupId?: string | ExaminationGroup;
   examinations: ExaminationsInGroup[] = [];
-  consultationDetails: ConsultationDetail[] = [];
-  log: Log[] = [];
+  logEntries: Log[] = [];
+  details: IConsultationDetail[] = [];
+  closed: boolean = false;
 }

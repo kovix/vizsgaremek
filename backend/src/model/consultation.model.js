@@ -47,6 +47,9 @@ const consultationSchema = mongoose.Schema({
         ref: 'Patient',
         required: true,
       },
+      comment: {
+        type: String,
+      },
       arrived: {
         type: Date,
       },
