@@ -21,6 +21,7 @@ export interface IConsultationDetail {
   arrived?: string;
   leaved?: string;
   lastUpdated?: string;
+  alert: number;
   patientConsultations: IPatientConsultation[];
 }
 export class Consultation {
