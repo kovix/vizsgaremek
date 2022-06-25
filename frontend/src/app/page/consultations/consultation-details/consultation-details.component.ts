@@ -1,5 +1,5 @@
 import { DOCUMENT } from '@angular/common';
-import { Component, OnInit, OnDestroy, Renderer2, Inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, Renderer2, Inject, HostListener } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -9,7 +9,6 @@ import { AppConfigService } from 'src/app/service/app-config.service';
 import { ConsultationService } from 'src/app/service/backend/consultation.service';
 import { ConsultationAddPatientComponent } from '../consultation-add-patient/consultation-add-patient.component';
 import { ConsultationEditDetailsComponent } from '../consultation-edit-details/consultation-edit-details.component';
-
 @Component({
   selector: 'app-consultation-details',
   templateUrl: './consultation-details.component.html',
@@ -55,7 +54,7 @@ export class ConsultationDetailsComponent implements OnInit, OnDestroy {
       }
       this.consultationService.get(id).subscribe({
         next: (foundConsultation) => {
-          if(!foundConsultation) {
+          if (!foundConsultation) {
             this.toastr.warning('Nincs ilyen rendelés!');
             this.navBack();
             return;
@@ -69,7 +68,41 @@ export class ConsultationDetailsComponent implements OnInit, OnDestroy {
 
       });
     });
+  }
 
+  @HostListener('document:fullscreenchange', ['$event'])
+  @HostListener('document:webkitfullscreenchange', ['$event'])
+  @HostListener('document:mozfullscreenchange', ['$event'])
+  @HostListener('document:MSFullscreenChange', ['$event'])
+  public fullscreenmodes() {
+    this.chkScreenMode();
+  }
+
+  chkScreenMode() {
+    if (document.fullscreenElement) {
+      //fullscreen
+      this.isFullscreen = true;
+    } else {
+      //not in full screen
+      this.isFullscreen = false;
+    }
+  }
+
+  openFullscreen() {
+    this.document.documentElement.requestFullscreen();
+  }
+/* Close fullscreen */
+  closeFullscreen() {
+    this.document.exitFullscreen();
+
+  }
+
+  onToggleFullScreen(): void {
+    if(this.isFullscreen) {
+      this.closeFullscreen();
+    }  else {
+      this.openFullscreen();
+    }
   }
 
   ngOnDestroy(): void {
@@ -93,16 +126,12 @@ export class ConsultationDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
-  onToggleFullScreen(): void {
-    this.isFullscreen = !this.isFullscreen;
-  }
-
   public openEditDialog(data: IConsultationDetail): void {
-    const dialogConfig = this.configService.prepareMatDialogConfig(true, {id: this.consultation?._id, data: data});
+    const dialogConfig = this.configService.prepareMatDialogConfig(true, { id: this.consultation?._id, data: data });
     const dialogRef = this.dialog.open(ConsultationEditDetailsComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(
       (data) => {
-        if(data) this.consultation = data;
+        if (data) this.consultation = data;
       }
     );
   }
@@ -120,7 +149,6 @@ export class ConsultationDetailsComponent implements OnInit, OnDestroy {
           (updatedEntity) => {
             this.toastr.success('A páciensek hozzáadása megtörtént!');
             this.consultation = updatedEntity;
-
             //TODO: Ha csak egy beteget választ ki, érdemes lenne felnyitni egyből a szerkesztés dialogot.
           }
         );
