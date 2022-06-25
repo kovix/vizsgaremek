@@ -13,7 +13,10 @@
         </mat-form-field>
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Érkezés</mat-label>
-          <input matInput formControlName="arrived" placeholder="Érkezés ideje">
+          <input matInput
+                formControlName="arrived"
+                placeholder="Érkezés ideje"
+                (click)="onCellDblClick(-1, 'arrived')">
         </mat-form-field>
       </div>
     </div>
@@ -39,13 +42,17 @@
                 <mat-label>Behívva</mat-label>
                 <input matInput
                       formControlName="startedAt"
+                      (click)="onCellDblClick(i, 'startedAt')"
                       placeholder="Behívva">
               </mat-form-field>
             </div>
             <div class="col-6">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Távozott</mat-label>
-                <input matInput formControlName="finishedAt" placeholder="Távozott">
+                <input matInput
+                      formControlName="finishedAt"
+                      (click)="onCellDblClick(i, 'finishedAt')"
+                      placeholder="Távozott">
               </mat-form-field>
             </div>
           </div>
@@ -57,7 +64,10 @@
       <div class="card-body p-3">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Távozás</mat-label>
-          <input matInput formControlName="leaved" placeholder="Távozás ideje">
+          <input matInput
+                formControlName="leaved"
+                (click)="onCellDblClick(-1, 'leaved')"
+                placeholder="Távozás ideje">
         </mat-form-field>
       </div>
     </div>

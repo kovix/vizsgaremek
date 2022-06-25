@@ -18,6 +18,7 @@ export class ConsultationEditDetailsComponent implements OnInit {
   public fb!: FormGroup;
 
   private timePattern = /^$|^\d{1,2}:\d{1,2}$/;
+  private clickTimers: {[key:string]: number} = {};
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: iPatientEditData,
@@ -78,10 +79,45 @@ export class ConsultationEditDetailsComponent implements OnInit {
     );
   }
 
-  private getTimeFromDate(dateString: string | undefined): string {
-    if (!dateString) return '';
-    const date = new Date(dateString);
+  public onCellDblClick(index: number, field: string): void {
+    console.log(index, field);
+    const now = new Date().getTime();
+    const idx = `${index}${field}`;
+    if (! (idx in this.clickTimers)) {
+      this.clickTimers[idx] = now;
+      return;
+    }
+    const elapsed = now - this.clickTimers[idx];
+    this.clickTimers[idx] = now;
+    if (elapsed > 500) {
+      return;
+    }
+    //500msecen belüli.
+    const patchObj: any = {};
+    patchObj[field] = this.getTimeFromDate('', true);
+    if(index > -1) {
+      //ismétlődő mező frissült.
+      this.examGroups.at(index).patchValue(patchObj);
+    } else {
+      this.fb.patchValue(patchObj);
+    }
+
+
+  }
+
+  private getTimeFromDate(dateString?: string, getFromCurrent: boolean = false): string {
+    let date;
+    if (!dateString) {
+      if(getFromCurrent) {
+        date = new Date();
+      } else {
+        return '';
+      }
+    } else {
+      date = new Date(dateString);
+    }
     return `${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}`;
   }
+
 
 }
