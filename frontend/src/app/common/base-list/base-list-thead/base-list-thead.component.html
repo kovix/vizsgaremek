@@ -1,4 +1,5 @@
 <tr>
+  <th *ngIf="rowSelectable">&nbsp;</th>
   <ng-container *ngFor="let column of columns">
     <th *ngIf="column.visible"
       class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
@@ -9,5 +10,5 @@
       >{{ column.title }}<app-base-list-icon *ngIf="sortKey===column.column" [direction]="direction"></app-base-list-icon> </th>
 
   </ng-container>
-  <th>&nbsp;</th>
+  <th *ngIf="hasActionButtons">&nbsp;</th>
 </tr>

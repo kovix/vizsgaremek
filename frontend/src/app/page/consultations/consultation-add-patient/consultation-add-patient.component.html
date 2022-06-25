@@ -1,0 +1,15 @@
+<h2 mat-dialog-title>{{ title }}</h2>
+<div mat-dialog-content>
+  <app-base-list [entities]="patients$ | async"
+                 [columnDefinition]="columnDefinition"
+                 [actionButtons]="actionButtons"
+                 [title]="'Válasszon pácienst'"
+                 [enableNewButton]=false
+                 [hideHeader]="true"
+                 [rowSelectable]="true"
+                 (rowSelectChanged)="onRowSelected($event)"></app-base-list>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-raised-button [mat-dialog-close]="selectedPatients" color="primary">Mentés</button>
+  <button mat-raised-button color="warn" mat-dialog-close mat-dialog-close>Bezárás</button>
+</div>

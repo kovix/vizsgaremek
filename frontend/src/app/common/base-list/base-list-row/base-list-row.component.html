@@ -1,5 +1,9 @@
+<td *ngIf="rowSelectable" (click)="onCellClick()">
+  <mat-icon color="{{ selectedRow ? 'primary' : 'basic' }}">{{ selectedRow ? 'check_circle' : 'radio_button_unchecked' }}</mat-icon>
+</td>
 <ng-container *ngFor="let column of columnDefinition">
   <td  *ngIf="column.visible"
+      (click)="onCellClick()"
       [ngClass]="{
         'text-right': column.alignment === 'right',
         'text-center': column.alignment === 'center'
@@ -16,7 +20,7 @@
 </td>
 </ng-container>
 
-<td class="text-center">
+<td class="text-center" *ngIf="actionButtons.length">
   <a *ngFor="let button of actionButtons" tooltip="{{button.title}}"
     class="px-1 cursor-pointer" [routerLink]="" (click)="onCustomButtonClicked(button.eventId, entity)">
     <i class="fa {{button.icon}}" aria-hidden="true"></i>

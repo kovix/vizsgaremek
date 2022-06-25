@@ -116,7 +116,6 @@ export class AppConfigService {
       title: 'Módosítva',
       column: 'updatedAt'
     }),
-
   ];
   public PatientActionButtons: ButtonDefinition[] = this.defaultActionButtons;
 
@@ -184,7 +183,24 @@ export class AppConfigService {
       eventId: 'DETAILS',
     },
     ...this.defaultActionButtons
-  ];;
+  ];
+
+  //Table patients
+  public PatientSelectorcolumnDefinition: ColumnDefinition[] = [
+    new ColumnDefinition({
+      title: 'Vezetéknév',
+      column: 'firstName',
+    }),
+    new ColumnDefinition({
+      title: 'Keresztnév',
+      column: 'lastName',
+    }),
+    new ColumnDefinition({
+      title: 'TAJ',
+      column: 'patientID',
+    })
+  ];
+  public PatientSelectorActionButtons: ButtonDefinition[] = [];
 
   public Roles: iRole[] = [
     { id: 1, name: 'Ügyintéző' },

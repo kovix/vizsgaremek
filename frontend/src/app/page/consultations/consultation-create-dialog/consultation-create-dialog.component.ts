@@ -34,7 +34,6 @@ export class ConsultationCreateDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.title = this.data._id ? `${this.data.name} módosítása` : 'Új rendelés';
-    console.log(this.data);
     this.fb = this.formBuilder.group({
       name: [this.data.name, Validators.required],
       startDate: [this.data.startDate ? new Date(this.data.startDate) : '',  Validators.required],

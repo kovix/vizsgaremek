@@ -1,10 +1,13 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, OnInit, OnDestroy, Renderer2, Inject } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { map, Observable } from 'rxjs';
 import { Consultation } from 'src/app/model/consultation';
+import { AppConfigService } from 'src/app/service/app-config.service';
 import { ConsultationService } from 'src/app/service/backend/consultation.service';
+import { ConsultationAddPatientComponent } from '../consultation-add-patient/consultation-add-patient.component';
 
 @Component({
   selector: 'app-consultation-details',
@@ -30,6 +33,8 @@ export class ConsultationDetailsComponent implements OnInit, OnDestroy {
     private router: Router,
     private toastr: ToastrService,
     private consultationService: ConsultationService,
+    private configService: AppConfigService,
+    private dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
@@ -64,6 +69,7 @@ export class ConsultationDetailsComponent implements OnInit, OnDestroy {
   onHeaderButtonClicked(event: string): void {
     switch (event) {
       case 'ADDNEW':
+        this.openDialog();
         break;
       case 'TOGGLEFULLSCREEN':
         this.onToggleFullScreen();
@@ -77,6 +83,19 @@ export class ConsultationDetailsComponent implements OnInit, OnDestroy {
 
   onToggleFullScreen():void {
     this.isFullscreen = !this.isFullscreen;
+  }
+
+  private openDialog() {
+    const dialogConfig = this.configService.prepareMatDialogConfig(true, {});
+    dialogConfig.panelClass = 'dialog-responsive-big';
+    const dialogRef = this.dialog.open(ConsultationAddPatientComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(
+      (data) => {
+        console.log(data);
+        //if(data) this.refreshConsultations$.next(true);
+      }
+    );
   }
 
   private navBack(): void {

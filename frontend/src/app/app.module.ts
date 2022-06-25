@@ -58,6 +58,7 @@ import { ConsultationCreateDialogComponent } from './page/consultations/consulta
 import { UserRoleFilterPipe } from './pipe/user-role-filter.pipe';
 import { ConsultationDetailsComponent } from './page/consultations/consultation-details/consultation-details.component';
 import { ConsultationDetailButtonsComponent } from './page/consultations/consultation-detail-buttons/consultation-detail-buttons.component';
+import { ConsultationAddPatientComponent } from './page/consultations/consultation-add-patient/consultation-add-patient.component';
 
 registerLocaleData(localeHu);
 @NgModule({
@@ -94,7 +95,8 @@ registerLocaleData(localeHu);
     ConsultationCreateDialogComponent,
     UserRoleFilterPipe,
     ConsultationDetailsComponent,
-    ConsultationDetailButtonsComponent
+    ConsultationDetailButtonsComponent,
+    ConsultationAddPatientComponent
   ],
   imports: [
     BrowserModule,

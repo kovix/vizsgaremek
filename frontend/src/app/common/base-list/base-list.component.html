@@ -37,7 +37,7 @@
 <div class="row">
   <div class="col-12">
     <div class="card my-4">
-      <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+      <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2" *ngIf="!hideHeader">
         <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
           <div class="row">
             <div class="col-lg-6 col-7">
@@ -48,7 +48,6 @@
               <button mat-raised-button tooltip="Új rekord rögzítése" class="btn btn-light btn-lg mx-2" (click)="onCreate()"><i class="fa fa-plus"></i></button>
             </div>
           </div>
-
         </div>
       </div>
       <div class="card-body px-0 pb-2">
@@ -58,14 +57,21 @@
                   [columns]="columnDefinition"
                   [sortKey]="sortKey"
                   [direction]="direction"
+                  [rowSelectable]="rowSelectable"
+                  [hasActionButtons]="actionButtons.length > 0 ? true : false"
                   (headerClicked)="onClickSort($event)">
             </thead>
             <tbody>
               <tr app-base-list-row
+                [ngClass]="{
+                  'cursor-pointer': rowSelectable
+                }"
                 *ngFor="let entity of entities  | filter: phrase:title | sort:sortKey : direction | paginateBaseList:pageIndex:pageSize:sortKey:direction"
                 [columnDefinition]="columnDefinition"
                 [entity]="entity"
                 [actionButtons]="actionButtons"
+                [rowSelectable]="rowSelectable"
+                (rowSelected)="onRowSelected($event)"
                 (customButtonClicked)="onCustomButtonClicked($event)"
                 ></tr>
             </tbody>

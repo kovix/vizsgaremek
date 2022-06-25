@@ -25,8 +25,11 @@ export class BaseListComponent<GenericEntity extends Entity> implements OnInit {
   @Input() title!: string;
   @Input() subTitle!: string;
   @Input() enableNewButton: boolean = true;
+  @Input() hideHeader: boolean = false;
+  @Input() rowSelectable: boolean = false;
 
   @Output() customButtonClicked: EventEmitter<CustomButtonEvent> = new EventEmitter();
+  @Output() rowSelectChanged: EventEmitter<string> = new EventEmitter();
 
   public activeValue: boolean = true;
   public featuredValue: boolean = true;
@@ -119,6 +122,10 @@ export class BaseListComponent<GenericEntity extends Entity> implements OnInit {
         this.columnStorageService.setColumnVisibility(this.title, data);
       }
     );
+  }
+
+  onRowSelected(id: string): void {
+    this.rowSelectChanged.emit(id);
   }
 
 }

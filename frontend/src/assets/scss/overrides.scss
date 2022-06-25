@@ -30,10 +30,15 @@ app-sidebar + .main-content {
   width: 30%;
 }
 
+.dialog-responsive-big {
+  width: 90%;
+}
+
 @media only screen and (max-width: 760px) {
-  .dialog-responsive {
+  .dialog-responsive, .dialog-responsive-big {
       width: 100%;
   }
+
 }
 
 /* Override sidebar and menu icon settings for setalo-body (requires fullscreen) */
