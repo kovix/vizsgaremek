@@ -236,7 +236,9 @@
             <tbody>
               <tr *ngFor="let detail of consultation.details"
                 [ngClass]="{
-                  'table-success': detail.leaved
+                  'table-success': detail.leaved,
+                  'table-warning': !detail.leaved && detail.alert === 1,
+                  'table-danger': !detail.leaved && detail.alert === 2
                 }"
               >
                 <!-- Név, megjegyzés -->

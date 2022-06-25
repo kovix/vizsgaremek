@@ -4,6 +4,7 @@ import { DateAdapter } from '@angular/material/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { iPatientEditData } from 'src/app/model/consultation';
+import { AppConfigService, iAlertStatuses } from 'src/app/service/app-config.service';
 import { ConsultationService } from 'src/app/service/backend/consultation.service';
 import { ConsultationCreateDialogComponent } from '../consultation-create-dialog/consultation-create-dialog.component';
 
@@ -16,6 +17,7 @@ export class ConsultationEditDetailsComponent implements OnInit {
 
   public title: string = '';
   public fb!: FormGroup;
+  public alertStatuses: iAlertStatuses[] = this.configService.alertStatuses;
 
   private timePattern = /^$|^\d{1,2}:\d{1,2}$/;
   private clickTimers: {[key:string]: number} = {};
@@ -26,6 +28,7 @@ export class ConsultationEditDetailsComponent implements OnInit {
     private toastr: ToastrService,
     private dialogRef: MatDialogRef <ConsultationEditDetailsComponent>,
     private consultationService: ConsultationService,
+    private configService: AppConfigService,
   ) { }
 
   ngOnInit(): void {
@@ -35,6 +38,7 @@ export class ConsultationEditDetailsComponent implements OnInit {
     group.arrived = [this.getTimeFromDate(this.data.data.arrived), Validators.pattern(this.timePattern)];
     group.leaved = [this.getTimeFromDate(this.data.data.leaved), Validators.pattern(this.timePattern)];
     group.comment = [this.data.data.comment];
+    group.alert = [this.data.data.alert];
     group.examinations = this.formBuilder.array([]);
 
     this.data.data.patientConsultations.forEach((exam) => {

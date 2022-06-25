@@ -14,6 +14,11 @@ export interface iRole {
   name: string,
 }
 
+export interface iAlertStatuses {
+  id: number;
+  name: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -207,6 +212,12 @@ export class AppConfigService {
     { id: 2, name: 'Asszisztens' },
     { id: 3, name: 'Orvos' },
     { id: 4, name: 'Adminisztrátor' },
+  ];
+
+  public alertStatuses: iAlertStatuses[] = [
+    {id: 0, name: 'Nincs riasztás'},
+    {id: 1, name: 'Alacsony riasztás'},
+    {id: 2, name: 'Magas riasztás'},
   ];
 
   constructor() { }

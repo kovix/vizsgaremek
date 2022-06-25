@@ -38,6 +38,7 @@ module.exports = {
         'details.$.leaved': patientData.leaved,
         'details.$.lastUpdated': patientData.lastUpdated,
         'details.$.comment': patientData.comment,
+        'details.$.alert': patientData.alert,
         'details.$.patientConsultations': patientData.examinations,
       },
     });
