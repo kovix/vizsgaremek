@@ -56,7 +56,8 @@ const consultationSchema = mongoose.Schema({
       leaved: {
         type: Date,
       },
-      lastUpdated: {
+      // eslint-disable-next-line max-len
+      lastUpdated: { // látszólag felesleges, de az updatedAt minden műveletre frissül, ez pedig csak akkor ha időadatok frissülnek.
         type: Date,
         requred: true,
       },
