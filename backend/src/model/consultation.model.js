@@ -33,18 +33,53 @@ const consultationSchema = mongoose.Schema({
       },
     },
   ],
-  consultationDetails: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'ConsultationDetail',
-      required: true,
-    },
-  ],
   logEntries: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Log',
       required: true,
+    },
+  ],
+  details: [
+    {
+      patient: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Patient',
+        required: true,
+      },
+      arrived: {
+        type: Date,
+      },
+      leaved: {
+        type: Date,
+      },
+      lastUpdated: {
+        type: Date,
+        requred: true,
+      },
+      patientConsultations: [
+        {
+          examinationID: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Examination',
+            required: true,
+          },
+          required: {
+            type: Boolean,
+            default: true,
+          },
+          startedAt: {
+            type: Date,
+          },
+          finishedAt: {
+            type: Date,
+          },
+          callRequied: {
+            type: Boolean,
+            default: false,
+          },
+        },
+      ],
     },
   ],
   closed: {

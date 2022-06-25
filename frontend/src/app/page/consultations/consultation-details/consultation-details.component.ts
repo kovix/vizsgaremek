@@ -48,7 +48,11 @@ export class ConsultationDetailsComponent implements OnInit, OnDestroy {
       }
       this.consultationService.get(id).subscribe({
         next: (foundConsultation) => {
-          console.log(foundConsultation);
+          if(!foundConsultation) {
+            this.toastr.warning('Nincs ilyen rendelés!');
+            this.navBack();
+            return;
+          }
           this.consultation = foundConsultation;
         },
         error: (error) => {
@@ -81,7 +85,7 @@ export class ConsultationDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
-  onToggleFullScreen():void {
+  onToggleFullScreen(): void {
     this.isFullscreen = !this.isFullscreen;
   }
 
@@ -92,8 +96,17 @@ export class ConsultationDetailsComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe(
       (data) => {
+        if (!this.consultation?._id) return;
         console.log(data);
-        //if(data) this.refreshConsultations$.next(true);
+        if (!data || !data?.length) return;
+        this.consultationService.addPatients(this.consultation._id, data).subscribe(
+          (updatedEntity) => {
+            this.toastr.success('A páciensek hozzáadása megtörtént!');
+            this.consultation = updatedEntity;
+            console.log(updatedEntity);
+            //TODO: Ha csak egy beteget választ ki, érdemes lenne felnyitni egyből a szerkesztés dialogot.
+          }
+        );
       }
     );
   }

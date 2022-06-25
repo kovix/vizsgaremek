@@ -5,7 +5,7 @@ const Log = require('../../model/log.model');
 const baseController = require('../base/controller');
 const examinationGroupService = require('../examinationGroup/examinationGroup.service');
 
-const allowedFields = ['name', 'startDate', 'doctor', 'groupId', 'examinations', 'consultationDetails', 'logEntries'];
+const allowedFields = ['name', 'startDate', 'doctor', 'groupId', 'examinations', 'logEntries'];
 
 const consultationExports = baseController.generateCRUD(service, Consultation, allowedFields);
 
@@ -46,6 +46,42 @@ consultationExports.create = async (req, res, next) => {
   return service.create(cleanedBody)
     .then((newRecord) => res.json(newRecord))
     .catch((error) => next(new createError.NotFound(`Nem sikerült menteni a bejegyzést. (${error.message})`)));
+};
+
+consultationExports.addPatients = async (req, res, next) => {
+  if (!Array.isArray(req.body)) {
+    return next(new createError.BadRequest('Nincs hozzáadható páciens!'));
+  }
+
+  const details = await service.findById(req.params.id);
+  const examinations = details.examinations.sort((a, b) => a.order - b.order);
+
+  const newPatientsArr = req.body.map((patientId) => {
+    const obj = {};
+    obj.patient = patientId;
+    obj.arrived = null;
+    obj.leaved = null;
+    obj.lastUpdated = null;
+    obj.patientConsultations = examinations.map((exam) => {
+      const examObj = {
+        examination: exam.examination._id,
+        required: true,
+        startedAt: null,
+        finishedAt: null,
+        callRequired: false,
+      };
+      return examObj;
+    });
+    return obj;
+  });
+
+  newPatientsArr.forEach(element => {
+    console.log(element);
+  });
+
+  return service.addPatients(req.params.id, newPatientsArr)
+    .then((updatedRecord) => res.json(updatedRecord))
+    .catch((error) => next(new createError.InternalServerError(`Nem sikerült menteni a bejegyzést. (${error.message})`)));
 };
 
 module.exports = consultationExports;
