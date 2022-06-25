@@ -24,7 +24,6 @@ export interface iAlertStatuses {
 })
 export class AppConfigService {
   public sidebarMenu: IMenuItem[] = [
-    { link: '/', icon: 'dashboard', title: 'Vezérlőpult' },
     { link: '/consultations', icon: 'screenshot_monitor', title: 'Sétálólap' },
     { link: '/examinations', icon: 'vaccines', title: 'Vizsgálatok' },
     {

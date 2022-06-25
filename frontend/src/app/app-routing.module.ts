@@ -21,12 +21,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: DashboardComponent,
-        canActivate: [AuthGuard]
-      },
-      {
-        path: 'dashboard',
-        component: DashboardComponent,
+        component: ConsultationsComponent,
         canActivate: [AuthGuard]
       },
       {
@@ -78,7 +73,7 @@ const routes: Routes = [
       },
     ]
   },
-  { path: '**', redirectTo: 'dashboard', pathMatch: 'full' }
+  { path: '**', redirectTo: 'consultations', pathMatch: 'full' },
 ];
 
 @NgModule({
