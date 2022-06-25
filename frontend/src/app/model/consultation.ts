@@ -12,7 +12,7 @@ export interface IPatientConsultation {
 }
 
 export interface IConsultationDetail {
-  patient?: Patient | string;
+  patient?: Patient;
   comment: string;
   arrived?: string;
   leaved?: string;

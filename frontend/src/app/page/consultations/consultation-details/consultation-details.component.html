@@ -234,9 +234,45 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
+              <tr *ngFor="let detail of consultation.details">
+                <!-- Név, megjegyzés -->
+                <td>
+                  <div class="d-flex px-1 py-1">
+                    <div class="d-flex flex-column flex-md-row justify-content-center">
+                      <h6 class="mb-0 text-md font-weight-bolder">{{ detail.patient?.firstName }} {{ detail.patient?.lastName }}</h6>
+                      <span class="text-sm d-inline text-secondary mb-0" *ngIf="detail.comment">{{ detail.comment }}</span>
+                    </div>
+                  </div>
+                </td>
+                <!-- Utolsó módosítás -->
+                <td class="align-middle text-center text-sm">
+                  <span *ngIf="detail.lastUpdated"
+                    class="badge badge-sm bg-gradient-success">{{ detail.lastUpdated }}</span>
+                </td>
+                <!-- Érkezés -->
+                <td class="align-middle text-center">
+                  <span class="text-secondary text-sm font-weight-bold">{{ detail.arrived }}</span>
+                </td>
+
+                <!-- vizsgálatok -->
+                <td class="align-middle text-center" *ngFor="let exam of detail.patientConsultations">
+                  <div class="w-100 d-flex align-items-stretch">
+                    <div class="w-100 text-muted text-sm" *ngIf="!exam.required">-- nem kell--</div>
+                    <div class="w-50 text-secondary text-sm font-weight-bold" *ngIf="exam.required">{{ exam.startedAt }}</div>
+                    <div class="w-50 text-secondary text-sm font-weight-bold" *ngIf="exam.required">{{ exam.finishedAt }}</div>
+                  </div>
+                </td>
+
+                <!-- Távozás -->
+                <td class="align-middle text-center">
+                  <span class="text-secondary text-sm font-weight-bold">{{ detail.leaved }}</span>
+                </td>
+                <td class="align-middle text-center">
+                  <mat-icon tooltip="Szerkesztés" class="cursor-pointer">edit_node</mat-icon>
+                </td>
 
               </tr>
+              <tr></tr>
             </tbody>
           </table>
         </div>
