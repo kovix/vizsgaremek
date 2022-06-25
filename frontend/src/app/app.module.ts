@@ -62,6 +62,8 @@ import { ConsultationDetailButtonsComponent } from './page/consultations/consult
 import { ConsultationAddPatientComponent } from './page/consultations/consultation-add-patient/consultation-add-patient.component';
 import { ConsultationEditDetailsComponent } from './page/consultations/consultation-edit-details/consultation-edit-details.component';
 import { DateToHHMMPipe } from './pipe/date-to-hhmm.pipe';
+import { ElapsedPipePipe } from './pipe/elapsed-pipe.pipe';
+import { ElapsedTimeComponent } from './page/consultations/elapsed-time/elapsed-time.component';
 
 registerLocaleData(localeHu);
 @NgModule({
@@ -101,7 +103,9 @@ registerLocaleData(localeHu);
     ConsultationDetailButtonsComponent,
     ConsultationAddPatientComponent,
     ConsultationEditDetailsComponent,
-    DateToHHMMPipe
+    DateToHHMMPipe,
+    ElapsedPipePipe,
+    ElapsedTimeComponent
   ],
   imports: [
     BrowserModule,

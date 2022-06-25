@@ -37,7 +37,6 @@ export class ConsultationEditDetailsComponent implements OnInit {
     group.examinations = this.formBuilder.array([]);
 
     this.data.data.patientConsultations.forEach((exam) => {
-      console.log(exam);
       const disabled = !exam.required;
       const grouptoAdd = this.formBuilder.group({
         examinationID: [exam.examinationID],
@@ -45,7 +44,6 @@ export class ConsultationEditDetailsComponent implements OnInit {
         startedAt: [{value: this.getTimeFromDate(exam.startedAt), disabled: disabled}, Validators.pattern(this.timePattern)],
         finishedAt: [{value: this.getTimeFromDate(exam.finishedAt), disabled: disabled}, Validators.pattern(this.timePattern)]
       });
-      console.log(grouptoAdd);
       (group['examinations'] as FormArray).push(grouptoAdd)
     });
     this.fb = this.formBuilder.group(group);

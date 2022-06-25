@@ -22,6 +22,8 @@ export class ConsultationDetailsComponent implements OnInit, OnDestroy {
   public isFullscreen: boolean = false;
   public isFinishedHidden: boolean = false;
   public consultation?: Consultation;
+  public now: Date = new Date();
+  private elapsedTimer: any;
 
   id: Observable<string> = this.activatedRoute.params.pipe(
     map(params => params['id'])
@@ -40,6 +42,10 @@ export class ConsultationDetailsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.renderer.addClass(this.document.body, 'setalo-body');
+
+    this.elapsedTimer = setInterval((() => {
+      this.now = new Date();
+    }).bind(this), 1000)
 
     this.id.subscribe((id) => {
       if (id === '') {
@@ -69,6 +75,7 @@ export class ConsultationDetailsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.renderer.removeClass(this.document.body, 'setalo-body');
     this.renderer.removeClass(this.document.body, 'g-sidenav-pinned');
+    clearInterval(this.elapsedTimer);
   }
 
   onHeaderButtonClicked(event: string): void {

@@ -234,7 +234,11 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let detail of consultation.details">
+              <tr *ngFor="let detail of consultation.details"
+                [ngClass]="{
+                  'table-success': detail.leaved
+                }"
+              >
                 <!-- Név, megjegyzés -->
                 <td>
                   <div class="d-flex px-1 py-1">
@@ -246,8 +250,9 @@
                 </td>
                 <!-- Utolsó módosítás -->
                 <td class="align-middle text-center text-sm">
-                  <span *ngIf="detail.lastUpdated"
-                    class="badge badge-sm bg-gradient-success">{{ detail.lastUpdated|dateToHHMM }}</span>
+                  <app-elapsed-time *ngIf="detail.lastUpdated && !detail.leaved"
+                    [value]="detail.lastUpdated"
+                    [reference]="now"></app-elapsed-time>
                 </td>
                 <!-- Érkezés -->
                 <td class="align-middle text-center">
@@ -265,7 +270,7 @@
 
                 <!-- Távozás -->
                 <td class="align-middle text-center">
-                  <span class="text-secondary text-sm font-weight-bold">{{ detail.leaved }}</span>
+                  <span class="text-secondary text-sm font-weight-bold">{{ detail.leaved|dateToHHMM }}</span>
                 </td>
                 <td class="align-middle text-center">
                   <mat-icon
