@@ -3,16 +3,19 @@ import { Component, OnInit, OnDestroy, Renderer2, Inject, HostListener } from '@
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { map, Observable } from 'rxjs';
+import { map, Observable, retry, take } from 'rxjs';
 import { Consultation, IConsultationDetail } from 'src/app/model/consultation';
 import { AppConfigService } from 'src/app/service/app-config.service';
 import { ConsultationService } from 'src/app/service/backend/consultation.service';
 import { ConsultationAddPatientComponent } from '../consultation-add-patient/consultation-add-patient.component';
 import { ConsultationEditDetailsComponent } from '../consultation-edit-details/consultation-edit-details.component';
+import { WebsocketService } from 'src/app/service/backend/websocket.service';
+
 @Component({
   selector: 'app-consultation-details',
   templateUrl: './consultation-details.component.html',
-  styleUrls: ['./consultation-details.component.scss']
+  styleUrls: ['./consultation-details.component.scss'],
+  providers: [WebsocketService]
 })
 export class ConsultationDetailsComponent implements OnInit, OnDestroy {
 
@@ -23,6 +26,8 @@ export class ConsultationDetailsComponent implements OnInit, OnDestroy {
   public consultation?: Consultation;
   public now: Date = new Date();
   private elapsedTimer: any;
+
+  private consId: string = '';
 
   id: Observable<string> = this.activatedRoute.params.pipe(
     map(params => params['id'])
@@ -37,7 +42,27 @@ export class ConsultationDetailsComponent implements OnInit, OnDestroy {
     private consultationService: ConsultationService,
     private configService: AppConfigService,
     private dialog: MatDialog,
-  ) { }
+    private websocketService: WebsocketService,
+  ) {
+    websocketService.websocket.pipe(
+      retry() //support auto reconnect
+    ).subscribe(msg => {
+      console.log("Response from websocket: ");
+      console.log(msg);
+      if (msg.source !== this.websocketService.myId) {
+        try {
+          const data = JSON.parse(msg.content);
+          if (data && data?.cmd === 'Refresh') {
+            this.getData();
+          }
+
+        } catch(e) {
+          console.log('Error parsing response from ws');
+        }
+      }
+
+    });
+  }
 
   ngOnInit(): void {
     this.renderer.addClass(this.document.body, 'setalo-body');
@@ -52,21 +77,32 @@ export class ConsultationDetailsComponent implements OnInit, OnDestroy {
         this.navBack();
         return;
       }
-      this.consultationService.get(id).subscribe({
-        next: (foundConsultation) => {
-          if (!foundConsultation) {
-            this.toastr.warning('Nincs ilyen rendelés!');
-            this.navBack();
-            return;
-          }
-          this.consultation = foundConsultation;
-        },
-        error: (error) => {
-          this.toastr.warning('A rendelés nem található!');
-          this.navBack()
-        }
+      this.consId = id;
+      this.getData();
+    });
+  }
 
-      });
+  ngOnDestroy(): void {
+    this.renderer.removeClass(this.document.body, 'setalo-body');
+    this.renderer.removeClass(this.document.body, 'g-sidenav-pinned');
+    clearInterval(this.elapsedTimer);
+  }
+
+  private getData(): void {
+    this.consultationService.get(this.consId).pipe(take(1)).subscribe({
+      next: (foundConsultation) => {
+        if (!foundConsultation) {
+          this.toastr.warning('Nincs ilyen rendelés!');
+          this.navBack();
+          return;
+        }
+        this.consultation = foundConsultation;
+      },
+      error: (error) => {
+        this.toastr.warning('A rendelés nem található!');
+        this.navBack()
+      }
+
     });
   }
 
@@ -105,12 +141,6 @@ export class ConsultationDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy(): void {
-    this.renderer.removeClass(this.document.body, 'setalo-body');
-    this.renderer.removeClass(this.document.body, 'g-sidenav-pinned');
-    clearInterval(this.elapsedTimer);
-  }
-
   onHeaderButtonClicked(event: string): void {
     switch (event) {
       case 'ADDNEW':
@@ -132,6 +162,7 @@ export class ConsultationDetailsComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe(
       (data) => {
         if (data) this.consultation = data;
+        this.sendRefreshInfo();
       }
     );
   }
@@ -149,11 +180,21 @@ export class ConsultationDetailsComponent implements OnInit, OnDestroy {
           (updatedEntity) => {
             this.toastr.success('A páciensek hozzáadása megtörtént!');
             this.consultation = updatedEntity;
+            this.sendRefreshInfo();
             //TODO: Ha csak egy beteget választ ki, érdemes lenne felnyitni egyből a szerkesztés dialogot.
           }
         );
       }
     );
+  }
+
+  private sendRefreshInfo(): void {
+    const messageData = {
+      source: this.websocketService.myId,
+      content: JSON.stringify({cmd: 'Refresh'}),
+    };
+    console.log(messageData);
+    this.websocketService.websocket.next(messageData);
   }
 
   private navBack(): void {

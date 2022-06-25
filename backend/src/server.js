@@ -6,7 +6,6 @@ const morgan = require('morgan');
 const cors = require('cors');
 const logger = require('../config/logger');
 const jwtMiddleware = require('./middleware/jwt.middleware');
-
 // const yaml = require('yamljs')
 // const swaggerUI = require('swagger-ui-express');
 
@@ -45,7 +44,6 @@ app.use('/patient', jwtMiddleware, require('./controller/patient/patient.router'
 app.use('/examination', jwtMiddleware, require('./controller/examination/examination.router'));
 app.use('/examinationgroup', jwtMiddleware, require('./controller/examinationGroup/examinationGroup.router'));
 app.use('/consultation', jwtMiddleware, require('./controller/consultation/consultation.router'));
-
 app.use('/user', require('./controller/user/user.router'));
 
 // app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument))
