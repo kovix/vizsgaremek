@@ -29,10 +29,6 @@ module.exports = {
   },
 
   updatePatient: async (id, patientId, patientData) => {
-    console.log({
-      _id: id,
-      'details.patient': patientId,
-    });
     const result = await Consultation.updateOne({
       _id: id,
       'details.patient': patientId,
