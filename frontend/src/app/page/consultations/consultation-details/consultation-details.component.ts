@@ -4,10 +4,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { map, Observable } from 'rxjs';
-import { Consultation } from 'src/app/model/consultation';
+import { Consultation, IConsultationDetail } from 'src/app/model/consultation';
 import { AppConfigService } from 'src/app/service/app-config.service';
 import { ConsultationService } from 'src/app/service/backend/consultation.service';
 import { ConsultationAddPatientComponent } from '../consultation-add-patient/consultation-add-patient.component';
+import { ConsultationEditDetailsComponent } from '../consultation-edit-details/consultation-edit-details.component';
 
 @Component({
   selector: 'app-consultation-details',
@@ -89,6 +90,16 @@ export class ConsultationDetailsComponent implements OnInit, OnDestroy {
     this.isFullscreen = !this.isFullscreen;
   }
 
+  public openEditDialog(data: IConsultationDetail): void {
+    const dialogConfig = this.configService.prepareMatDialogConfig(true, {id: this.consultation?._id, data: data});
+    const dialogRef = this.dialog.open(ConsultationEditDetailsComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe(
+      (data) => {
+        if(data) this.consultation = data;
+      }
+    );
+  }
+
   private openDialog() {
     const dialogConfig = this.configService.prepareMatDialogConfig(true, {});
     dialogConfig.panelClass = 'dialog-responsive-big';
@@ -97,13 +108,12 @@ export class ConsultationDetailsComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe(
       (data) => {
         if (!this.consultation?._id) return;
-        console.log(data);
         if (!data || !data?.length) return;
         this.consultationService.addPatients(this.consultation._id, data).subscribe(
           (updatedEntity) => {
             this.toastr.success('A páciensek hozzáadása megtörtént!');
             this.consultation = updatedEntity;
-            console.log(updatedEntity);
+
             //TODO: Ha csak egy beteget választ ki, érdemes lenne felnyitni egyből a szerkesztés dialogot.
           }
         );

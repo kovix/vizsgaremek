@@ -7,6 +7,14 @@ const examinationGroupService = require('../examinationGroup/examinationGroup.se
 
 const allowedFields = ['name', 'startDate', 'doctor', 'groupId', 'examinations', 'logEntries'];
 
+const changeTimeInDate = (date, timestring) => {
+  // console.log(timestring);
+  const clonedDate = new Date(date.getTime());
+  const parts = timestring.split(':');
+  clonedDate.setHours(parts[0], parts[1]);
+  return clonedDate;
+};
+
 const consultationExports = baseController.generateCRUD(service, Consultation, allowedFields);
 
 delete consultationExports.create;
@@ -64,7 +72,8 @@ consultationExports.addPatients = async (req, res, next) => {
     obj.lastUpdated = null;
     obj.patientConsultations = examinations.map((exam) => {
       const examObj = {
-        examination: exam.examination._id,
+        // eslint-disable-next-line no-underscore-dangle
+        examinationID: exam.examination._id,
         required: true,
         startedAt: null,
         finishedAt: null,
@@ -75,13 +84,61 @@ consultationExports.addPatients = async (req, res, next) => {
     return obj;
   });
 
-  newPatientsArr.forEach(element => {
-    console.log(element);
-  });
+  const response = await service.addPatients(req.params.id, newPatientsArr);
+  if (response?.error) return next(response.response);
+  return res.json(response);
+};
 
-  return service.addPatients(req.params.id, newPatientsArr)
-    .then((updatedRecord) => res.json(updatedRecord))
-    .catch((error) => next(new createError.InternalServerError(`Nem sikerült menteni a bejegyzést. (${error.message})`)));
+consultationExports.updatePatient = async (req, res, next) => {
+  const timePattern = /^$|^\d{1,2}:\d{1,2}$/;
+  let details;
+  try {
+    details = await service.findById(req.params.id);
+  } catch (error) {
+    return next(new createError.NotFound('A rekord nem található'));
+  }
+  if (!details) return next(new createError.NotFound('A rekord nem található'));
+
+  const { body } = req;
+
+  // validálás, átalakítás
+  if (body.arrived) {
+    if (!timePattern.test(body.arrived)) return next(new createError.BadRequest('Érvénytelen érkezés adat'));
+    body.arrived = changeTimeInDate(details.startDate, body.arrived);
+  }
+  if (body.leaved) {
+    if (!timePattern.test(body.leaved)) return next(new createError.BadRequest('Érvénytelen távozás adat'));
+    body.leaved = changeTimeInDate(details.startDate, body.leaved);
+  }
+
+  if (Array.isArray(body.examinations)) {
+    let hasInternalErrors = false;
+
+    body.examinations = body.examinations.map((exam) => {
+      if (exam.startedAt) {
+        if (!timePattern.test(exam.startedAt)) {
+          hasInternalErrors = true;
+        } else {
+          exam.startedAt = changeTimeInDate(details.startDate, exam.startedAt);
+        }
+      }
+      if (exam.finishedAt) {
+        if (!timePattern.test(exam.finishedAt)) {
+          hasInternalErrors = true;
+        } else {
+          exam.finishedAt = changeTimeInDate(details.startDate, exam.finishedAt);
+        }
+      }
+      return exam;
+    });
+    if (hasInternalErrors) return next(new createError.BadRequest('Érvénytelen időadat a vizsgálatok között'));
+  }
+
+  body.lastUpdated = new Date();
+
+  const response = await service.updatePatient(req.params.id, req.params.patientid, body);
+  if (response?.error) return next(response.response);
+  return res.json(response);
 };
 
 module.exports = consultationExports;

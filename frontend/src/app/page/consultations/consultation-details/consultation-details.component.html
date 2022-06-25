@@ -247,19 +247,19 @@
                 <!-- Utolsó módosítás -->
                 <td class="align-middle text-center text-sm">
                   <span *ngIf="detail.lastUpdated"
-                    class="badge badge-sm bg-gradient-success">{{ detail.lastUpdated }}</span>
+                    class="badge badge-sm bg-gradient-success">{{ detail.lastUpdated|dateToHHMM }}</span>
                 </td>
                 <!-- Érkezés -->
                 <td class="align-middle text-center">
-                  <span class="text-secondary text-sm font-weight-bold">{{ detail.arrived }}</span>
+                  <span class="text-secondary text-sm font-weight-bold">{{ detail.arrived|dateToHHMM }}</span>
                 </td>
 
                 <!-- vizsgálatok -->
                 <td class="align-middle text-center" *ngFor="let exam of detail.patientConsultations">
                   <div class="w-100 d-flex align-items-stretch">
                     <div class="w-100 text-muted text-sm" *ngIf="!exam.required">-- nem kell--</div>
-                    <div class="w-50 text-secondary text-sm font-weight-bold" *ngIf="exam.required">{{ exam.startedAt }}</div>
-                    <div class="w-50 text-secondary text-sm font-weight-bold" *ngIf="exam.required">{{ exam.finishedAt }}</div>
+                    <div class="w-50 text-secondary text-sm font-weight-bold" *ngIf="exam.required">{{ exam.startedAt|dateToHHMM }}</div>
+                    <div class="w-50 text-secondary text-sm font-weight-bold" *ngIf="exam.required">{{ exam.finishedAt|dateToHHMM }}</div>
                   </div>
                 </td>
 
@@ -268,7 +268,10 @@
                   <span class="text-secondary text-sm font-weight-bold">{{ detail.leaved }}</span>
                 </td>
                 <td class="align-middle text-center">
-                  <mat-icon tooltip="Szerkesztés" class="cursor-pointer">edit_node</mat-icon>
+                  <mat-icon
+                      tooltip="Szerkesztés"
+                      class="cursor-pointer"
+                      (click)="openEditDialog(detail)">edit_node</mat-icon>
                 </td>
 
               </tr>

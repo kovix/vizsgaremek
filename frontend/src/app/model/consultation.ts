@@ -3,8 +3,12 @@ import { Log } from "./log";
 import { Patient } from "./patient";
 import { User } from "./user";
 
+export interface iPatientEditData {
+  id: string,
+  data: IConsultationDetail,
+}
 export interface IPatientConsultation {
-  examination: string; //will never be pupulated!
+  examinationID: string; //will never be pupulated!
   required: boolean;
   startedAt?: string;
   finishedAt?: string;

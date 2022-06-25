@@ -19,9 +19,10 @@ import { MatListModule } from '@angular/material/list';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
-import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
-import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
+import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 
 import { authInterceptorProviders } from './interceptors/auth.interceptor';
 import { AppRoutingModule } from './app-routing.module';
@@ -59,6 +60,8 @@ import { UserRoleFilterPipe } from './pipe/user-role-filter.pipe';
 import { ConsultationDetailsComponent } from './page/consultations/consultation-details/consultation-details.component';
 import { ConsultationDetailButtonsComponent } from './page/consultations/consultation-detail-buttons/consultation-detail-buttons.component';
 import { ConsultationAddPatientComponent } from './page/consultations/consultation-add-patient/consultation-add-patient.component';
+import { ConsultationEditDetailsComponent } from './page/consultations/consultation-edit-details/consultation-edit-details.component';
+import { DateToHHMMPipe } from './pipe/date-to-hhmm.pipe';
 
 registerLocaleData(localeHu);
 @NgModule({
@@ -96,7 +99,9 @@ registerLocaleData(localeHu);
     UserRoleFilterPipe,
     ConsultationDetailsComponent,
     ConsultationDetailButtonsComponent,
-    ConsultationAddPatientComponent
+    ConsultationAddPatientComponent,
+    ConsultationEditDetailsComponent,
+    DateToHHMMPipe
   ],
   imports: [
     BrowserModule,
@@ -117,7 +122,7 @@ registerLocaleData(localeHu);
     MatDatepickerModule,
     MatNativeDateModule,
     MatBottomSheetModule,
-
+    MatCheckboxModule,
 
     ToastrModule.forRoot({
       timeOut: 3000,

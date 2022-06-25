@@ -17,4 +17,9 @@ export class ConsultationService extends BaseNetworkService<Consultation> {
   addPatients(id: string, patientsArr: string[]): Observable<Consultation> {
     return this.http.patch<Consultation>(`${this.backendURL}${this.endpoint}/${id}/addpatients`, patientsArr);
   }
+
+  updatePatient(id: string, patient: string, patientData: any): Observable<Consultation> {
+    return this.http.patch<Consultation>(`${this.backendURL}${this.endpoint}/${id}/updatepatient/${patient}`, patientData);
+  }
+
 }
