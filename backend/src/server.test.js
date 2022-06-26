@@ -253,3 +253,100 @@ describe('/examinationgroup', () => {
   })
 
 });
+
+
+describe('/consultation', () => {
+  let createdExaminations;
+  let createdGroup;
+  let createdUser;
+  
+  let generatedMock;
+
+  const examintaionsToCreate = [
+    { name: 'teszt 1', defaultTime: 0, },
+    { name: 'teszt 2', defaultTime: 0, },
+  ];
+
+  const examinationGroupToCreate = {
+    name: 'csoport teszt név',
+    examinations: [],
+  };
+
+  const createTestUser = {
+    userName: 'test',
+    password: 'test',
+    firstName: 'test',
+    lastName: 'test',
+    email: 'test@test.com',
+    role: 1,
+  }
+
+  let firstId
+
+  beforeEach(async () => {
+    createdExaminations= await examinationModel.insertMany(examintaionsToCreate);
+
+    let order = 1;
+    const convertedExaminations = createdExaminations.map(exam => {
+      const ret = {};
+      ret.examination = exam._id,
+      ret.order = order;
+      order++;
+      return ret;
+    });
+
+    createdUser = await userModel.create(createTestUser);
+    examinationGroupToCreate.examinations = convertedExaminations;
+    createdGroup = await examinationGroupModel.create(examinationGroupToCreate);
+
+    const mockData = [
+      {
+        name: 'teszt 1',
+        startDate: new Date(),
+        doctor: createdUser._id,
+        groupId: createdGroup._id,
+        examinations: convertedExaminations,
+        logEntries: [],
+        closed: false,
+        details: []
+      },
+      {
+        name: 'teszt 2',
+        startDate: new Date(),
+        doctor: createdUser._id,
+        groupId: createdGroup._id,
+        examinations: convertedExaminations,
+        logEntries: [],
+        closed: false,
+        details: []
+      }
+    ];
+    generatedMock = mockData;
+
+    return consultationModel.insertMany(mockData).then((cons) => firstId = cons[0]._id)
+  })
+  afterEach(() => mongoose.connection.dropCollection('consultations'))
+
+  test('GET /consultation', done => {
+    supertest(app).get('/consultation').set('Authorization', 'Bearer ' + token).expect(200)
+      .then(response => {
+        expect(Array.isArray(response.body)).toBeTruthy()
+        expect(response.body.length).toBe(generatedMock.length)
+        response.body.forEach((consultation, index) => {
+          expect(consultation.name).toBe(generatedMock[index].name);
+        });
+        done();
+      }).catch(err => console.error(err))
+  });
+
+  test('GET /consultation/:id', done => {
+    supertest(app).get(`/consultation/${firstId}`)
+      .set('Authorization', 'Bearer ' + token).expect(200)
+      .then(response => {
+        const consultation = response.body
+        expect(consultation.name).toBe(generatedMock[0].name)
+        done()
+      }).catch(err => console.error(err))
+  })
+
+});
