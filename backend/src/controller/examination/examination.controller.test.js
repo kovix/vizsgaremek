@@ -19,7 +19,7 @@ if (!config.has('database')) {
 jest.mock('./examination.service');
 
 describe("Examination controller", () => {
-  
+
   let createdUser;
 
   const createTestUser = {
@@ -31,7 +31,7 @@ describe("Examination controller", () => {
     role: 1,
   }
 
-  
+
   const jestTestUser = {
     userName: 'test',
     password: 'test',
@@ -89,11 +89,11 @@ describe("Examination controller", () => {
   });
 
   afterAll((done) => {
-    mongoose.connection.db.dropDatabase( () => {
-      mongoose.connection.close( () => {
-          done()
-      } )
-  } )
+    mongoose.connection.db.dropDatabase(() => {
+      mongoose.connection.close(() => {
+        done()
+      })
+    })
   })
 
   beforeEach(() => {
@@ -265,7 +265,7 @@ describe("Examination controller", () => {
       .then(() => {
         expect(examinationService.remove).toBeCalledWith(EXAM_ID, USER_ID)
         expect(nextFunction).toBeCalledWith(deleteError)
-        
+
       })
   });
 
