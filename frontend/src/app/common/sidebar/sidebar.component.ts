@@ -6,10 +6,13 @@ import {
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
+import { User } from 'src/app/model/user';
 import {
   AppConfigService,
   IMenuItem
 } from 'src/app/service/app-config.service';
+import { AuthServiceService } from 'src/app/service/auth-service.service';
+import { LoginService } from 'src/app/service/login.service';
 import { SidebarTogglerService } from 'src/app/service/sidebar-toggler.service';
 
 @Component({
@@ -26,12 +29,15 @@ export class SidebarComponent implements OnInit {
   private bodyRef = document.querySelector('body');
 
   public sidebarMenu: IMenuItem[] = this.appConfig.sidebarMenu;
+  public user?: User;
 
   constructor(
     private renderer: Renderer2,
     private togglerService: SidebarTogglerService,
-    private appConfig: AppConfigService
-  ) {}
+    private appConfig: AppConfigService,
+    private authService: AuthServiceService,
+    private loginService: LoginService,
+  ) { }
 
   ngOnInit(): void {
     this.togglerService.togglerFired$.subscribe({
@@ -40,13 +46,25 @@ export class SidebarComponent implements OnInit {
         console.log(err);
       }
     });
+
+    this.authService.userData.subscribe((user) => {
+      if (user.userName) {
+        this.user = user;
+      } else {
+        //Trigger user load
+        this.loginService.getCurrentUserData().subscribe(
+          (userData) => this.authService.setUserData(userData)
+        )
+      }
+    });
+
   }
 
-  public onHideClick() {
+  public onHideClick(): void {
     this.togglerService.fireTogger();
   }
 
-  private toggleSidebar() {
+  private toggleSidebar(): void {
     if (this.bodyRef?.classList.contains(this.className)) {
       this.renderer.removeClass(document.body, this.className);
       this.renderer.removeClass(this.sideNavMain.nativeElement, 'bg-white');

@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { AuthResponse } from '../model/auth-response';
 import { TokenTypes } from '../model/token-types';
+import { User } from '../model/user';
 
 const AUTHTOKENKEY = 'AUTHTOKEN';
 const REFRESHTOKENKEY = 'REFRESHTOKEN';
@@ -13,19 +15,35 @@ const STOREDUNAME = 'REMEMBERNAME';
 export class AuthServiceService {
 
   private loggedIn = new BehaviorSubject<boolean>(false);
+  private userDataSubject = new BehaviorSubject<User>(new User());
 
   get isLoggedIn() {
     return this.loggedIn.asObservable();
   }
 
-  constructor() {
+  get userData() {
+    return this.userDataSubject.asObservable();
+  }
+
+  constructor(
+    private router: Router,
+  ) {
     const token = this.getToken(AUTHTOKENKEY);
     this.loggedIn.next(!!token);
   }
 
   public logOut(): void {
-    window.localStorage.clear();
+    this.clearTokens();
     this.loggedIn.next(false);
+    this.router.navigate(['/', 'login']);
+  }
+
+  public setUserData(user: User): void {
+    this.userDataSubject.next(user);
+  }
+
+  public saveNewAuthToken(data: string) {
+    window.localStorage.setItem(TokenTypes.AUTHTOKEN, data);
   }
 
   public saveToken(data: AuthResponse): void {
@@ -36,6 +54,9 @@ export class AuthServiceService {
     }
     if (data.refreshToken) {
       window.localStorage.setItem(TokenTypes.REMEMBERTOKEN, data.refreshToken);
+    }
+    if(data.user) {
+      this.userDataSubject.next(data.user);
     }
   }
 
@@ -60,6 +81,10 @@ export class AuthServiceService {
 
   public setStoredUserName(userName: string): void {
     window.localStorage.setItem(STOREDUNAME, userName);
+  }
+
+  public removeStoredUserName(): void {
+    window.localStorage.removeItem(STOREDUNAME);
   }
 
 }

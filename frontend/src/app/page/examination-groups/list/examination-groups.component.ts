@@ -46,7 +46,6 @@ export class ExaminationGroupsComponent implements OnInit {
         this.openDialogWrapper(evt.entityID);
         break;
       case 'DETAILS':
-        console.log(`/${this.routeBase}/details`, evt.entityID);
         this.router.navigate([`/${this.routeBase}/details`, evt.entityID]);
         break;
       case 'CREATE':

@@ -44,7 +44,8 @@ app.use('/patient', jwtMiddleware, require('./controller/patient/patient.router'
 app.use('/examination', jwtMiddleware, require('./controller/examination/examination.router'));
 app.use('/examinationgroup', jwtMiddleware, require('./controller/examinationGroup/examinationGroup.router'));
 app.use('/consultation', jwtMiddleware, require('./controller/consultation/consultation.router'));
-app.use('/user', require('./controller/user/user.router'));
+app.use('/user', jwtMiddleware, require('./controller/user/user.router'));
+app.use('/auth', require('./controller/auth/auth.router'));
 
 // app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument))
 

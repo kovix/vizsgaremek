@@ -71,7 +71,6 @@ export class ExaminationGroupMembersComponent implements OnInit {
   }
 
   public onDeleteExamination(examination: ExaminationsInGroup): void {
-    console.log(examination);
     this.deleteWrapper.delConfirmation(examination?.examination?._id || '', examination?.examination?.name || '').pipe(take(1)).subscribe(
       (confirmationresultId) => {
         if (confirmationresultId) this.removeExamination(confirmationresultId);

@@ -47,8 +47,6 @@ export class ConsultationDetailsComponent implements OnInit, OnDestroy {
     websocketService.websocket.pipe(
       retry() //support auto reconnect
     ).subscribe(msg => {
-      console.log("Response from websocket: ");
-      console.log(msg);
       if (msg.source !== this.websocketService.myId) {
         try {
           const data = JSON.parse(msg.content);
@@ -193,7 +191,6 @@ export class ConsultationDetailsComponent implements OnInit, OnDestroy {
       source: this.websocketService.myId,
       content: JSON.stringify({cmd: 'Refresh'}),
     };
-    console.log(messageData);
     this.websocketService.websocket.next(messageData);
   }
 

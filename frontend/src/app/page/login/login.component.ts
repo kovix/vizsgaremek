@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component,  } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthServiceService } from 'src/app/service/auth-service.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
@@ -10,7 +10,7 @@ import { LoginService } from 'src/app/service/login.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
   public loginForm: FormGroup;
 
 
@@ -29,9 +29,6 @@ export class LoginComponent implements OnInit {
     return this.loginForm.controls;
   }
 
-  ngOnInit(): void {
-  }
-
 
   public onSubmit():void {
     if (!this.loginForm.valid) {
@@ -42,13 +39,13 @@ export class LoginComponent implements OnInit {
     const result = Object.assign({}, this.loginForm.value);
     if (result.rememberMe) {
       this.authService.setStoredUserName(result.userName);
+    } else {
+      this.authService.removeStoredUserName();
     }
-    console.log(result);
     this.loginService.login(result.userName, result.password).subscribe({
       next: (result) => {
-        //TODO: Also Propagate user data
         this.authService.saveToken(result);
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['/consultations']);
       },
       error: (error) => {
         const errorMessage = error?.error?.message || error.statusText;
@@ -60,10 +57,11 @@ export class LoginComponent implements OnInit {
   }
 
   private initLoginFormGroup(): FormGroup {
+    const storedUserName = this.authService.getStoredUserName();
     return this.formBuilder.group({
-      userName: [this.authService.getStoredUserName(), Validators.required],
+      userName: [storedUserName, Validators.required],
       password: ['', Validators.required],
-      rememberMe: [false],
+      rememberMe: [!!storedUserName],
     });
   }
 

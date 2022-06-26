@@ -84,7 +84,6 @@ export class ConsultationEditDetailsComponent implements OnInit {
   }
 
   public onCellDblClick(index: number, field: string): void {
-    console.log(index, field);
     const now = new Date().getTime();
     const idx = `${index}${field}`;
     if (! (idx in this.clickTimers)) {

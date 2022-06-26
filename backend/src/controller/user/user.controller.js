@@ -36,22 +36,14 @@ const validateUserInput = async (body, inUpdate = true) => {
 
 const userExports = {};
 
-userExports.validateLogin = async (req, res, next) => {
-  const { userName, password } = req.body;
-  userService.validateLogin(userName, password)
-    .then((result) => {
-      if (!result) return next(new createError.Unauthorized('Érvénytelen felhasználónév vagy jelszó.'));
-      return res.json(result);
-    });
-};
-
 userExports.findAll = (req, res) => userService.findAll()
   .then((records) => {
     records.map(({ password, ...otherFields }) => otherFields);
     return res.json(records);
   });
 
-userExports.findById = (req, res, next) => userService.findById(req.params.id)
+// eslint-disable-next-line no-underscore-dangle
+userExports.findById = (req, res, next) => userService.findById(req.params.id !== '0' ? req.params.id : req.user._id)
   .then((record) => {
     // eslint-disable-next-line no-underscore-dangle
     delete record._doc.password;
