@@ -13,6 +13,8 @@ authExports.validateLogin = async (userName, password) => {
 
   const validationResult = await user.comparePassword(password);
 
+  conseol.log(validationResult);
+
   if (!validationResult) return false;
 
   const accessToken = jwt.sign({
