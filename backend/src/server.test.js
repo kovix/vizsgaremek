@@ -169,3 +169,46 @@ describe('/users', () => {
   })
 
 });
+
+describe('/examination', () => {
+  const insertData = [
+    {
+      name: 'teszt 1',
+      defaultTime: 10,
+    },
+    {
+      name: 'teszt 2',
+      defaultTime: 20,
+    },
+  ];
+
+  let firstId
+
+  beforeEach(() => {
+    return examinationModel.insertMany(insertData).then((exams) => firstId = exams[0]._id)
+  })
+  afterEach(() => mongoose.connection.dropCollection('examinations'))
+
+  test('GET /examination', done => {
+    supertest(app).get('/examination').set('Authorization', 'Bearer ' + token).expect(200)
+      .then(response => {
+        expect(Array.isArray(response.body)).toBeTruthy()
+        expect(response.body.length).toBe(insertData.length)
+        response.body.forEach((examination, index) => {
+          expect(examination.name).toBe(insertData[index].name);
+        });
+        done();
+      }).catch(err => console.error(err))
+  });
+
+  test('GET /examination/:id', done => {
+    supertest(app).get(`/examination/${firstId}`)
+      .set('Authorization', 'Bearer ' + token).expect(200)
+      .then(response => {
+        const examination = response.body
+        expect(examination.name).toBe(insertData[0].name)
+        done()
+      }).catch(err => console.error(err))
+  })
+
+});
