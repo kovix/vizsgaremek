@@ -5,6 +5,8 @@ const User = require('../../model/user.model');
 const logger = require('../../../config/logger');
 const baseController = require('../base/controller');
 
+const genAnonymPass = (len) => Math.random().toString(36).substring(2,len+2);
+
 const validateUserInput = async (body, inUpdate = true) => {
   const {
     userName,
@@ -39,12 +41,12 @@ const userExports = {};
 userExports.findAll = (req, res) => userService.findAll()
   .then((records) => {
     records.map((record) => {
-      if(record?._doc) {
+      if (record?._doc) {
         delete record._doc.password;
       } else {
         delete record.password;
       }
-      return record;     
+      return record;
     });
     return res.json(records);
   });
@@ -53,7 +55,7 @@ userExports.findAll = (req, res) => userService.findAll()
 userExports.findById = (req, res, next) => userService.findById(req.params.id !== '0' ? req.params.id : req.user._id)
   .then((record) => {
     // eslint-disable-next-line no-underscore-dangle
-    if(record?._doc) {
+    if (record?._doc) {
       delete record._doc.password;
     } else {
       delete record.password;
@@ -65,7 +67,7 @@ userExports.findById = (req, res, next) => userService.findById(req.params.id !=
 userExports.create = async (req, res, next) => {
   const errorMessage = await validateUserInput(req.body, false);
   if (errorMessage) return next(new createError.BadRequest(errorMessage));
-  
+
   delete req.body.confirmPassword;
 
   return userService.registerUser(req.body)
@@ -83,7 +85,7 @@ userExports.update = async (req, res, next) => {
   return userService.update(req.params.id, req.body)
     .then((updatedRecord) => {
       if (!updatedRecord) return next(new createError.NotFound(`Hiba történt a rekord frissítése közben: ${req.params.id} A rekord nem található.`));
-      if(updatedRecord?.doc) {
+      if (updatedRecord?.doc) {
         delete updatedRecord._doc.password;
       } else {
         delete updatedRecord.password;
@@ -92,5 +94,44 @@ userExports.update = async (req, res, next) => {
     })
     .catch((error) => next(new createError.NotFound(`Hiba történt a rekord frissítése közben: ${req.params.id}. (${error.message})`)));
 };
+
+userExports.remove = async (req, res, next) => {
+  let user;
+  try {
+    user = await userService.findById(req.params.id);
+  } catch(error) {
+    return next(new createError.BadRequest(error.message));
+  }
+  if (!user) {
+    return next(new createError.NotFound('A felhasználó nem található!'));
+  }
+
+  const newPass = genAnonymPass(32);
+
+  user.userName = `törölt_${new Date().getTime()}`;
+  user.firstName = 'Törölt';
+  user.lastName = 'Törölt';
+  user.email = `do_not_send_${new Date().getTime()}@setalo.lap`;
+  user.role = 0;
+  user.password = newPass;
+  user.confirmPassword = newPass;
+
+  console.log(user);
+
+  //anonimizáljuk
+  let newRecord
+  try {
+    newRecord = await userService.update(req.params.id, user);
+    console.log(newRecord);
+  } catch (error) {
+    return next(new createError.InternalServerError(error.message));
+  }
+
+  //töröljük
+  const result = await userService.remove(req.params.id, req.user._id);
+  //itt biztosan van értéke.
+  return res.json(result);
+
+}
 
 module.exports = userExports;

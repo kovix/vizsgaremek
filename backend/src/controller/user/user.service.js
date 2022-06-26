@@ -17,4 +17,10 @@ userExports.update = (id, properties) => {
   return User.findOneAndUpdate(filter, properties, { new: true });
 };
 
+userExports.remove = async (id, userId) => {
+  const record = await User.findById(id);
+  if (!record) return false;
+  return record.delete(userId);
+},
+
 module.exports = userExports;

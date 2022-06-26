@@ -72,7 +72,7 @@ baseExports.generateCRUD = (service, model, allowedFields) => {
       return res.json(response);
     })
     .catch((error) => {
-      logger.error(`Hiba történt egy vizsgálat törlése közben: ${error.message}`);
+      logger.error(`Hiba történt egy rekord törlése közben: ${error.message}`);
       return next(new createError.NotFound(`Hiba történt a rekord törlése közben: ${req.params.id}.`));
     });
 

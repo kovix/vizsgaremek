@@ -2,12 +2,21 @@ const createError = require('http-errors');
 const Consultation = require('../../model/consultation.model');
 const { createErrorObj } = require('../base/service');
 
-const consultationPopulate = ['doctor', 'groupId', 'examinations.examination', 'details.patient', 'logEntries'];
 
 module.exports = {
-  findAll: () => Consultation.find({}).populate(consultationPopulate),
+  findAll: () => Consultation.find({})
+    .populate({ path: 'doctor', options: { withDeleted: true } })
+    .populate({ path: 'groupId', options: { withDeleted: true } })
+    .populate({path: 'examinations.examination', options: { withDeleted: true } } )
+    .populate({path: 'details.patient', options: { withDeleted: true } } )
+    .populate({path: 'logEntries' } ),
 
-  findById: (id) => Consultation.findById(id).populate(consultationPopulate),
+  findById: (id) => Consultation.findById(id)
+    .populate({ path: 'doctor', options: { withDeleted: true } })
+    .populate({ path: 'groupId', options: { withDeleted: true } })
+    .populate({path: 'examinations.examination', options: { withDeleted: true } } )
+    .populate({path: 'details.patient', options: { withDeleted: true } } )
+    .populate({path: 'logEntries' } ),
 
   create: (properties) => {
     const newConsultation = new Consultation(properties);
@@ -28,7 +37,12 @@ module.exports = {
     if (!result) return createErrorObj(new createError.NotFound('A bejegyzés nem található!'));
     if (!result?.modifiedCount) return createErrorObj(new createError.NotFound('A bejegyzés nem található!'));
 
-    const updatedRecord = await Consultation.findById(id).populate(consultationPopulate);
+    const updatedRecord = await Consultation.findById(id)
+      .populate({ path: 'doctor', options: { withDeleted: true } })
+      .populate({ path: 'groupId', options: { withDeleted: true } })
+      .populate({path: 'examinations.examination', options: { withDeleted: true } } )
+      .populate({path: 'details.patient', options: { withDeleted: true } } )
+      .populate({path: 'logEntries' } );
     return updatedRecord;
   },
 
@@ -50,7 +64,12 @@ module.exports = {
     if (!result) return createErrorObj(new createError.NotFound('A bejegyzés nem található!'));
     if (!result?.modifiedCount) return createErrorObj(new createError.NotFound('A bejegyzés nem található!'));
 
-    const updatedRecord = Consultation.findById(id).populate(consultationPopulate);
+    const updatedRecord = Consultation.findById(id)
+      .populate({ path: 'doctor', options: { withDeleted: true } })
+      .populate({ path: 'groupId', options: { withDeleted: true } })
+      .populate({path: 'examinations.examination', options: { withDeleted: true } } )
+      .populate({path: 'details.patient', options: { withDeleted: true } } )
+      .populate({path: 'logEntries' } );
     return updatedRecord;
   },
 

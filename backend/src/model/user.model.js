@@ -47,7 +47,7 @@ let cryptRounds = parseInt(process.env.SALT_WORK_FACTOR || 10, 10);
 if (Number.isNaN(cryptRounds)) cryptRounds = 10;
 
 userSchema.plugin(bcrypt, { rounds: cryptRounds });
-userSchema.plugin(softDelete, { deletedAt: true, deletedBy: true });
+userSchema.plugin(softDelete, { deletedAt: true, deletedBy: true, overrideMethods: true });
 userSchema.plugin(idvalidator);
 
 module.exports = mongoose.model('User', userSchema);
