@@ -21,7 +21,7 @@ delete consultationExports.create;
 
 consultationExports.create = async (req, res, next) => {
   const cleanedBody = baseController.clearBody(req.body, allowedFields);
-  const bodyHasErros = baseController.validateBody(Consultation, cleanedBody);
+  const bodyHasErros = await baseController.validateBody(Consultation, cleanedBody);
   if (bodyHasErros) return next(bodyHasErros);
 
   // feltöltjük a vizsgálatok tömbjét. Erre azért van szükség, mert
