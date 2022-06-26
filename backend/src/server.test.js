@@ -117,3 +117,55 @@ describe('/patients', () => {
   })
 
 });
+
+
+describe('/users', () => {
+  const insertData = [
+    {
+      userName: 'user1',
+      firstName: 'teszt',
+      lastName: 'name1',
+      email: 'teszt1@test.com',
+      password: '123456',
+      role: 1
+    },
+    {
+      userName: 'user2',
+      firstName: 'teszt2',
+      lastName: 'name2',
+      email: 'teszt2@test.com',
+      password: '123456',
+      role: 2
+    },
+  ];
+
+  let firstId
+
+  beforeEach(() => {
+    return userModel.insertMany(insertData).then((users) => firstId = users[1]._id) //first is superadmin
+  })
+  afterEach(() => mongoose.connection.dropCollection('users'))
+
+  test('GET /user', done => {
+    supertest(app).get('/user').set('Authorization', 'Bearer ' + token).expect(200)
+      .then(response => {
+        expect(Array.isArray(response.body)).toBeTruthy()
+        expect(response.body.length).toBe(insertData.length + 1)
+        response.body.forEach((user, index) => {
+          if (index > 0) expect(user.userName).toBe(insertData[index - 1].userName);
+        });
+        done();
+      }).catch(err => console.error(err))
+  });
+
+  test('GET /user/:id', done => {
+    supertest(app).get(`/user/${firstId}`)
+      .set('Authorization', 'Bearer ' + token).expect(200)
+      .then(response => {
+        const user = response.body
+        expect(user.userName).toBe(insertData[1].userName)
+        done()
+      }).catch(err => console.error(err))
+  })
+
+});

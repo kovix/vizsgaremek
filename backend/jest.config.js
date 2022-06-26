@@ -2,5 +2,5 @@ module.exports = {
   coverageProvider: 'v8',
   testEnvironment: 'node',
   "collectCoverage":true,
-  testTimeout: 30000
+  testTimeout: 5000
 };
