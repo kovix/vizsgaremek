@@ -120,7 +120,6 @@ userExports.remove = async (req, res, next) => {
   let newRecord
   try {
     newRecord = await userService.update(req.params.id, user);
-    console.log(newRecord);
   } catch (error) {
     return next(new createError.InternalServerError(error.message));
   }
