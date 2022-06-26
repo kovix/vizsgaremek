@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const softDelete = require('mongoose-delete');
 const idvalidator = require('mongoose-id-validator');
+const User = require('./user.model');
 
 const examinationSchema = mongoose.Schema({
   name: {

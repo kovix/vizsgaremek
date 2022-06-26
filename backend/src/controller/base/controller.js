@@ -1,4 +1,5 @@
 const createError = require('http-errors');
+const logger = require('../../../config/logger');
 
 const baseExports = {};
 
@@ -14,8 +15,15 @@ baseExports.clearBody = (body, allowedFields) => {
   return processedBody;
 };
 
-baseExports.validateBody = (Model, body) => {
-  const validationErrors = new Model(body).validateSync();
+baseExports.validateBody = async (Model, body) => {
+  const newModel = new Model(body);
+  let validationErrors;
+  try {
+    validationErrors = await newModel.validate();
+  } catch(error) {
+    console.log(error);
+    return new createError.BadRequest(error.message);
+  }
   if (validationErrors) {
     return new createError.BadRequest(validationErrors.message);
   }
@@ -31,23 +39,23 @@ baseExports.generateCRUD = (service, model, allowedFields) => {
     .then((record) => res.json(record))
     .catch((error) => next(new createError.NotFound(`Nem található bejegyzés az alábbi azonosítóval: ${req.params.id}. (${error.message})`)));
 
-  crud.create = (req, res, next, addCreatedBy = false) => {
+  crud.create = async (req, res, next, addCreatedBy = false) => {
     const cleanedBody = baseExports.clearBody(req.body, allowedFields);
     if (addCreatedBy) {
       // eslint-disable-next-line no-underscore-dangle
       cleanedBody.createdBy = req.user._id;
     }
-    const bodyHasErros = baseExports.validateBody(model, cleanedBody);
-    if (bodyHasErros) return next(bodyHasErros);
+    const bodyHasErros = await baseExports.validateBody(model, cleanedBody);
+    if (bodyHasErros) return Promise.resolve(next(bodyHasErros));
 
     return service.create(cleanedBody)
       .then((newRecord) => res.json(newRecord))
       .catch((error) => next(new createError.NotFound(`Nem sikerült menteni a bejegyzést. (${error.message})`)));
   };
 
-  crud.update = (req, res, next) => {
+  crud.update = async (req, res, next) => {
     const cleanedBody = baseExports.clearBody(req.body, allowedFields);
-    const bodyHasErros = baseExports.validateBody(model, cleanedBody);
+    const bodyHasErros = await baseExports.validateBody(model, cleanedBody);
     if (bodyHasErros) return next(bodyHasErros);
 
     return service.update(req.params.id, cleanedBody)
@@ -64,7 +72,10 @@ baseExports.generateCRUD = (service, model, allowedFields) => {
       if (!response) return next(new createError.NotFound(`Hiba történt a rekord törlése közben: ${req.params.id}. `));
       return res.json(response);
     })
-    .catch((error) => next(new createError.NotFound(`Hiba történt a rekord törlése közben: ${req.params.id}. (${error.message})`)));
+    .catch((error) => {
+      logger.error(`Hiba történt egy vizsgálat törlése közben: ${error.message}`);
+      return next(new createError.NotFound(`Hiba történt a rekord törlése közben: ${req.params.id}.`));
+    });
 
   return crud;
 };

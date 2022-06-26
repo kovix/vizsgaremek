@@ -1,11 +1,9 @@
 
 const { mockRequest, mockResponse } = require('jest-mock-req-res');
-const { json } = require('express/lib/response');
 const createError = require('http-errors');
 
 const authController = require('./auth.controller');
 const authService = require('./auth.service');
-const jestConfig = require('../../../jest.config');
 
 jest.mock('./auth.service');
 

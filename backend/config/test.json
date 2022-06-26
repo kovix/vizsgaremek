@@ -1,0 +1,8 @@
+{
+  "database": {
+      "username": "kovix",
+      "password": "ojSRZMEhPEGSksoo",
+      "host": "cluster0.7uosx.mongodb.net",
+      "database": "setalolap_test"
+  }
+}
