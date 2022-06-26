@@ -92,7 +92,6 @@ describe("Patient controller", () => {
   });
 
   afterAll((done) => {
-    jest.setTimeout(60000);
     mongoose.connection.db.dropDatabase(() => {
       mongoose.connection.close(() => {
         done()

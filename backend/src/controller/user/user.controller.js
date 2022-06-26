@@ -116,8 +116,6 @@ userExports.remove = async (req, res, next) => {
   user.password = newPass;
   user.confirmPassword = newPass;
 
-  console.log(user);
-
   //anonimizáljuk
   let newRecord
   try {

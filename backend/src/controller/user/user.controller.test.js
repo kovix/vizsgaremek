@@ -12,8 +12,6 @@ const userController = require('./user.controller');
 jest.mock('./user.service');
 
 describe("User controller", () => {
-
-
   const mockData = [{
     _id: '1',
     userName: 'teszt1',
@@ -199,4 +197,39 @@ describe("User controller", () => {
         )
       })
   });
+
+  test('Deleting existing record should return with deleted and anonymized record and propagate softdelete fields', () => {
+    const DB_USER_ID = "1";
+    const USER_ID = 'TEST_USER_ID';
+    const request = mockRequest({
+      user: {
+        _id: USER_ID
+      },
+      params: {
+        id: '1'
+      }
+    });
+
+    return userController.remove(request, response, nextFunction)
+      .then(() => {
+        expect(userService.remove).toBeCalledWith(DB_USER_ID, USER_ID)
+        expect(response.json).toBeCalledWith(
+          {
+            _id: "1",
+            firstName: 'Törölt',
+            lastName: 'Törölt',
+            password: 'deleted_pass',
+            confirmPassword: 'deleted_pass',
+            role: 0,
+            userName: expect.stringMatching(/^törölt_.+$/),
+            email: expect.stringMatching(/^do_not_send_.+$/),
+            deleted: true,
+            deletedAt: 'deleted_date_here',
+            deletedBy: USER_ID,
+          }
+        )
+      })
+  });
+
+
 })

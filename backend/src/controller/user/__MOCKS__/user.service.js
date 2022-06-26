@@ -32,27 +32,27 @@ userService.update = jest.fn((id, properties) => {
   return Promise.resolve(updatedRecord);
 });
 
-/*
-
-
-
-
-
-patientService.remove = jest.fn((id, userId) => {
+userService.remove = jest.fn((id, userId) => {
   const record = mockData.find(item => item._id === id)
   if(!record) return Promise.resolve(false);
   
   const addedProperties = {
+    userName: `törölt_${new Date().getTime()}`,
+    firstName: 'Törölt',
+    lastName: 'Törölt',
+    email: `do_not_send_${new Date().getTime()}@setalo.lap`,
+    role: 0,
+    password: 'deleted_pass',
+    confirmPassword: 'deleted_pass',
     deleted: true,
     deletedAt: 'deleted_date_here',
     deletedBy: userId,
   }
 
   const updatedRecord = {...record, ...addedProperties};
-  delete updatedRecord.createdBy;
   return Promise.resolve(updatedRecord);
   
-}); */
+}); 
 
 userService.__setMockData = (data) => mockData = data;
 
