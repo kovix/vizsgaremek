@@ -121,7 +121,7 @@ describe("Patient controller", () => {
       })
   });
 
-   test('findById with correct id should return one record', () => {
+  test('findById with correct id should return one record', () => {
     const PATIENT_ID = "1";
     const request = mockRequest({
       params: {
@@ -136,15 +136,15 @@ describe("Patient controller", () => {
         expect(patientService.findById).toBeCalled()
         expect(response.json).toBeCalledWith(exceptedResponse)
       })
-  }); 
+  });
 
-   test('Create with correct data shoud save data and return it.', () => {
+  test('Create with correct data shoud save data and return it.', () => {
     const patientData = {
-     firstName: 'Teszt',
-     lastName: 'Create',
-     patientID: '555 666 888',
-     email: 'teszt1@teszt.com',
-     comment: 'A smaple comment',
+      firstName: 'Teszt',
+      lastName: 'Create',
+      patientID: '555 666 888',
+      email: 'teszt1@teszt.com',
+      comment: 'A smaple comment',
     };
     const newId = new mongoose.Types.ObjectId();
     const request = mockRequest({
@@ -169,15 +169,15 @@ describe("Patient controller", () => {
           }
         )
       })
-  }); 
+  });
 
-   test('Create without firstName shoud generate error.', () => {
+  test('Create without firstName shoud generate error.', () => {
     const patientData = {
       lastName: 'Create',
       patientID: '555 666 888',
       email: 'teszt2@teszt.com',
       comment: 'A smaple comment',
-     };
+    };
 
     const expectedErrorWhenNameMissing = new createError.BadRequest('Patient validation failed: firstName: A vezetéknév megadása kötelező!');
 
@@ -192,7 +192,7 @@ describe("Patient controller", () => {
       .then(() => {
         expect(nextFunction).toBeCalledWith(expectedErrorWhenNameMissing)
       })
-  }); 
+  });
 
   test('Create without lastName shoud generate error.', () => {
     const patientData = {
@@ -200,7 +200,7 @@ describe("Patient controller", () => {
       patientID: '555 666 888',
       email: 'teszt2@teszt.com',
       comment: 'A smaple comment',
-     };
+    };
 
     const expectedErrorWhenNameMissing = new createError.BadRequest('Patient validation failed: lastName: A keresztnév megadása kötelező!');
 
@@ -215,7 +215,7 @@ describe("Patient controller", () => {
       .then(() => {
         expect(nextFunction).toBeCalledWith(expectedErrorWhenNameMissing)
       })
-  }); 
+  });
 
   test('Create with invalid TAJ shoud generate error.', () => {
     const patientData = {
@@ -224,7 +224,7 @@ describe("Patient controller", () => {
       patientID: 'abcdefg',
       email: 'teszt2@teszt.com',
       comment: 'A smaple comment',
-     };
+    };
 
     const expectedErrorWhenNameMissing = new createError.BadRequest('Patient validation failed: patientID: A TAJ szám érvénytelen!');
 
@@ -239,7 +239,7 @@ describe("Patient controller", () => {
       .then(() => {
         expect(nextFunction).toBeCalledWith(expectedErrorWhenNameMissing)
       })
-  }); 
+  });
   test('Create with invalid e-mail shoud generate error.', () => {
     const patientData = {
       firstName: 'Create',
@@ -247,7 +247,7 @@ describe("Patient controller", () => {
       patientID: '000 111 666',
       email: 'a@b.c',
       comment: 'A smaple comment',
-     };
+    };
 
     const expectedErrorWhenNameMissing = new createError.BadRequest('Patient validation failed: email: A megadott E-mail cím érvénytelen!');
 
@@ -262,7 +262,7 @@ describe("Patient controller", () => {
       .then(() => {
         expect(nextFunction).toBeCalledWith(expectedErrorWhenNameMissing)
       })
-  }); 
+  });
 
 
   test('Updating valid record with valid data should return updated record.', () => {
@@ -301,7 +301,7 @@ describe("Patient controller", () => {
       })
   });
 
-   test('Deleting existing record should return with deleted record and propagate softdelete fields', () => {
+  test('Deleting existing record should return with deleted record and propagate softdelete fields', () => {
     const PATIENT_ID = "1";
     const USER_ID = 'TEST_USER_ID';
     const request = mockRequest({
@@ -330,9 +330,9 @@ describe("Patient controller", () => {
           }
         )
       })
-  }); 
+  });
 
-/*   test('Non existing record deletion should return 404', () => {
+  test('Non existing record deletion should return 404', () => {
     const EXAM_ID = "9999";
     const USER_ID = 'TEST_USER_ID';
     const request = mockRequest({
@@ -346,12 +346,12 @@ describe("Patient controller", () => {
 
     const deleteError = new createError.NotFound(`Hiba történt a rekord törlése közben: ${EXAM_ID}. `)
 
-    return examinationController.delete(request, response, nextFunction, true)
+    return patientontroller.delete(request, response, nextFunction, true)
       .then(() => {
-        expect(examinationService.remove).toBeCalledWith(EXAM_ID, USER_ID)
+        expect(patientService.remove).toBeCalledWith(EXAM_ID, USER_ID)
         expect(nextFunction).toBeCalledWith(deleteError)
 
       })
-  }); */
+  });
 
 })
