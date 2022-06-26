@@ -1,5 +1,4 @@
 const WebSocket = require('ws');
-const queryString = require('query-string');
 const logger = require('../../../config/logger');
 
 module.exports = (expressServer) => {
@@ -14,7 +13,7 @@ module.exports = (expressServer) => {
     });
   });
 
-  websocketServer.on('connection', (websocketConnection, connectionRequest) => {
+  websocketServer.on('connection', (websocketConnection) => {
     websocketConnection.on('message', (message) => {
       logger.info(`Websocket message: ${message}`);
       websocketServer.clients.forEach((client) => {
