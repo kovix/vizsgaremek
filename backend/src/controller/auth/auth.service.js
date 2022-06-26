@@ -11,7 +11,7 @@ authExports.validateLogin = async (userName, password) => {
 
   if (user.deleted) return false;
 
-  const validationResult = await user.comparePassword(password);
+  const validationResult = await user.verifyPassword(password);
 
   if (!validationResult) return false;
 

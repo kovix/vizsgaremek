@@ -39,7 +39,7 @@ const userExports = {};
 userExports.findAll = (req, res) => userService.findAll()
   .then((records) => {
     records.map((record) => {
-      if(record?.doc) {
+      if(record?._doc) {
         delete record._doc.password;
       } else {
         delete record.password;
@@ -53,7 +53,7 @@ userExports.findAll = (req, res) => userService.findAll()
 userExports.findById = (req, res, next) => userService.findById(req.params.id !== '0' ? req.params.id : req.user._id)
   .then((record) => {
     // eslint-disable-next-line no-underscore-dangle
-    if(record?.doc) {
+    if(record?._doc) {
       delete record._doc.password;
     } else {
       delete record.password;

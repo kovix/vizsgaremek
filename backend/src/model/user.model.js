@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
+const bcrypt = require('mongoose-bcrypt')
 const softDelete = require('mongoose-delete');
 const idvalidator = require('mongoose-id-validator');
 
@@ -13,6 +13,7 @@ const userSchema = mongoose.Schema({
   },
   password: {
     type: String,
+    bcrypt: true,
     required: true,
   },
   firstName: {
@@ -42,58 +43,10 @@ const userSchema = mongoose.Schema({
   timestamps: true,
 });
 
-// eslint-disable-next-line consistent-return
-userSchema.pre('save', function userSchemaPreSave(next) {
-  let rounds = parseInt(process.env.SALT_WORK_FACTOR || 10, 10);
-  if (Number.isNaN(rounds)) rounds = 10;
+let cryptRounds = parseInt(process.env.SALT_WORK_FACTOR || 10, 10);
+if (Number.isNaN(cryptRounds)) cryptRounds = 10;
 
-  const user = this;
-  if (!user.isModified('password')) return next();
-
-  // eslint-disable-next-line consistent-return
-  bcrypt.genSalt(rounds, (err, salt) => {
-    if (err) return next(err);
-
-    bcrypt.hash(user.password, salt, (hashErr, hash) => {
-      if (hashErr) return next(err);
-
-      user.password = hash;
-      return next();
-    });
-  });
-});
-
-// eslint-disable-next-line consistent-return
-userSchema.pre('update', function userSchemaPreUpdate(next) {
-  let rounds = parseInt(process.env.SALT_WORK_FACTOR || 10, 10);
-  if (Number.isNaN(rounds)) rounds = 10;
-
-  const user = this;
-  if (!user.isModified('password')) return next();
-
-  // eslint-disable-next-line consistent-return
-  bcrypt.genSalt(rounds, (err, salt) => {
-    if (err) return next(err);
-
-    bcrypt.hash(user.password, salt, (hashErr, hash) => {
-      if (hashErr) return next(err);
-
-      user.password = hash;
-      return next();
-    });
-  });
-});
-
-userSchema.methods.comparePassword = function userSchemaPreSaveComparePass(candidatePassword) {
-  const validatorFunc = (resolve, reject) => {
-    bcrypt.compare(candidatePassword, this.password, (err, isMatch) => {
-      if (err) reject(err);
-      resolve(isMatch);
-    });
-  };
-  return new Promise(validatorFunc);
-};
-
+userSchema.plugin(bcrypt, { rounds: cryptRounds });
 userSchema.plugin(softDelete, { deletedAt: true, deletedBy: true });
 userSchema.plugin(idvalidator);
 
