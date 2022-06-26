@@ -24,6 +24,10 @@ module.exports = {
       { _id: id },
       { $addToSet: { details: patientsArr } },
     );
+
+    if (!result) return createErrorObj(new createError.NotFound('A bejegyzés nem található!'));
+    if (!result?.modifiedCount) return createErrorObj(new createError.NotFound('A bejegyzés nem található!'));
+
     const updatedRecord = await Consultation.findById(id).populate(consultationPopulate);
     return updatedRecord;
   },
