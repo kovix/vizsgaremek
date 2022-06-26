@@ -21,7 +21,6 @@ baseExports.validateBody = async (Model, body) => {
   try {
     validationErrors = await newModel.validate();
   } catch(error) {
-    console.log(error);
     return new createError.BadRequest(error.message);
   }
   if (validationErrors) {

@@ -5,7 +5,7 @@ const idvalidator = require('mongoose-id-validator');
 const patientSchema = mongoose.Schema({
   firstName: {
     type: String,
-    required: [true, 'A vezetéknév megadása kötelező'],
+    required: [true, 'A vezetéknév megadása kötelező!'],
   },
   lastName: {
     type: String,

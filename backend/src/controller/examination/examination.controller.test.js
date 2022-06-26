@@ -81,6 +81,7 @@ describe("Examination controller", () => {
     });
 
     db.once('open', async () => {
+      await db.dropDatabase();
       createdUser = await userService.registerUser(createTestUser);
       done();
     });
