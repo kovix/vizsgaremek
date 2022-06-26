@@ -10,7 +10,7 @@ mongoose.Promise = global.Promise;
 
 const consultationModel = require('./model/consultation.model');
 const examinationModel = require('./model/examination.model');
-const examinationGroupModel = require('./model/consultation.model');
+const examinationGroupModel = require('./model/examinationGroup.model');
 const patientModel = require('./model/patient.model');
 const userModel = require('./model/user.model');
 
@@ -207,6 +207,47 @@ describe('/examination', () => {
       .then(response => {
         const examination = response.body
         expect(examination.name).toBe(insertData[0].name)
+        done()
+      }).catch(err => console.error(err))
+  })
+
+});
+
+describe('/examinationgroup', () => {
+  const insertData = [
+    {
+      name: 'teszt 1',
+    },
+    {
+      name: 'teszt 2',
+    },
+  ];
+
+  let firstId
+
+  beforeEach(() => {
+    return examinationGroupModel.insertMany(insertData).then((examgs) => firstId = examgs[0]._id)
+  })
+  afterEach(() => mongoose.connection.dropCollection('examinationgroups'))
+
+  test('GET /examinationgroup', done => {
+    supertest(app).get('/examinationgroup').set('Authorization', 'Bearer ' + token).expect(200)
+      .then(response => {
+        expect(Array.isArray(response.body)).toBeTruthy()
+        expect(response.body.length).toBe(insertData.length)
+        response.body.forEach((examinationGroup, index) => {
+          expect(examinationGroup.name).toBe(insertData[index].name);
+        });
+        done();
+      }).catch(err => console.error(err))
+  });
+
+  test('GET /examinationgroup/:id', done => {
+    supertest(app).get(`/examinationgroup/${firstId}`)
+      .set('Authorization', 'Bearer ' + token).expect(200)
+      .then(response => {
+        const examinationGroup = response.body
+        expect(examinationGroup.name).toBe(insertData[0].name)
         done()
       }).catch(err => console.error(err))
   })
