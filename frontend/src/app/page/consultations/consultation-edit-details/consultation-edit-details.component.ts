@@ -32,6 +32,7 @@ export class ConsultationEditDetailsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    console.log(this.data);
     this.title = `${this.data?.data?.patient?.firstName} ${this.data?.data?.patient?.lastName}`;
 
     const group: any = {};

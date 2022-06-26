@@ -155,7 +155,7 @@ export class ConsultationDetailsComponent implements OnInit, OnDestroy {
   }
 
   public openEditDialog(data: IConsultationDetail): void {
-    const dialogConfig = this.configService.prepareMatDialogConfig(true, { id: this.consultation?._id, data: data });
+    const dialogConfig = this.configService.prepareMatDialogConfig(true, { id: this.consultation?._id, data: data, examinations: this.consultation?.examinations });
     const dialogRef = this.dialog.open(ConsultationEditDetailsComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(
       (data) => {

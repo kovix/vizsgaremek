@@ -6,9 +6,10 @@ import { User } from "./user";
 export interface iPatientEditData {
   id: string,
   data: IConsultationDetail,
+  examinations: ExaminationsInGroup[],
 }
 export interface IPatientConsultation {
-  examinationID: string; //will never be pupulated!
+  examinationID: string; //will never be populated, always string!
   required: boolean;
   startedAt?: string;
   finishedAt?: string;

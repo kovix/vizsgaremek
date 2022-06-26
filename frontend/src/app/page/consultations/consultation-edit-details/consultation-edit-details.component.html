@@ -21,10 +21,9 @@
     <ng-container *ngIf="fb.get('examinations')" formArrayName="examinations">
       <div [formGroupName]="i" class="card h-100" *ngFor="let exam of examGroups.controls; let i = index">
         <div class="card-header pb-0">
-
           <div class="row">
             <div class="col-lg-10 col-10">
-              <h3>Vizsgálat1</h3>
+              <h3>{{ exam.get('examinationID')?.value|findExaminationName:data.examinations }}</h3>
             </div>
             <div class="col-lg-2 col-2 my-auto text-end">
               <mat-checkbox (change)="onRequiredChanged(i)" formControlName="required"></mat-checkbox>

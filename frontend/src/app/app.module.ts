@@ -66,6 +66,7 @@ import { ElapsedPipePipe } from './pipe/elapsed-pipe.pipe';
 import { ElapsedTimeComponent } from './page/consultations/elapsed-time/elapsed-time.component';
 import { ShowLeavedPatientsPipe } from './pipe/show-leaved-patients.pipe';
 import { LogoutDialogComponent } from './common/logout-dialog/logout-dialog.component';
+import { FindExaminationNamePipe } from './pipe/find-examination-name.pipe';
 
 registerLocaleData(localeHu);
 @NgModule({
@@ -109,7 +110,8 @@ registerLocaleData(localeHu);
     ElapsedPipePipe,
     ElapsedTimeComponent,
     ShowLeavedPatientsPipe,
-    LogoutDialogComponent
+    LogoutDialogComponent,
+    FindExaminationNamePipe
   ],
   imports: [
     BrowserModule,
