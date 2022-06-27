@@ -13,7 +13,7 @@ Az alkalmazás nodejs + Mongodb backenddel készült, az univerzális futtathat�
    `git clone https://github.com/kovix/vizsgaremek`
 
 Telepíteni kell az alkalmazás függőségeit az alábbi sorrendben:
-- Docker desktop: https://www.docker.com/products/docker-desktop/
+- Docker desktop: https://www.docker.com/products/docker-desktop/ vagy https://docs.docker.com/dekstop/windows/install
 - Nodejs: A node futtatáshoz a https://nodejs.org/en/download/ címről tölthető le a operációs rendszernek és architektúrának megfelelő telepítőkészlet.
 
 - Ha még nincsen fenn a célgépen, akkor telepíteni kell az Angular keretrendszert az `npm i -g @angular/cli` paranccsal.
