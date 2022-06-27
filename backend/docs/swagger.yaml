@@ -599,6 +599,180 @@ paths:
                   $ref: '#/components/schemas/Error'
 
 
+  /patient:
+    get:
+      description: Return list of patients
+      security:
+        - bearerAuth: []
+      tags:
+        - Patients
+      responses:
+        '200':
+          description: List of patients fetched successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Patient'
+        '401':
+          description: Unathorized
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Unauthorized
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    post:
+      description: Creates new patient
+      security:
+        - bearerAuth: []
+      tags:
+        - Patients
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Patient'
+      responses:
+        '201':
+          description: Patient created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Patient'
+        '400':
+          description: Bad request. Some params probably missing.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /patient/{id}:
+      get:
+        description: Returns single patient
+        security:
+          - bearerAuth: []
+        tags:
+          - Patients
+        parameters:
+          - name: id
+            in: path
+            required: true
+            schema:
+              type: string
+        responses:
+          '200':
+            description: Patient found
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Patient'
+          '404':
+            description: Patient not found
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+          '500':
+            description: Internal server error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+      patch:
+        description: Update a patient
+        security:
+          - bearerAuth: []
+        tags:
+          - Patients
+        parameters:
+          - name: id
+            in: path
+            required: true
+            schema:
+              type: string
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Patient'
+        responses:
+          '200':
+            description: Patient updated successfully
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Patient'
+          '400':
+            description: Bad request, mandatory parameter missing
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+          '404':
+            description: Record not found
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+          '500':
+            description: Internal server error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+      delete:
+        description: Delete Patient
+        security:
+          - bearerAuth: []
+        tags:
+          - Patients
+        parameters:
+          - name: id
+            in: path
+            required: true
+            schema:
+              type: string
+        responses:
+          '200':
+            description: Patient deleted
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    success:
+                      $ref: '#/components/schemas/Patient'
+          '404':
+            description: Patient not found
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+          '500':
+            description: Internal server error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+
+
+
   /auth/login:
     post:
       description: Login and get token
@@ -743,7 +917,7 @@ components:
           pattern: ^$|^\d{3} \d{3} \d{3}$
         email:
           type: string
-          pattern: ^$|^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,4})+$
+          pattern: ^$|^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$
         comment:
           type: string
         createdBy:
