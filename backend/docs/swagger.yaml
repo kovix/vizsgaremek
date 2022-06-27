@@ -771,7 +771,271 @@ paths:
                 schema:
                   $ref: '#/components/schemas/Error'
 
+  /consultation:
+    get:
+      description: Return list of consultations
+      security:
+        - bearerAuth: []
+      tags:
+        - Consultations
+      responses:
+        '200':
+          description: List of consultations fetched successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Consultation'
+        '401':
+          description: Unathorized
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Unauthorized
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
 
+    post:
+      description: Creates new consultation
+      security:
+        - bearerAuth: []
+      tags:
+        - Consultations
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConsultationBody'
+                
+      responses:
+        '201':
+          description: Consultation created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Consultation'
+        '400':
+          description: Bad request. Some params probably missing.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /consultation/{id}:
+      get:
+        description: Returns single consultation
+        security:
+          - bearerAuth: []
+        tags:
+          - Consultations
+        parameters:
+          - name: id
+            in: path
+            required: true
+            schema:
+              type: string
+        responses:
+          '200':
+            description: Consultation found
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Consultation'
+          '404':
+            description: Consultation not found
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+          '500':
+            description: Internal server error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+      patch:
+        description: Update a consultation
+        security:
+          - bearerAuth: []
+        tags:
+          - Consultations
+        parameters:
+          - name: id
+            in: path
+            required: true
+            schema:
+              type: string
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConsultationBody'
+        responses:
+          '200':
+            description: Consultation updated successfully
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Consultation'
+          '400':
+            description: Bad request, mandatory parameter missing
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+          '404':
+            description: Record not found
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+          '500':
+            description: Internal server error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+      delete:
+        description: Delete consultation
+        security:
+          - bearerAuth: []
+        tags:
+          - Consultations
+        parameters:
+          - name: id
+            in: path
+            required: true
+            schema:
+              type: string
+        responses:
+          '200':
+            description: Consultation deleted
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    success:
+                      $ref: '#/components/schemas/Consultation'
+          '404':
+            description: Consultation not found
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+          '500':
+            description: Internal server error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+
+  /consultation/{id}/addpatients:
+      patch:
+        description: Add patient(s) to consultation
+        security:
+          - bearerAuth: []
+        tags:
+          - Consultations
+        parameters:
+          - name: id
+            in: path
+            required: true
+            schema:
+              type: string
+        requestBody:
+          description: Array of valid Patient _ids
+          required: true
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        responses:
+          '200':
+            description: Patients assigned successfully
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Consultation'
+          '400':
+            description: Bad request, mandatory parameter missing.
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+          '404':
+            description: Group not found
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+          '500':
+            description: Internal server error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+  /consultation/{id}/updatePatient/{patientid}:
+      patch:
+        description: Modify patient data in consultation
+        security:
+          - bearerAuth: []
+        tags:
+          - Consultations
+        parameters:
+          - name: id
+            in: path
+            required: true
+            schema:
+              type: string
+        requestBody:
+          description: Patient detail body
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PatientDetail'
+        responses:
+          '200':
+            description: Patient updated successfully
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Consultation'
+          '400':
+            description: Bad request, mandatory parameter missing.
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+          '404':
+            description: Group not found
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+          '500':
+            description: Internal server error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
 
   /auth/login:
     post:
@@ -980,6 +1244,21 @@ components:
             - $ref: '#/components/schemas/User'
         eventText:
           type: string
+    
+    ConsultationBody:
+      type: object
+      properties:
+        name:
+          type: string
+        startDate:
+          type: string
+          example: 2022-01-01
+        doctor:
+          type: string
+          example: valid user._id
+        groupId:
+          type: string
+          example: valid examinationGrouo._id
           
     Consultation:
       type: object
@@ -1021,46 +1300,48 @@ components:
         details:
           type: array
           items:
+              $ref: '#/components/schemas/PatientDetail'
+    
+    PatientDetail:
+      type: object
+      required:
+        - patient
+        - lastUpdated
+      properties:
+        patient:
+          oneOf:
+            - type: string
+            - $ref: '#/components/schemas/Patient'
+        comment:
+          type: string
+        arrived:
+          type: string
+        leaved:
+          type: string
+        alert:
+          type: number
+          default: 0
+        lastUpdated:
+          type: string
+        patientConsultations:
+          type: array
+          items:
             type: object
             required:
-              - patient
-              - lastUpdated
+              - examinationID
             properties:
-              patient:
-                oneOf:
-                  - type: string
-                  - $ref: '#/components/schemas/Patient'
-              comment:
+              examationID:
                 type: string
-              arrived:
+              required:
+                type: boolean
+                default: true
+              startedAt:
                 type: string
-              leaved:
+              finishedAt:
                 type: string
-              alert:
-                type: number
-                default: 0
-              lastUpdated:
-                type: string
-              patientConsultations:
-                type: array
-                items:
-                  type: object
-                  required:
-                    - examinationID
-                  properties:
-                    examationID:
-                      type: string
-                    required:
-                      type: boolean
-                      default: true
-                    startedAt:
-                      type: string
-                    finishedAt:
-                      type: string
-                    callRequired:
-                      type: boolean
-                      default: false
-  
+              callRequired:
+                type: boolean
+                default: false
     Error:
       type: object
       properties:
