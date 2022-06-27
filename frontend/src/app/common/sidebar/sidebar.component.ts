@@ -1,6 +1,7 @@
 import {
   Component,
   ElementRef,
+  OnDestroy,
   OnInit,
   Renderer2,
   ViewChild,
@@ -21,7 +22,7 @@ import { SidebarTogglerService } from 'src/app/service/sidebar-toggler.service';
   styleUrls: ['./sidebar.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class SidebarComponent implements OnInit {
+export class SidebarComponent implements OnInit, OnDestroy {
   @ViewChild('sideNavMain') sideNavMain!: ElementRef;
   @ViewChild('iconSideNav') iconSideNav!: ElementRef;
 
@@ -30,6 +31,9 @@ export class SidebarComponent implements OnInit {
 
   public sidebarMenu: IMenuItem[] = this.appConfig.sidebarMenu;
   public user?: User;
+
+  private togglerSubject$ = this.togglerService.togglerFired$;
+  private togglerSubscription: any;
 
   constructor(
     private renderer: Renderer2,
@@ -40,7 +44,7 @@ export class SidebarComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.togglerService.togglerFired$.subscribe({
+    this.togglerSubscription = this.togglerSubject$.subscribe({
       next: this.toggleSidebar.bind(this),
       error: (err) => {
         console.log(err);
@@ -57,7 +61,10 @@ export class SidebarComponent implements OnInit {
         )
       }
     });
+  }
 
+  ngOnDestroy(): void {
+      this.togglerSubscription.unsubscribe();
   }
 
   public onHideClick(): void {
