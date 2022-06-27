@@ -43,6 +43,11 @@ chatURL:  'ws://localhost:3000/chat'
 **Fontos:** Az alkalmazás egy egyszerű websocket implementációt használ arra, hogy az egyes munkahelyek (rendelők) az adatokban bekövetkező változásokról azonnal tudomást szerezzenek. Ha az alkalmazást nem localhost-ról használják, csak akkor fog működni ha HTTPS protokollt használ az elérésre érvényes tanusítvánnyal. Az alkalmazás express szervere jelenleg nincs felkészítve a tanusítvány kulcsainak kezelésére, így többgépes felhasználás esetén szükség lehet pl. egy reverse proxy beállítására. **Természetesen localhoston, például több böngészőablakkal a websocket funkcionalitás tesztelhető.**
 
 
+A /backend/enx.examle állományt másolja le .env néven, szükség szerint módosítsa a tartalmát. A token kulcsokat éles környezetben feltétlenül változtassa meg.
+A JWT_EXPIRES értékét ne állítsa 15m -nél kisebb értékre, mert az véletlen kiléptetésekhez vezethet.
+Ügyeljen rá, hogy a beállított PORT a frontend/environment*.ts állományokkal összhangban legyen!
+
+
 ## **4. Az alkalmazás indítása**
 
 A megadott Docker container indítása és inicializálása:
