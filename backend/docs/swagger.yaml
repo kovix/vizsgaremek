@@ -6,7 +6,6 @@ info:
 servers:
   - url: http://localhost:3000
 paths:
-
   /examination:
     get:
       description: Return list of examinations
@@ -172,6 +171,261 @@ paths:
               application/json:
                 schema:
                   $ref: '#/components/schemas/Error'
+
+  /examinationgroup:
+    get:
+      description: Return list of examination Groups
+      security:
+        - bearerAuth: []
+      tags:
+        - Examination Groups
+      responses:
+        '200':
+          description: List of examination groups fetched successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ExaminationGroup'
+        '401':
+          description: Unathorized
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Unauthorized
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    post:
+      description: Creates new examation group
+      security:
+        - bearerAuth: []
+      tags:
+        - Examination Groups
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+      responses:
+        '201':
+          description: Examation group created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Examination'
+        '400':
+          description: Bad request. Some params probably missing.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /examinationgroup/{id}:
+      get:
+        description: Returns single examination group
+        security:
+          - bearerAuth: []
+        tags:
+          - Examination Groups
+        parameters:
+          - name: id
+            in: path
+            required: true
+            schema:
+              type: string
+        responses:
+          '200':
+            description: Examination group found
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ExaminationGroup'
+          '404':
+            description: Examination not found
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+          '500':
+            description: Internal server error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+      patch:
+        description: Update an examination
+        security:
+          - bearerAuth: []
+        tags:
+          - Examination Groups
+        parameters:
+          - name: id
+            in: path
+            required: true
+            schema:
+              type: string
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+        responses:
+          '200':
+            description: Examinationgroup updated successfully
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ExaminationGroup'
+          '400':
+            description: Bad request, mandatory parameter missing
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+          '404':
+            description: Record not found
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+          '500':
+            description: Internal server error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+      delete:
+        description: Delete examination group
+        security:
+          - bearerAuth: []
+        tags:
+          - Examination Groups
+        parameters:
+          - name: id
+            in: path
+            required: true
+            schema:
+              type: string
+        responses:
+          '200':
+            description: Examination group deleted
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    success:
+                      $ref: '#/components/schemas/ExaminationGroup'
+          '501':
+            description: Internal server error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+  /examinationgroup/addexaminations/{id}:
+      patch:
+        description: Add new examinations to existing group
+        security:
+          - bearerAuth: []
+        tags:
+          - Examination Groups
+        parameters:
+          - name: id
+            in: path
+            required: true
+            schema:
+              type: string
+        requestBody:
+          description: Array of valid Examination _ids
+          required: true
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        responses:
+          '200':
+            description: Examinations added successfully
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ExaminationGroup'
+          '400':
+            description: Bad request, mandatory parameter missing, or duplicated examination in group.
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+          '404':
+            description: Group not found
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+  /examinationgroup/savereorder/{id}:
+      patch:
+        description: Save new examination order in group
+        security:
+          - bearerAuth: []
+        tags:
+          - Examination Groups
+        parameters:
+          - name: id
+            in: path
+            required: true
+            schema:
+              type: string
+        requestBody:
+          description: Array of valid Examination _ids in order
+          required: true
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        responses:
+          '200':
+            description: Examinations reordered successfully
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ExaminationGroup'
+          '400':
+            description: Bad request, mandatory parameter missing.
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+          '404':
+            description: Group not found
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+
 
   /auth/login:
     post:
@@ -353,6 +607,7 @@ components:
         name:
           type: string
         examinations:
+          description: Output only, dropped when creating or updating.
           type: array
           items:
             type: object

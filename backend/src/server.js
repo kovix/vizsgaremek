@@ -6,8 +6,8 @@ const morgan = require('morgan');
 const cors = require('cors');
 const logger = require('../config/logger');
 const jwtMiddleware = require('./middleware/jwt.middleware');
-// const yaml = require('yamljs')
-// const swaggerUI = require('swagger-ui-express');
+const yaml = require('yamljs')
+ const swaggerUI = require('swagger-ui-express');
 
 const app = express();
 
@@ -29,7 +29,7 @@ mongoose.connect(`mongodb+srv://${username}:${password}@${host}/${database}?retr
   process.exit();
 });
 
-// const swaggerDocument = yaml.load('./docs/swagger.yaml')
+const swaggerDocument = yaml.load('./docs/swagger.yaml')
 
 // logger
 app.use(morgan('combined', { stream: logger.stream }));
@@ -47,7 +47,7 @@ app.use('/consultation', jwtMiddleware, require('./controller/consultation/consu
 app.use('/user', jwtMiddleware, require('./controller/user/user.router'));
 app.use('/auth', require('./controller/auth/auth.router'));
 
-// app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument))
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument))
 
 /* eslint no-unused-vars: "off" */
 app.use((err, req, res, next) => {
