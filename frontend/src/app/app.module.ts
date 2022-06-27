@@ -67,6 +67,9 @@ import { ElapsedTimeComponent } from './page/consultations/elapsed-time/elapsed-
 import { ShowLeavedPatientsPipe } from './pipe/show-leaved-patients.pipe';
 import { LogoutDialogComponent } from './common/logout-dialog/logout-dialog.component';
 import { FindExaminationNamePipe } from './pipe/find-examination-name.pipe';
+import { DynamicPipe } from './pipe/dynamic.pipe';
+import { DateConvPipe } from './pipe/date-conv.pipe';
+import { RoleConverterPipe } from './pipe/role-converter.pipe';
 
 registerLocaleData(localeHu);
 @NgModule({
@@ -111,7 +114,10 @@ registerLocaleData(localeHu);
     ElapsedTimeComponent,
     ShowLeavedPatientsPipe,
     LogoutDialogComponent,
-    FindExaminationNamePipe
+    FindExaminationNamePipe,
+    DynamicPipe,
+    DateConvPipe,
+    RoleConverterPipe
   ],
   imports: [
     BrowserModule,
@@ -144,7 +150,9 @@ registerLocaleData(localeHu);
   ],
   providers: [
     authInterceptorProviders,
-    { provide: MAT_DATE_LOCALE, useValue: 'hu-HU' }
+    { provide: MAT_DATE_LOCALE, useValue: 'hu-HU' },
+    DateConvPipe,
+    RoleConverterPipe
   ],
   bootstrap: [AppComponent]
 })

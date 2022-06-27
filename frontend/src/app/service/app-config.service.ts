@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { MatDialogConfig } from '@angular/material/dialog';
 import { ButtonDefinition } from '../model/genericTable/button-definition';
 import { ColumnDefinition } from '../model/genericTable/column-definition';
+import { DateConvPipe } from '../pipe/date-conv.pipe';
+import { RoleConverterPipe } from '../pipe/role-converter.pipe';
 
 export interface IMenuItem {
   link: string;
@@ -61,10 +63,12 @@ export class AppConfigService {
     new ColumnDefinition({
       title: 'Létrehozva',
       column: 'createdAt',
+      pipe: DateConvPipe
     }),
     new ColumnDefinition({
       title: 'Módosítva',
-      column: 'updatedAt'
+      column: 'updatedAt',
+      pipe: DateConvPipe
     }),
   ];
   public ExaminationActionButtons: ButtonDefinition[] = this.defaultActionButtons;
@@ -79,10 +83,12 @@ export class AppConfigService {
     new ColumnDefinition({
       title: 'Létrehozva',
       column: 'createdAt',
+      pipe: DateConvPipe,
     }),
     new ColumnDefinition({
       title: 'Módosítva',
-      column: 'updatedAt'
+      column: 'updatedAt',
+      pipe: DateConvPipe
     }),
   ];
   public ExaminationGroupActionButtons: ButtonDefinition[] = [
@@ -115,10 +121,12 @@ export class AppConfigService {
     new ColumnDefinition({
       title: 'Létrehozva',
       column: 'createdAt',
+      pipe: DateConvPipe,
     }),
     new ColumnDefinition({
       title: 'Módosítva',
-      column: 'updatedAt'
+      column: 'updatedAt',
+      pipe: DateConvPipe,
     }),
   ];
   public PatientActionButtons: ButtonDefinition[] = this.defaultActionButtons;
@@ -144,14 +152,17 @@ export class AppConfigService {
     new ColumnDefinition({
       title: 'Szerep',
       column: 'role',
+      pipe: RoleConverterPipe,
     }),
     new ColumnDefinition({
       title: 'Létrehozva',
       column: 'createdAt',
+      pipe: DateConvPipe
     }),
     new ColumnDefinition({
       title: 'Módosítva',
-      column: 'updatedAt'
+      column: 'updatedAt',
+      pipe: DateConvPipe,
     }),
 
   ];
@@ -166,6 +177,7 @@ export class AppConfigService {
     new ColumnDefinition({
       title: 'Dátum',
       column: 'startDate',
+      pipe: DateConvPipe,
     }),
     new ColumnDefinition({
       title: 'Rendel vezetéknév',
