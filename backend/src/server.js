@@ -37,6 +37,8 @@ app.use(morgan('combined', { stream: logger.stream }));
 // cors
 app.use(cors());
 
+app.use(express.static('public'));
+
 // Body parser
 app.use(bodyParser.json());
 
