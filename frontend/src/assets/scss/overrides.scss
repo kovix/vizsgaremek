@@ -34,6 +34,10 @@ app-sidebar + .main-content {
   width: 90%;
 }
 
+.bg-gradient-primary {
+  background-image: linear-gradient(195deg, #90786b 0%, rgb(56, 44, 44) 100%);
+}
+
 @media only screen and (max-width: 760px) {
   .dialog-responsive, .dialog-responsive-big {
       width: 100%;
