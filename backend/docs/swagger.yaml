@@ -1,0 +1,466 @@
+openapi: 3.0.0
+info:
+  version: 0.0.1
+  title: Setalolap Application
+  description: API for setalolap.
+servers:
+  - url: http://localhost:3000
+paths:
+
+  /examination:
+    get:
+      description: Return list of examinations
+      security:
+        - bearerAuth: []
+      tags:
+        - Examinations
+      responses:
+        '200':
+          description: List of examinations fetched successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Examination'
+        '401':
+          description: Unathorized
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Unauthorized
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    post:
+      description: Creates new examation
+      security:
+        - bearerAuth: []
+      tags:
+        - Examinations
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Examination'
+      responses:
+        '201':
+          description: Examation created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Examination'
+        '400':
+          description: Bad request. Some params probably missing.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /examination/{id}:
+      get:
+        description: Returns single examination
+        security:
+          - bearerAuth: []
+        tags:
+          - Examinations
+        parameters:
+          - name: id
+            in: path
+            required: true
+            schema:
+              type: string
+        responses:
+          '200':
+            description: Examination found
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Examination'
+          '404':
+            description: Examination not found
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+          '500':
+            description: Internal server error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+      patch:
+        description: Update az examination
+        security:
+          - bearerAuth: []
+        tags:
+          - Examinations
+        parameters:
+          - name: id
+            in: path
+            required: true
+            schema:
+              type: string
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Examination'
+        responses:
+          '200':
+            description: Examination updated successfully
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Examination'
+          '400':
+            description: Bad request, mandatory parameter missing
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+          '404':
+            description: Record not found
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+          '500':
+            description: Internal server error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+      delete:
+        description: Delete examination
+        security:
+          - bearerAuth: []
+        tags:
+          - Examinations
+        parameters:
+          - name: id
+            in: path
+            required: true
+            schema:
+              type: string
+        responses:
+          '200':
+            description: Examination deleted
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    success:
+                      $ref: '#/components/schemas/Examination'
+          '501':
+            description: Internal server error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+
+  /auth/login:
+    post:
+      description: Login and get token
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userName:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  accessToken:
+                    type: string
+                  refreshToken:
+                    type: string
+                  user:
+                    $ref: '#/components/schemas/User'
+        '401':
+          description: Authentication failed, invalid password
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /auth/refresh:
+    post:
+      description: Refresh access token with refreshToken
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                refreshToken:
+                  type: string
+      responses:
+        '200':
+          description: Refresh successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  response:
+                    type: string
+        '403':
+          description: Invalid refresh token, request rejected
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /auth/logout:
+    post:
+      description: Logout and clear session
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                refreshToken:
+                  type: string
+      responses:
+        '200':
+          description: Logout successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    User:
+      type: object
+      required:
+        - userName
+        - firstName
+        - lastName
+        - email
+        - password
+        - role
+        - deleted
+      properties:
+        userName:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        role:
+          type: number
+        deleted:
+          type: boolean
+          default: false
+    Patient:
+      type: object
+      required:
+        - firstName
+        - lastName
+        - patientID
+        - createdBy
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        patientID:
+          type: string
+          pattern: ^$|^\d{3} \d{3} \d{3}$
+        email:
+          type: string
+          pattern: ^$|^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,4})+$
+        comment:
+          type: string
+        createdBy:
+            oneOf:
+              - type: string
+              - $ref: '#/components/schemas/User'
+    
+    Examination:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+        defaultTime:
+          type: number
+          default: 0
+        createdBy:
+          description: Output only, dropped when sending in body.
+          oneOf:
+            - type: string
+            - $ref: '#/components/schemas/User'
+        deleted:
+          description: Output only, dropped when sending in body.
+          type: boolean
+        deletedby:
+          description: Output only, dropped when sending in body.
+          oneOf:
+            - type: string
+            - $ref: '#/components/schemas/User'
+    ExaminationGroup:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+        examinations:
+          type: array
+          items:
+            type: object
+            properties:
+              order:
+                type: number
+              examination:
+                oneOf:
+                  - type: string
+                  - $ref: '#/components/schemas/Examination'        
+
+    Log:
+      type: object
+      required:
+        - user
+        - eventText
+      properties:
+        user:
+          oneOf:
+            - type: string
+            - $ref: '#/components/schemas/User'
+        eventText:
+          type: string
+          
+    Consultation:
+      type: object
+      required:
+        - name
+        - startDate
+        - doctor
+        - groupId
+      properties:
+        name:
+          type: string
+        startDate:
+          type: string
+        doctor:
+          oneOf:
+            - type: string
+            - $ref: '#/components/schemas/User'  
+        groupId:
+          oneOf:
+            - type: string
+            - $ref: '#/components/schemas/ExaminationGroup'
+        examinations:
+          type: array
+          items:
+            type: object
+            properties:
+              order:
+                type: number
+              examination:
+                oneOf:
+                  - type: string
+                  - $ref: '#/components/schemas/Examination'            
+        logEntries:
+          type: array
+          items:
+            oneOf:
+              - type: string
+              - $ref: '#/components/schemas/Log'
+        details:
+          type: array
+          items:
+            type: object
+            required:
+              - patient
+              - lastUpdated
+            properties:
+              patient:
+                oneOf:
+                  - type: string
+                  - $ref: '#/components/schemas/Patient'
+              comment:
+                type: string
+              arrived:
+                type: string
+              leaved:
+                type: string
+              alert:
+                type: number
+                default: 0
+              lastUpdated:
+                type: string
+              patientConsultations:
+                type: array
+                items:
+                  type: object
+                  required:
+                    - examinationID
+                  properties:
+                    examationID:
+                      type: string
+                    required:
+                      type: boolean
+                      default: true
+                    startedAt:
+                      type: string
+                    finishedAt:
+                      type: string
+                    callRequired:
+                      type: boolean
+                      default: false
+  
+    Error:
+      type: object
+      properties:
+        hasError:
+          type: boolean
+        message:
+          type: string

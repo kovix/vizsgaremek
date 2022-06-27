@@ -35,7 +35,12 @@ baseExports.generateCRUD = (service, model, allowedFields) => {
     .then((records) => res.json(records));
 
   crud.findById = (req, res, next) => service.findById(req.params.id)
-    .then((record) => res.json(record))
+    .then((record) => {
+      if(!record) {
+        return next(new createError.NotFound('A bejegyzés nem található!'));
+      }
+      return res.json(record);
+    })
     .catch((error) => next(new createError.NotFound(`Nem található bejegyzés az alábbi azonosítóval: ${req.params.id}. (${error.message})`)));
 
   crud.create = async (req, res, next, addCreatedBy = false) => {
@@ -48,8 +53,8 @@ baseExports.generateCRUD = (service, model, allowedFields) => {
     if (bodyHasErros) return Promise.resolve(next(bodyHasErros));
 
     return service.create(cleanedBody)
-      .then((newRecord) => res.json(newRecord))
-      .catch((error) => next(new createError.NotFound(`Nem sikerült menteni a bejegyzést. (${error.message})`)));
+      .then((newRecord) => res.status(201).json(newRecord))
+      .catch((error) => next(new createError.InternalServerError(`Nem sikerült menteni a bejegyzést. (${error.message})`)));
   };
 
   crud.update = async (req, res, next) => {
