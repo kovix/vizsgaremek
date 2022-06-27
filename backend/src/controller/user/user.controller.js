@@ -71,7 +71,7 @@ userExports.create = async (req, res, next) => {
   delete req.body.confirmPassword;
 
   return userService.registerUser(req.body)
-    .then((newUser) => res.json(newUser))
+    .then((newUser) => res.status(201).json(newUser))
     .catch((error) => {
       logger.error(error);
       next(new createError.InternalServerError('Unknown error occred'));

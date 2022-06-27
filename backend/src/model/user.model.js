@@ -26,9 +26,14 @@ const userSchema = mongoose.Schema({
   },
   email: {
     type: String,
-    required: true,
+    required: false,
+    validate: {
+      validator: (value) => /^$|^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,4})+$/.test(value),
+      message: 'A megadott E-mail cím érvénytelen!',
+    },
     index: {
       unique: true,
+      sparse: true
     },
   },
   role: {
