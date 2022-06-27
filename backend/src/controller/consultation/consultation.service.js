@@ -29,10 +29,15 @@ module.exports = {
   },
 
   addPatients: async (id, patientsArr) => {
-    const result = await Consultation.updateOne(
-      { _id: id },
-      { $addToSet: { details: patientsArr } },
-    );
+    let result;
+    try {
+      result = await Consultation.updateOne(
+        { _id: id },
+        { $addToSet: { details: patientsArr } },
+      );
+    } catch (error) {
+      throw error.message;
+    }
 
     if (!result) return createErrorObj(new createError.NotFound('A bejegyzés nem található!'));
     if (!result?.modifiedCount) return createErrorObj(new createError.NotFound('A bejegyzés nem található!'));

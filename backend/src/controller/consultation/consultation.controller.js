@@ -52,8 +52,8 @@ consultationExports.create = async (req, res, next) => {
   cleanedBody.examinations = examinations;
 
   return service.create(cleanedBody)
-    .then((newRecord) => res.json(newRecord))
-    .catch((error) => next(new createError.NotFound(`Nem sikerült menteni a bejegyzést. (${error.message})`)));
+    .then((newRecord) => res.status(201).json(newRecord))
+    .catch((error) => next(new createError.InternalServerError(`Nem sikerült menteni a bejegyzést. (${error.message})`)));
 };
 
 consultationExports.addPatients = async (req, res, next) => {
@@ -61,7 +61,16 @@ consultationExports.addPatients = async (req, res, next) => {
     return next(new createError.BadRequest('Nincs hozzáadható páciens!'));
   }
 
-  const details = await service.findById(req.params.id);
+  let details;
+
+  try {
+    details = await service.findById(req.params.id);
+  } catch(error) {
+    return next(new createError.InternalServerError(error.message));
+  }
+
+  if(!details) return next(new createError.NotFound('Nincs ilyen rendelés!'));
+
   const examinations = details.examinations.sort((a, b) => a.order - b.order);
 
   const newPatientsArr = req.body.map((patientId) => {
@@ -84,7 +93,14 @@ consultationExports.addPatients = async (req, res, next) => {
     return obj;
   });
 
-  const response = await service.addPatients(req.params.id, newPatientsArr);
+  let response;
+
+  try {
+    response = await service.addPatients(req.params.id, newPatientsArr);
+  } catch(error) {
+    return next(new createError.InternalServerError(error.message));
+  }
+
   if (response?.error) return next(response.response);
   return res.json(response);
 };
